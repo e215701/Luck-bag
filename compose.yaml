@@ -11,13 +11,15 @@ services:
   frontend:
     image: node:16
     working_dir: /app
-    command: npm start
+    command: bash -c "npm i && npm start"
     volumes:
       - ./frontend:/app
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+    depends_on:
+      - backend
 
   nginx:
     image: nginx:alpine
