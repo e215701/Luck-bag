@@ -11,7 +11,7 @@ services:
   frontend:
     image: node:16
     working_dir: /app
-    command: bash -c "npm i && npm start"
+    command: bash -c "npm i && npm install react-router-dom && npm start"
     volumes:
       - ./frontend:/app
     ports:
