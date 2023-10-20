@@ -1,5 +1,6 @@
 import React from 'react';              //Reactを読み込んでいる
 import { Link } from 'react-router-dom';// 追加 Linkタブを読み込む
+import "./style.css";
 
 class Costume extends React.Component {
   render() {
@@ -50,7 +51,7 @@ class Costume extends React.Component {
                       </div>
               <footer id="footer">
                 Copyright(c) 2016 Sample Inc. All Rights Reserved. Design by{' '}
-                <a href="http://f-tpl.com" target="_blank">
+                <a href="http://f-tpl.com" target="_blank" rel="noreferrer">
                   http://f-tpl.com
                 </a>
                 {/* ←クレジット表記を外す場合はシリアルキーが必要です http://f-tpl.com/credit/ */}
