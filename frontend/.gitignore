@@ -44,3 +44,7 @@ yarn-error.log*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Newly added
+frontend/package-lock.json
+frontend/package.json
