@@ -404,7 +404,7 @@ body.appear #container{
 	}
 }
 
-@media only screen and (max-width: 799px){
+/* @media only screen and (max-width: 799px){
 	#sidebar{
 		position: fixed;
 		width: 100%;
@@ -552,4 +552,4 @@ body.appear #container{
 	section h2{
 		margin: 55px auto;
 	}
-}
+} */
