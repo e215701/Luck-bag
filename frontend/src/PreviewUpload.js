@@ -19,15 +19,15 @@ class PreviewUpload extends React.Component {
       );
 
       console.log(JSON.stringify(response.data));
-      this.setState({ responseData: response.data, loading: false });
+      //this.setState({ responseData: response.data, loading: false });
       const labels = response.data.map((item) => item.label);
       const splitlabels = labels.flatMap((label) =>
         label.split(",").map((s) => s.trim())
       );
 
-      console.log(JSON.stringify(labels));
+      //console.log(JSON.stringify(labels));
       console.log(JSON.stringify(splitlabels));
-      //this.setState({ responseData: splitlabels, loading: false });
+      this.setState({ responseData: splitlabels, loading: false });
     } catch (error) {
       console.error("API通信エラー:", error);
       this.setState({
