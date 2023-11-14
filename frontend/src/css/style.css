@@ -289,7 +289,7 @@ body.appear .splashbg {
   top: 0;
   left: 0;
   transform: scaleY(0);
-  background: url("../public/images/icon1.png") center/cover no-repeat;
+  background: url("../../public/images/icon1.png") center/cover no-repeat;
   background-color: #d6c1aa; /*　伸びる背景色の設定 */
   animation-name: PageAnime;
   animation-duration: 1.2s;

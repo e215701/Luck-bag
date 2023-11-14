@@ -1,6 +1,6 @@
 import React from "react"; //Reactを読み込んでいる
 import { Link } from "react-router-dom"; // 追加 Linkタブを読み込む
-import "./style.css";
+import "../css/style.css";
 //import "./script";
 
 class Toppage extends React.Component {
@@ -42,13 +42,7 @@ class Toppage extends React.Component {
                       <a href="#sec05">UNIVERSITY</a>
                     </li>
                     <li>
-                      <Link to={`/Costume`}>COSTUME</Link>
-                    </li>
-                    <li>
                       <Link to={`/PreviewUpload`}>Upload</Link>
-                    </li>
-                    <li>
-                      <Link to={`/SelectTags`}>Select</Link>
                     </li>
                   </ul>
                 </div>
