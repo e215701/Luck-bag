@@ -33,16 +33,10 @@ class Toppage extends React.Component {
                       <div className="App"></div>
                     </li>
                     <li>
-                      <a href="#sec01">MESSAGE</a>
+                      <Link to={`/Upload`}>Upload</Link>
                     </li>
                     <li>
-                      <a href="#sec04">PROJECT</a>
-                    </li>
-                    <li>
-                      <a href="#sec05">UNIVERSITY</a>
-                    </li>
-                    <li>
-                      <Link to={`/PreviewUpload`}>Upload</Link>
+                      <Link to={`/History`}>History</Link>
                     </li>
                   </ul>
                 </div>
