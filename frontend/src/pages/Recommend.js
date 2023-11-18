@@ -112,13 +112,16 @@ class Recommend extends React.Component {
         {image && (
           <div>
             <h2>生成された画像</h2>
-            <img src={image} alt="Generated" />
+            <img src={image} alt="Generated" width="200" height="60" />
+            <a href={image} download>
+              <button style={{ padding: "5px" }}>画像をダウンロード</button>
+            </a>
           </div>
         )}
         {imageData && (
           <div>
             <h2>アップロードした画像</h2>
-            <img src={imageData} alt="Uploaded" />
+            <img src={imageData} alt="Uploaded" width="200" height="60" />
           </div>
         )}
         <Link to={`/`}>TOP</Link>

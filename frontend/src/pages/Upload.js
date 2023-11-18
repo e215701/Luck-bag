@@ -31,7 +31,6 @@ const Upload = () => {
         type="file"
         name="image"
         accept="image/*"
-        capture="camera"
         onChange={onFileChange}
       />
       {imageData ? (
