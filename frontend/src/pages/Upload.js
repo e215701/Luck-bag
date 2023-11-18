@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Upload = () => {
   const [imageData, setImageData] = useState(null);
@@ -41,6 +41,9 @@ const Upload = () => {
           <button onClick={goToRecommend}>Recommend Pageへ</button>
         </div>
       ) : null}
+      <div>
+        <Link to={`/`}>TOP</Link>
+      </div>
     </div>
   );
 };
