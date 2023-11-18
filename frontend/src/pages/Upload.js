@@ -138,7 +138,12 @@ class PreviewUpload extends React.Component {
             ) : error_image ? (
               <p>{error_image}</p>
             ) : image ? (
-              <img src={image} alt="Image" width="200" height="60" />
+              <>
+                <img src={image} alt="Image" width="200" height="60" />
+                <a href={image} download>
+                  <button style={{ padding: "5px" }}>画像をダウンロード</button>
+                </a>
+              </>
             ) : null}
           </div>
         ) : null}
