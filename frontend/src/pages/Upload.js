@@ -118,7 +118,6 @@ class PreviewUpload extends React.Component {
           type="file"
           name="image"
           accept="image/*"
-          capture="camera"
           onChange={(e) => {
             this.onFileChange(e);
           }}
