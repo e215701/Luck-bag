@@ -9,7 +9,7 @@ class Toppage extends React.Component {
       // <div className="App">
       //     <h1>Hello World</h1>
       // </div>
-      <body id="top">
+      <div id="top">
         <div id="wrapper">
           <div id="sidebar">
             <div id="sidebarWrap">
@@ -131,7 +131,7 @@ class Toppage extends React.Component {
             </footer>
           </div>
         </div>
-      </body>
+      </div>
     );
   }
 }

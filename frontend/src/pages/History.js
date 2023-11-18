@@ -12,11 +12,11 @@ class SelectTags extends React.Component {
     return (
       //ここにページ描画部分
       <body>
-        //ここにページ描画部分
+        {/*ここにページ描画部分*/}
         <div className="App">
           <h1>コーデの履歴（お気に入り）を確認するページ</h1>
         </div>
-        //画面遷移はLinkタグを用いる。{}の中は、遷移先のパス
+        {/*画面遷移はLinkタグを用いる。{}の中は、遷移先のパス*/}
         <Link to={`/`}>TOP</Link>
       </body>
     );
