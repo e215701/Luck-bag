@@ -3,6 +3,15 @@ import axios from "axios";
 import { useLocation, Link } from "react-router-dom";
 
 class Recommend extends React.Component {
+  handleClick = () => {
+    // ボタンがクリックされた時の処理をここに記述
+    console.log("ボタンがクリックされました！");
+    // ここで関数を呼び出すなどの処理を記述する
+    this.setState({ image: null });
+    const imageData = this.state.imageData;
+    this.fetchData(imageData);
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +40,7 @@ class Recommend extends React.Component {
       return;
     }
 
-    this.setState({ loading_image: true, error_image: null });
+    this.setState({ loading_image: true, error_image: null, image: null });
 
     try {
       const response = await axios.post(
@@ -71,10 +80,6 @@ class Recommend extends React.Component {
 
       // BlobをPNGファイルに変換
       const pngFile = new File([blob], "image.png", { type: "image/png" });
-
-      // FormDataオブジェクトを作成し、PNGファイルを追加
-      // const formData = new FormData();
-      // formData.append("file", pngFile);
 
       // APIリクエスト
       const responseAPI = await axios.post(
@@ -123,9 +128,14 @@ class Recommend extends React.Component {
           <div>
             <h2>生成された画像</h2>
             <img src={image} alt="Generated" width="200" height="60" />
-            <a href={image} download>
-              <button style={{ padding: "5px" }}>画像をダウンロード</button>
-            </a>
+            <div>
+              <a href={image} download>
+                <button style={{ padding: "5px" }}>画像をダウンロード</button>
+              </a>
+            </div>
+            <div>
+              <button onClick={this.handleClick}>再生成する</button>
+            </div>
           </div>
         )}
         {imageData && (
