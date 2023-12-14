@@ -1,10 +1,4 @@
 import React, { useState } from "react";
-import OpenAI from "openai";
-
-const openAi = new OpenAI({
-  apiKey: process.env.REACT_APP_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
 
 const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -25,54 +19,35 @@ const App = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("感想生成中")
+    console.log("感想生成中");
     if (!selectedImage) return;
 
     const base64Str = selectedImage.split(",")[1];
     try {
-      // 画像の説明を生成
-      const descriptionCompletion = await openAi.chat.completions.create({
-        model: "gpt-4-vision-preview",
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: "この画像の服のポイントを簡単に説明して",
-              },
-              {
-                type: "image_url",
-                image_url: {
-                  url: `data:image/jpeg;base64,${base64Str}`,
-                  detail: "low",
-                },
-              },
-            ],
-          },
-        ],
-        max_tokens: 500,
+      const response = await fetch("http://localhost:8080/generateVision", {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: selectedImage }),
       });
 
-      const description = descriptionCompletion.choices[0].message.content;
+      const data = await response.json();
+      const description = data.choices[0].message.content;
       setResponse(description);
 
-      console.log(descriptionCompletion)
-      console.log("画像生成中")
+      console.log("画像生成中");
 
-      // 生成された説明に基づいて新しい画像を生成
-      const imageGenerationCompletion = await openAi.images.generate({
-        model: "dall-e-3",
-        prompt: "今から送る文章の服を着けたコーディネートの人の全身画像を生成してください。" + description,
-        n: 1,
-        size: "1024x1024",
-        quality: "standard",
+      const responseImage = await fetch("http://localhost:8080/generate", {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: description }),
       });
 
-      const generatedImageUrl = imageGenerationCompletion.data[0].url;
+      const dataImage = await responseImage.json();
+      console.log(dataImage);
+      const generatedImageUrl = dataImage.image.data[0].url;
       setGeneratedImage(generatedImageUrl);
-
-      console.log(imageGenerationCompletion)
 
     } catch (error) {
       console.error("Error fetching response:", error);
