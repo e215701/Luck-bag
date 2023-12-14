@@ -1,12 +1,14 @@
 services:
   backend:
-    image: golang:1.17
+    image: node:16
     working_dir: /app
-    command: go run main.go
     volumes:
       - ./backend:/app
+    command: bash -c "chmod +x npmSetupBackend.sh && ./npmSetupBackend.sh"
     ports:
       - "8080:8080"
+    environment:
+      - NODE_ENV=development
 
   frontend:
     image: node:16
