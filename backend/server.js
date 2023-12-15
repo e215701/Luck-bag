@@ -10,16 +10,37 @@ const openai = new OpenAI({
 });
 
 var bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-app.use(bodyParser.json());
-app.use(cors());
+const PORT = process.env.PORT || 8080;
+const allowedOrigins = [
+  `http://${process.env.REACT_BASE_URL}:3000`,
+  `http://${process.env.REACT_BASE_URL}`,
+];
+
+console.log(allowedOrigins);
+const corsOptions = {
+  origin: function (origin, callback) {
+    // originが許可されたリストに含まれているか確認
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+  credentials: true,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+console.log("cors setting complete");
 
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from Node.js!" });
 });
 
-const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
@@ -33,10 +54,13 @@ app.post("/generateVision", async (req, res) => {
         {
           role: "user",
           content: [
-            { type: "text", text: "What’s in this image?" },
+            {
+              type: "text",
+              text: "画像の服のを使ったコーディネートを紹介して",
+            },
             {
               type: "image_url",
-              image_url: { url: url },
+              image_url: { url: `data:image/jpeg;base64,${url}` },
             },
           ],
         },
