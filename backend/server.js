@@ -56,7 +56,7 @@ app.post("/generateVision", async (req, res) => {
           content: [
             {
               type: "text",
-              text: "画像の服のを使ったコーディネートを紹介して",
+              text: "#Instruction\nYou are a stylist tasked with creating a basic fashion look. Please output the best basic fashion coordinates considering the following constraints:\n#Constraints\n- Take into account the given clothing\n- Keep the text within approximately 200 characters\n- Keep the language concise\n- Output in Japanese\n#Output",
             },
             {
               type: "image_url",
@@ -65,6 +65,7 @@ app.post("/generateVision", async (req, res) => {
           ],
         },
       ],
+      max_tokens: 500,
     });
     res.send(response);
   } catch (error) {
@@ -82,9 +83,7 @@ app.post("/generate", async (req, res) => {
     //生成された説明に基づいて新しい画像を生成
     const imageResponse = await openai.images.generate({
       model: "dall-e-3",
-      prompt:
-        "今から送る文章の服を着けたコーディネートの人の全身画像を生成してください。" +
-        prompt,
+      prompt: `#Instruction\nYou are a stylist who specializes in creating basic fashion. Please generate the best basic fashion coordinate based on the following constraints:\n#Constraints\n- Consider the input text\n- Output a full-body image, including the person's face\n#Input Text\n${prompt}\n#Output Image`,
       n: 1,
       size: "1024x1024",
       quality: "standard",
