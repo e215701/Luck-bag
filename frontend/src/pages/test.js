@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -23,12 +24,13 @@ const App = () => {
     if (!selectedImage) return;
 
     const base64Str = selectedImage.split(",")[1];
+
     try {
-      const response = await fetch("http://localhost:8080/generateVision", {
+      const response = await fetch(`http://${baseURL}:8080/generateVision`, {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: selectedImage }),
+        body: JSON.stringify({ url: base64Str }),
       });
 
       const data = await response.json();
@@ -37,7 +39,7 @@ const App = () => {
 
       console.log("画像生成中");
 
-      const responseImage = await fetch("http://localhost:8080/generate", {
+      const responseImage = await fetch(`http://${baseURL}:8080/generate`, {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
@@ -48,7 +50,6 @@ const App = () => {
       console.log(dataImage);
       const generatedImageUrl = dataImage.image.data[0].url;
       setGeneratedImage(generatedImageUrl);
-
     } catch (error) {
       console.error("Error fetching response:", error);
     }
