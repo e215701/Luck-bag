@@ -1,0 +1,77 @@
+.upload-upload {
+  position: relative;
+  background-color: #fff;
+  width: auto;
+  overflow: visible;
+  text-align: center;
+  font-size: 40px;
+  color: var(--color-black);
+  font-family: var(--font-libre-bodoni);
+  /* outline: 2px solid blue; */
+}
+.upload-container {
+  position: relative;
+  background-color: var(--color-white);
+  width: auto;
+  top: 80px;
+  overflow: visible;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+  margin: 0px 30px 0px 30px;
+  /* outline: 2px solid blue; */
+}
+.upload-picture-container {
+  position: absolute;
+  justify-content: center;
+  top: 0px;
+  left: 0px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  margin: 30px 0px 30px 0px;
+  /* outline: 2px solid blue; */
+}
+
+.upload-picture {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 18px;
+  width: 380px;
+  height: 380px;
+  outline: 2px solid var(--color-darkgray);
+}
+.upload-button {
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 15px;
+  background-color: var(--color-darkgray);
+  align-items: center;
+  justify-content: center;
+  width: 281px;
+  height: 58px;
+  cursor: pointer;
+  border: none;
+  font-size: var(--font-size-xl);
+}
+/* .upload-str {
+  position: absolute;
+  top: 766px;
+  left: 110px;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: var(--font-inter);
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+  width: 210px;
+  height: 66px;
+} */

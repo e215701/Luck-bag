@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "../css/global.css";
+import "../css/upload.css";
+import "../css/top.css";
 
 const Upload = () => {
-  const [imageData, setImageData] = useState(null);
   const navigate = useNavigate();
+  const [imageData, setImageData] = useState(null);
 
   const onFileChange = (e) => {
     const files = e.target.files;
@@ -25,25 +28,39 @@ const Upload = () => {
   };
 
   return (
-    <div>
-      <input
-        id="upload"
-        type="file"
-        name="image"
-        accept="image/*"
-        onChange={onFileChange}
-      />
-      {imageData ? (
-        <div>
-          <h2>画像</h2>
-          <img src={imageData} alt="Uploaded" width="200" height="60" />
-          <br />
-          <button onClick={goToRecommend}>Recommend Pageへ</button>
-        </div>
-      ) : null}
-      <div>
-        <Link to={`/`}>TOP</Link>
+    <div className="upload-upload">
+      <div className="header">LuckBag</div>
+      <div className="upload-container">
+        <label
+          htmlFor="upload"
+          // style={{
+          //   alignItems: "center",
+          //   outline: "2px solid blue",
+          // }}
+        >
+          <div className="upload-picture-container">
+            <img className="upload-picture" alt="" src={imageData}></img>
+            <input
+              id="upload"
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={onFileChange}
+              style={{ display: "none" }}
+            />
+          </div>
+        </label>
+
+        <button className="upload-button" onClick={goToRecommend}>
+          Coordinate
+        </button>
       </div>
+
+      {/* {imageData && (
+        <div>
+          <img src={imageData} alt="Uploaded" width="200" height="60" />
+        </div>
+      )} */}
     </div>
   );
 };
