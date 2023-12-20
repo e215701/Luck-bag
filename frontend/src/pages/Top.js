@@ -1,132 +1,202 @@
-import React from "react"; //Reactを読み込んでいる
-import { Link } from "react-router-dom"; // 追加 Linkタブを読み込む
-import "../css/style.css";
-//import "./script";
+import React, { useState, useEffect } from "react";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { useNavigate } from "react-router-dom";
+import "@splidejs/react-splide/css";
+import "../css/global.css";
+import "../css/top.css";
 
-class Toppage extends React.Component {
-  render() {
-    return (
-      // <div className="App">
-      //     <h1>Hello World</h1>
-      // </div>
-      <div id="top">
+const Toppage = () => {
+  const navigate = useNavigate();
+  const [showPage, setShowPage] = useState(false);
+  const [screenHeight, setScreenHeight] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenHeight(window.innerHeight);
+      setScreenWidth(window.innerWidth);
+    };
+    // 0.5秒後にページを表示するように設定
+    const timeoutId = setTimeout(() => {
+      setShowPage(true);
+    }, 500);
+
+    window.addEventListener("resize", handleResize);
+
+    // 最初の一回だけ取得する
+    handleResize();
+
+    const cleanupFunctions = () => {
+      // コンポーネントがアンマウントされたらここでリスナーを削除
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeoutId); // タイムアウトのクリアもここで行う
+      textItems.forEach((text) => {
+        observer.unobserve(text);
+      });
+    };
+
+    // 監視対象の要素を取得
+    const textItems = document.querySelectorAll(".fade-text");
+
+    // 監視対象の要素に対する処理
+    const showElements = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 監視対象の条件を満たしたら .reveal を追加
+          entry.target.classList.add("reveal");
+        } else {
+          // 監視対象の条件から外れたら .reveal を削除
+          // ※アニメーションを繰り返さない場合はコメントアウト
+          entry.target.classList.remove("reveal");
+        }
+      });
+    };
+    // 監視対象が到達したとみなす条件
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0, // [0-1]
+    };
+
+    const observer = new IntersectionObserver(showElements, options);
+
+    // 対象要素すべてについて監視を開始
+    textItems.forEach((text) => {
+      observer.observe(text);
+    });
+
+    return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
+  }, []);
+
+  return (
+    <div id="toppage">
+      <div className={`loading-icon-container ${showPage ? "fade-out" : ""}`}>
+        <img
+          className="loading-icon"
+          src="./images/clothes.jpg"
+          alt="logo"
+          style={{
+            height: `${screenHeight}px`,
+            // width: `${screenWidth}px`,
+          }}
+        />
+      </div>
+      {/* <> */}
+
+      {/* <> */}
+
+      {showPage && (
         <div id="wrapper">
-          <div id="sidebar">
-            <div id="sidebarWrap">
-              <h1>
-                <img
-                  src="./images/icon2.png"
-                  width="auto"
-                  height="auto"
-                  alt="logo"
-                />
-              </h1>
-              <nav id="mainnav">
-                <p id="menuWrap">
-                  <a id="menu">
-                    <span id="menuBtn"></span>
-                  </a>
-                </p>
-                <div className="panel">
-                  <ul>
-                    <li>
-                      <div className="App"></div>
-                    </li>
-                    <li>
-                      <Link to={`/Upload`}>Upload</Link>
-                    </li>
-                    <li>
-                      <Link to={`/History`}>History</Link>
-                    </li>
-                  </ul>
+          <div id="content" className="fade-in">
+            <header class="header">
+              <div class="navtext-container">
+                <div class="navtext">LuckBag</div>
+              </div>
+              <input type="checkbox" class="menu-btn" id="menu-btn" />
+              <label for="menu-btn" class="menu-icon">
+                <span class="navicon"></span>
+              </label>
+              <ul class="menu">
+                <li class="top">
+                  <a onClick={() => navigate("/")}>TOP</a>
+                </li>
+                <li>
+                  <a onClick={() => navigate("/Upload")}>UPLOAD</a>
+                </li>
+                <li>
+                  <a onClick={() => navigate("/History")}>HISTORY</a>
+                </li>
+                <li>
+                  <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
+                </li>
+              </ul>
+            </header>
+
+            <div
+              className="top-top"
+              style={{
+                width: `${screenWidth}px`,
+              }}
+            >
+              <Splide
+                className="top-image-container"
+                aria-label="私のお気に入りの画像集"
+                options={{
+                  rewind: true,
+                  autoplay: true, // 自動再生を有効
+                  interval: 5000, // 自動再生の間隔を3秒に設定
+                  arrows: false,
+                }}
+              >
+                <SplideSlide>
+                  <img
+                    className="top-image"
+                    src="./images/clothes1.jpg"
+                    alt="服1"
+                    style={{
+                      height: `${screenHeight}px`,
+                      width: `${screenWidth}px`,
+                    }}
+                  />
+                </SplideSlide>
+                <SplideSlide>
+                  <img
+                    className="top-image"
+                    src="./images/clothes2.jpeg"
+                    alt="服2"
+                    style={{
+                      height: `${screenHeight}px`,
+                      width: `${screenWidth}px`,
+                    }}
+                  />
+                </SplideSlide>
+                <SplideSlide>
+                  <img
+                    className="top-image"
+                    src="./images/clothes3.jpg"
+                    alt="服3"
+                    style={{
+                      height: `${screenHeight}px`,
+                      width: `${screenWidth}px`,
+                    }}
+                  />
+                </SplideSlide>
+              </Splide>
+
+              <div className="fade-text">
+                <div className="top-item-headline">PRODUCT</div>
+                <div className="top-item-text">
+                  "LuckBag"は、手持ちの洋服を活用したいけれど、どうコーディネートしたらいいか迷っている方々のためのWebアプリです。シンプルなデザインが好きな方にぴったり。日常のスタイリングをもっと楽しく、おしゃれにアップデートしましょう。
                 </div>
-              </nav>
+              </div>
+              <div className="fade-text">
+                <div className="top-item-headline">LUCK BAGの特徴</div>
+                <div className="top-item-container">
+                  <div className="top-item-text-title">コーディネート提案</div>
+                  <div className="top-item-text">
+                    コーディネートの組み方を知りたい手持ちの洋服の写真から、その服を使ったベーシックなコーデをAIが提案します。
+                  </div>
+                </div>
+                <div className="top-item-container">
+                  <div className="top-item-text-title">
+                    ファッションの知識不要
+                  </div>
+                  <div className="top-item-text">
+                    洋服の形や素材などの、特徴について入力が不要で、どなたでも簡単にお使いいただけるアプリです。
+                  </div>
+                </div>
+                <div className="top-item-container">
+                  <div className="top-item-text-title">新しい着こなし方</div>
+                  <div className="top-item-text">
+                    今までしたことがなかったコーディネートを知るきっかけになります。
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div id="content">
-            <p id="mainImg">
-              <img src="images/mainImg.jpg" alt="" />
-            </p>
-            <section id="sec01">
-              <header>
-                <h2>
-                  <span>MESSAGE</span>
-                </h2>
-              </header>
-              <div className="innerS">
-                手持ちの服の使い道が思い浮かばない、ベーシックな服が好きな人向けのファッション系webアプリです。
-              </div>
-            </section>
-            <section id="sec04">
-              <header>
-                <h2>
-                  <span>HOW TO USE</span>
-                </h2>
-              </header>
-              <div className="inner">
-                <div className="article">
-                  {/* <img
-                    src="images/photo14.jpg"
-                    width="370"
-                    height="224"
-                    alt=""
-                  /> */}
-                  <p>
-                    「Upload」ページでは、写真を撮るもしくは画像を選択して、「Recommend
-                    Pageへ」のボタンを押すことで、そのアイテムにあったコーデが表示されます。
-                  </p>
-                  <p>
-                    「History」ページでは、過去に作成されたコーデやお気に入りに登録したコーデを見ることが出来ます。(現在、未実装)
-                  </p>
-                </div>
-              </div>
-            </section>
-            <section id="sec05">
-              <header>
-                <h2>
-                  <span>UNIVERSITY</span>
-                </h2>
-              </header>
-              <div className="inner">
-                <ul className="col2">
-                  <li>
-                    <p>
-                      〒903-0129
-                      <br />
-                      沖縄県中頭郡西原町千原１ 工学部 1号館
-                    </p>
-                    <p>TEL 098-895-8589</p>
-                    <p>営業時間 8:00〜17:00（土日定休）</p>
-                    <p>※都合により休業する場合がございます</p>
-                  </li>
-                  <li>
-                    <div id="map">
-                      <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3578.277873440419!2d127.76391827541698!3d26.252643527046793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34e56cfdeeb55c65%3A0xdb6b98665209c283!2z55CJ55CD5aSn5a2m5bel5a2m6YOoIOS6i-WLmeWupA!5e0!3m2!1sja!2sjp!4v1696404613793!5m2!1sja!2sjp"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <footer id="footer">
-              Copyright(c) 2016 Sample Inc. All Rights Reserved. Design by{" "}
-              <a href="http://f-tpl.com" target="_blank" rel="noreferrer">
-                http://f-tpl.com
-              </a>
-            </footer>
-          </div>
         </div>
-      </div>
-    );
-  }
-}
+      )}
+    </div>
+  );
+};
 
 export default Toppage;
-// import "./App.css";
-// function App() {
-
-// }
-
-//export default App;

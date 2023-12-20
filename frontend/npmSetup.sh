@@ -5,4 +5,6 @@ npm install react-router-dom
 npm install axios
 npm install openai
 npm install react-image-file-resizer
+npm install @splidejs/react-splide
 npm start
+
