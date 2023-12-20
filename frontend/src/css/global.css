@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  --font-inter: Inter;
+  --font-libre-bodoni: "Libre Bodoni";
+  --font-default: "Arial";
+
+  /* font sizes */
+  --font-header: 40px;
+  --font-size-xxl: 25px;
+  --font-size-xl: 20px;
+  --font-size-base: 16px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-linen: #d5d2c1;
+  --color-twine: #bd8e62;
+  --color-fawn: #a46843;
+  --color-hickory: #370d00;
+}

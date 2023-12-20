@@ -1,0 +1,345 @@
+/* 
+
+topページ
+
+*/
+.top-top {
+  position: relative; /* 相対的 */
+  background-color: var(--color-linen);
+  width: auto;
+  height: auto;
+  overflow: visible;
+  text-align: center;
+  align-items: center;
+  font-size: var(--font-size-base);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+
+  display: flex;
+  flex-direction: column;
+}
+/* .header {
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  color: var(--color-black);
+  background: linear-gradient(180deg, #d5d2c1 3.13%, rgba(213, 210, 193, 0));
+  font-family: var(--font-libre-bodoni);
+  font-size: var(--font-header);
+  display: flex;
+  width: 100%;
+  height: 80px;
+  z-index: 1000;
+} */
+
+.header {
+  background: var(--color-twine);
+  position: fixed;
+  width: 100%;
+  height: 52px;
+  z-index: 1010;
+}
+
+/* ハンバーガーメニュー */
+.top-menu {
+  position: absolute;
+  top: 15px;
+  right: 100%;
+  width: 50px;
+  height: 50px;
+  color: var(--color-hickory);
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1005;
+}
+body {
+  margin: 0;
+  font-family: "Futura", Helvetica, sans-serif;
+}
+
+/* Nav items */
+.menu {
+  list-style: none;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 0;
+  margin-top: 52px;
+  padding: 0 0 10px 0;
+  clear: both;
+  background: var(--color-twine);
+  transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
+  transform: scale(1, 0);
+  transform-origin: top;
+}
+
+/* Hamburger menu button */
+.menu-btn:checked ~ .menu {
+  transform: scale(1, 1);
+  transform-origin: top;
+  transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
+}
+
+/* Hamburger menbu text */
+.menu a {
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 2px;
+  font-size: 16px;
+  text-transform: capitalize;
+  color: #ddd;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.menu li {
+  border-top: 1px solid var(--color-white);
+  padding: 15px 0;
+  margin: 0 54px;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.menu-btn:checked ~ .menu a,
+.menu-btn:checked ~ .menu li {
+  opacity: 1;
+  transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.2s;
+}
+
+.menu-btn {
+  display: none;
+}
+
+.menu-icon {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  padding: 24px 14px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.navicon {
+  background: #ddd;
+  display: block;
+  height: 3px;
+  width: 26px;
+  position: relative;
+  transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
+}
+
+.navicon:before,
+.navicon:after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: #ddd;
+  transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
+}
+
+.navicon:before {
+  top: 9px;
+}
+
+.navicon:after {
+  bottom: 9px;
+}
+
+/* Hamburger Menu Animation Start */
+.menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before {
+  top: 0;
+}
+.menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  bottom: 0;
+}
+
+.menu-btn:checked ~ .menu-icon .navicon {
+  background: rgba(0, 0, 0, 0);
+  transition: 0.2192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
+}
+/* Hamburger Menu Animation End */
+
+/* Navbar Container */
+.navtext-container {
+  width: 100%;
+  height: 52px;
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Navbar Text */
+.navtext {
+  position: absolute;
+  text-transform: uppercase;
+  color: #ddd;
+  letter-spacing: 4px;
+  font-size: 20px;
+}
+
+.top-image {
+  object-fit: cover;
+  display: block;
+  background-repeat: no-repeat;
+  filter: contrast(70%) brightness(80%);
+  z-index: 900;
+}
+
+.top-image-container {
+  width: 100%;
+}
+
+.top-item-container {
+  margin: 20px 0px 20px 0px;
+  align-items: center; /* 縦方向 */
+  justify-content: center;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+  /* outline: 2px solid yellow; */
+}
+
+.top-item-headline {
+  font-size: var(--font-size-xxl);
+  font-family: var(--font-libre-bodoni);
+  color: var(--color-fawn);
+  font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  text-align: left; /* 左寄せに変更 */
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  height: auto;
+  flex: 0;
+  margin: 30px 0px 30px 0px;
+}
+.top-item-text {
+  font-size: var(--font-size-base);
+  color: var(--color-hickory);
+  flex: 0;
+  align-items: center;
+  justify-content: center;
+  text-align: left; /* 左寄せに変更 */
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: auto;
+}
+
+.top-product {
+  margin: 20px 0px 20px 0px;
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  text-align: left;
+  align-items: center;
+  width: 80%;
+  height: auto;
+  outline: 2px solid green;
+}
+
+.top-use-container {
+  margin: 20px 0px 20px 0px;
+  font-weight: 500;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  /* outline: 2px solid red; */
+}
+
+.top-blank-line {
+  font-size: var(--font-size-base);
+  flex: 0;
+  align-items: center;
+  justify-content: center;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: auto;
+}
+
+.top-icon {
+  position: absolute;
+  top: 442px;
+  left: 18px;
+  width: 120px;
+  height: 120px;
+}
+
+/* 
+
+アニメーション
+
+ */
+/* toppage.css */
+#toppage {
+  position: relative;
+}
+
+.loading-icon-container {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 0vh;
+  transition: opacity 1s ease-in-out; /* フェードアウトに関するアニメーション */
+}
+
+.loading-icon {
+  width: 400px; /* 適切なサイズに調整してください */
+  justify-content: center;
+  align-items: center;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+  animation: fadeIn 3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+#content {
+  order: 1;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+
+.fade-in #content {
+  opacity: 1;
+  height: auto;
+  outline: 2px solid magenta;
+}
