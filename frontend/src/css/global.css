@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kaisei+Opti:wght@500&display=swap");
+
 body {
   margin: 0;
   line-height: normal;
@@ -9,6 +11,7 @@ body {
   --font-inter: Inter;
   --font-libre-bodoni: "Libre Bodoni";
   --font-default: "Arial";
+  --font-kaisei-opti: "Kaisei Opti";
 
   /* font sizes */
   --font-header: 40px;
