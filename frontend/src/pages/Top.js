@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "@splidejs/react-splide/css";
 import "../css/global.css";
 import "../css/top.css";
 
 const Toppage = () => {
+  const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
@@ -96,16 +97,16 @@ const Toppage = () => {
               </label>
               <ul class="menu">
                 <li class="top">
-                  <a href="#home">TOP</a>
+                  <a onClick={() => navigate("/")}>TOP</a>
                 </li>
                 <li>
-                  <a href="#skills">UPROAD</a>
+                  <a onClick={() => navigate("/Upload")}>UPLOAD</a>
                 </li>
                 <li>
-                  <a href="#projects">HISTORY</a>
+                  <a onClick={() => navigate("/History")}>HISTORY</a>
                 </li>
                 <li>
-                  <a href="#contact">contact</a>
+                  <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
                 </li>
               </ul>
             </header>
