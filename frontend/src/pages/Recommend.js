@@ -13,14 +13,13 @@ const Recommend = () => {
   useEffect(() => {
     const imageData = location.state?.image;
     console.log(location.state);
-    if (imageData && !connecting) {
+    if (imageData) {
       setSelectedImage(imageData);
       console.log("イメージ設定");
       createCoordinate(imageData);
-      setConnecting(true);
       console.log("通信開始");
     }
-  }, [connecting, location.state?.image]);
+  }, [location.state]);
 
   const handleClick = () => {
     console.log("ボタンがクリックされました！");
@@ -30,21 +29,10 @@ const Recommend = () => {
   };
 
   const createCoordinate = (imageFile) => {
-    if (!imageFile || connecting) {
-      console.log("2回目以降");
-      return;
-    }
-    setConnecting(true);
     fetchData(imageFile);
   };
 
   const fetchData = async (imageFile) => {
-    if (!imageFile || connecting) {
-      console.log("2回目以降");
-      return;
-    }
-
-    setConnecting(true);
     console.log("感想生成中");
 
     const base64Str = imageFile.split(",")[1];
@@ -76,8 +64,6 @@ const Recommend = () => {
       setGeneratedImage(generatedImageUrl);
     } catch (error) {
       console.error("Error fetching response:", error);
-    } finally {
-      setConnecting(false); // API通信後にconnectingの状態を更新
     }
   };
 

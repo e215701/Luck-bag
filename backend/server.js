@@ -65,6 +65,7 @@ app.post("/generateVision", async (req, res) => {
   processedRequestsOfVision.add(requestBodyHashOfVision);
 
   try {
+    console.log("コーディネート作成中");
     const url = req.body.url;
     const response = await openai.chat.completions.create({
       model: "gpt-4-vision-preview",
@@ -112,6 +113,7 @@ app.post("/generate", async (req, res) => {
   processedRequestsOfGenerate.add(requestBodyHashOfGenerate);
 
   try {
+    console.log("画像作成中");
     const prompt = req.body.prompt;
     //生成された説明に基づいて新しい画像を生成
     const imageResponse = await openai.images.generate({
