@@ -6,4 +6,5 @@ npm install cors
 npm install openai
 npm install body-parser
 npm install dotenv
+npm install crypto
 npm start
