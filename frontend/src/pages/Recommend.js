@@ -13,28 +13,38 @@ const Recommend = () => {
   useEffect(() => {
     const imageData = location.state?.image;
     console.log(location.state);
-    if (imageData) {
+    if (imageData && !connecting) {
       setSelectedImage(imageData);
       console.log("イメージ設定");
-      if (!connecting) {
-        fetchData(imageData);
-        setConnecting(true);
-        console.log("通信開始");
-      }
+      createCoordinate(imageData);
+      setConnecting(true);
+      console.log("通信開始");
     }
-  }, [location.state]);
+  }, [connecting, location.state?.image]);
 
   const handleClick = () => {
     console.log("ボタンがクリックされました！");
     setResponse(null);
     setGeneratedImage(null);
-    fetchData(selectedImage);
+    createCoordinate(selectedImage);
+  };
+
+  const createCoordinate = (imageFile) => {
+    if (!imageFile || connecting) {
+      console.log("2回目以降");
+      return;
+    }
+    setConnecting(true);
+    fetchData(imageFile);
   };
 
   const fetchData = async (imageFile) => {
-    
-    if (!imageFile || connecting) return;
-    setConnecting(true); 
+    if (!imageFile || connecting) {
+      console.log("2回目以降");
+      return;
+    }
+
+    setConnecting(true);
     console.log("感想生成中");
 
     const base64Str = imageFile.split(",")[1];
@@ -66,12 +76,10 @@ const Recommend = () => {
       setGeneratedImage(generatedImageUrl);
     } catch (error) {
       console.error("Error fetching response:", error);
-      setConnecting(false);
+    } finally {
+      setConnecting(false); // API通信後にconnectingの状態を更新
     }
-    setConnecting(false);
   };
-
-
 
   return (
     <div className="App">
@@ -102,7 +110,7 @@ const Recommend = () => {
           </div>
         </div>
       )}
-      
+
       <Link to={`/`}>TOP</Link>
     </div>
   );
