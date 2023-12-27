@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const OpenAI = require("openai");
 const crypto = require("crypto");
+const http = require("http");
+const WebSocket = require("ws");
 require("dotenv").config({ path: "./.env.local" });
 
 const app = express();
@@ -37,6 +39,27 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 console.log("cors setting complete");
+
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on("connection", (ws) => {
+  console.log("WebSocket client connected");
+
+  ws.on("message", (message) => {
+    console.log(`Received message: ${message}`);
+    // メッセージを処理したり、クライアントに返信したりする処理を記述
+    ws.send("Server received your message");
+  });
+
+  ws.on("close", () => {
+    console.log("WebSocket client disconnected");
+  });
+});
+
+server.listen(8080, () => {
+  console.log("WebSocket server is running on port 8080");
+});
 
 const processedRequestsOfVision = new Set();
 const processedRequestsOfGenerate = new Set();
