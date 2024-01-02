@@ -14,7 +14,8 @@ body {
   --font-kaisei-opti: "Kaisei Opti";
 
   /* font sizes */
-  --font-header: 40px;
+  --font-size-loadingicon: 35px;
+  --font-size-header: 30px;
   --font-size-xxl: 25px;
   --font-size-xl: 20px;
   --font-size-base: 16px;
