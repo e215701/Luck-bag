@@ -20,7 +20,9 @@ const Howtouse = () => {
     <>
       <header class="header">
         <div class="navtext-container">
-          <div class="navtext">LuckBag</div>
+          <div class="navtext" onClick={() => navigate("/")}>
+            LuckBag
+          </div>
         </div>
         <input type="checkbox" class="menu-btn" id="menu-btn" />
         <label for="menu-btn" class="menu-icon">
@@ -41,54 +43,52 @@ const Howtouse = () => {
           </li>
         </ul>
       </header>
-      <div className="howtouse-howtouse">
-        <div className="howtouse-item-container">
-          <div className="howtouse-item-headline">
-            ハンバーガーメニューについて
+      <body>
+        <div className="howtouse-howtouse">
+          <div className="howtouse-item-container">
+            <div className="howtouse-item-headline">
+              おすすめコーディネートの見方
+            </div>
+            <div className="howtouse-item-text">①UPLOADページを開きます。</div>
+            <img
+              className="howtouse-item-image"
+              src="./images/howtouse-img1.png"
+            ></img>
+            <div className="howtouse-item-text">
+              ②UPLOADページで「写真をアップロードする」ボタンをタップ
+            </div>
+            <img
+              className="howtouse-item-image"
+              src="./images/howtouse-img2.png"
+            ></img>
+            <div className="howtouse-item-text">
+              ③洋服が写っている写真をアップロード
+            </div>
+            <div className="howtouse-item-text">
+              ④お勧めコーディネートの画像が表示されます。
+            </div>
+            <img
+              className="howtouse-item-image"
+              src="./images/howtouse-img3.png"
+            ></img>
+            <div className="howtouse-item-text">
+              「他のコーデを見る」をタップすると新しいコーディネートを見ることができます。
+            </div>
           </div>
-          <div className="howtouse-item-text">ハンバーガーメニューを押すと</div>
-          <div className="howtouse-item-text">・TOPページ</div>
-          <div className="howtouse-item-text">・UPLOADページ</div>
-          <div className="howtouse-item-text">・HISTORYページ</div>
-          <div className="howtouse-item-text">・HOW TO USEページ</div>
-          <div className="howtouse-item-text">に移動することができます。</div>
-          <img
-            className="howtouse-item-image"
-            src="./images/howtouse-img1.png"
-          ></img>
-        </div>
-        <div className="howtouse-item-container">
-          <div className="howtouse-item-headline">UPLOADページについて</div>
-          <div className="howtouse-item-text">
-            UPLOADページでは、洋服の写真をアップロードすると、その洋服を使ったおすすめコーディネートを見ることができます。
-          </div>
-        </div>
-        <div className="howtouse-item-container">
-          <div className="howtouse-item-headline">
-            おすすめコーディネートの見方
-          </div>
-          <div className="howtouse-item-text">
-            ①UPLOADページで「写真をアップロードする」ボタンをタップ
-          </div>
-          <img
-            className="howtouse-item-image"
-            src="./images/howtouse-img2.png"
-          ></img>
-          <div className="howtouse-item-text">
-            ②洋服が写っている写真をアップロード
-          </div>
-          <div className="howtouse-item-text">
-            ③お勧めコーディネートの画像が表示されます。
-          </div>
-          <img
-            className="howtouse-item-image"
-            src="./images/howtouse-img3.png"
-          ></img>
-          <div className="howtouse-item-text">
-            「他のコーデを見る」をタップすると新しいコーディネートを見ることができます。
+          <div className="howtouse-item-container">
+            <div className="howtouse-item-headline">コーデの履歴</div>
+            <div className="howtouse-item-text">
+              これまでにAIがお勧めしたコーデはHISTORYページで見ることができます。
+              <br></br>
+              日付で並び変えたり、お気に入りで絞り込むことが出来ます。
+            </div>
+            <img
+              className="howtouse-item-image"
+              src="./images/howtouse-img4.png"
+            ></img>
           </div>
         </div>
-      </div>
+      </body>
     </>
   );
 };
