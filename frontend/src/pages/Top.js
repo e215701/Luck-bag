@@ -130,6 +130,16 @@ const Toppage = () => {
             </div>
 
             <div
+              className="top-upload-button"
+              onClick={() => navigate("/Upload")}
+            >
+              <img
+                className="top-upload-button-icon"
+                src="./images/upload-button.png"
+              ></img>
+            </div>
+
+            <div
               className="top-top"
               style={{
                 width: `${screenWidth}px`,
