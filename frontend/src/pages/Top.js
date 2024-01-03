@@ -94,7 +94,8 @@ const Toppage = () => {
                 <span class="navicon"></span>
               </label>
               <ul class="menu">
-                <li class="top">
+                <div className="menu-spacer"></div>
+                <li>
                   <a onClick={() => navigate("/")}>TOP</a>
                 </li>
                 <li>
