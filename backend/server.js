@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 8080;
 const allowedOrigins = [
   `http://${process.env.REACT_BASE_URL}:3000`,
   `http://${process.env.REACT_BASE_URL}`,
+  `http://frontend:3000`,
 ];
 
 console.log(allowedOrigins);
