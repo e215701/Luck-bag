@@ -19,20 +19,20 @@ const allowedOrigins = [
   `http://${process.env.REACT_BASE_URL}:3000`,
   `http://${process.env.REACT_BASE_URL}`,
   `http://frontend:3000`,
+  `http://${process.env.REACT_BASE_URL}:8080`,
 ];
 
 console.log(allowedOrigins);
 const corsOptions = {
-  // origin: function (origin, callback) {
-  //   // originが許可されたリストに含まれているか確認
-  //   if (!origin || allowedOrigins.includes(origin)) {
-  //     callback(null, true);
-  //   } else {
-  //     console.log("Not existing in Origins");
-  //     callback(new Error("Not allowed by CORS"));
-  //   }
-  // },
-  origin: "*",
+  origin: function (origin, callback) {
+    // originが許可されたリストに含まれているか確認
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("Not existing in Origins");
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
   optionsSuccessStatus: 204,
