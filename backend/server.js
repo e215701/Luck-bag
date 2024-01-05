@@ -23,14 +23,16 @@ const allowedOrigins = [
 
 console.log(allowedOrigins);
 const corsOptions = {
-  origin: function (origin, callback) {
-    // originが許可されたリストに含まれているか確認
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  // origin: function (origin, callback) {
+  //   // originが許可されたリストに含まれているか確認
+  //   if (!origin || allowedOrigins.includes(origin)) {
+  //     callback(null, true);
+  //   } else {
+  //     console.log("Not existing in Origins");
+  //     callback(new Error("Not allowed by CORS"));
+  //   }
+  // },
+  origin: "*",
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   credentials: true,
   optionsSuccessStatus: 204,
