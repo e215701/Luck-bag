@@ -34,11 +34,11 @@ topページ
 } */
 
 .header {
-  background: var(--color-fawn);
+  background: linear-gradient(to bottom, var(--color-linen), transparent);
   position: fixed;
   font-size: var(--font-header);
   width: 100%;
-  height: 52px;
+  height: 80px;
   z-index: 1010;
 }
 
@@ -53,7 +53,6 @@ topページ
   background: none;
   border-radius: 5px;
   cursor: pointer;
-  z-index: 1005;
 }
 body {
   margin: 0;
@@ -67,13 +66,14 @@ body {
   width: 100%;
   height: auto;
   top: 0;
-  margin-top: 52px;
+  margin-top: 0px;
   padding: 0 0 10px 0;
   clear: both;
   background: var(--color-fawn);
   transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
   transform: scale(1, 0);
   transform-origin: top;
+  z-index: 1100;
 }
 
 /* Hamburger menu button */
@@ -109,8 +109,14 @@ body {
   transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.2s;
 }
 
+.menu-spacer {
+  background: var(--color-fawn);
+  height: 52px;
+}
+
 .menu-btn {
   display: none;
+  z-index: 1200;
 }
 
 .menu-icon {
@@ -119,10 +125,11 @@ body {
   cursor: pointer;
   padding: 24px 14px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  z-index: 1200;
 }
 
 .navicon {
-  background: #ddd;
+  background: var(--color-hickory);
   display: block;
   height: 3px;
   width: 26px;
@@ -137,7 +144,7 @@ body {
   height: 100%;
   width: 100%;
   position: absolute;
-  background: #ddd;
+  background: var(--color-hickory);
   transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
 }
 
@@ -152,10 +159,12 @@ body {
 /* Hamburger Menu Animation Start */
 .menu-btn:checked ~ .menu-icon .navicon:before {
   transform: rotate(-45deg);
+  background: var(--color-linen);
 }
 
 .menu-btn:checked ~ .menu-icon .navicon:after {
   transform: rotate(45deg);
+  background: var(--color-linen);
 }
 
 .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before {
@@ -186,9 +195,9 @@ body {
 /* Navbar Text */
 .navtext {
   position: absolute;
-  color: #ddd;
+  color: var(--color-hickory);
   letter-spacing: 4px;
-  font-size: 20px;
+  font-size: var(--font-size-header);
   font-family: var(--font-libre-bodoni);
 }
 
@@ -232,7 +241,7 @@ body {
 
 .top-item-headline {
   font-size: var(--font-size-xxl);
-  font-family: var(--font-libre-bodoni);
+  font-family: var(--font-kaisei-opti);
   color: var(--color-fawn);
   font-weight: 500;
   align-items: center;
@@ -273,6 +282,12 @@ body {
   left: 0px;
   width: 100%;
   height: auto;
+}
+.top-item-text .colored {
+  color: var(--color-fawn);
+}
+.top-item-text .luckbag {
+  font-family: var(--font-libre-bodoni);
 }
 
 .top-product {
@@ -315,20 +330,50 @@ body {
 }
 
 .loading-icon-container {
+  position: fixed;
   display: flex;
   justify-content: first baseline;
   align-items: first baseline;
-  height: 0vh;
-  outline: 2px solid red;
-  overflow: visible;
+  overflow: hidden;
   transition: opacity 1s ease-in-out; /* フェードアウトに関するアニメーション */
 }
 
-.loading-icon {
+.loading-image {
   justify-content: center;
   align-items: center;
   filter: contrast(60%) brightness(70%);
   object-fit: cover;
+  height: 100%;
+}
+
+.loading-icon {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+.loading-text {
+  font-size: var(--font-size-xxl);
+  color: var(--color-white);
+  font-family: var(--font-kaisei-opti);
+  flex: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 10px 0px 10px 0px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.loading-text span {
+  font-family: var(--font-libre-bodoni);
+  flex: 0;
+  font-size: var(--font-size-loadingicon);
+  font-weight: 800;
 }
 
 .fade-out {
@@ -363,4 +408,70 @@ body {
 .fade-in #content {
   opacity: 1;
   height: auto;
+}
+
+/* ポップアップ？？ */
+.tooltip-container {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.tooltip-container.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.close-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--color-hickory);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--color-linen);
+  border-radius: 50%;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+  line-height: 30px;
+  font-weight: 900;
+}
+
+.tooltip-content {
+  background-color: var(--color-linen);
+  padding: 20px;
+  margin: 10px 10px 10px 10px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* アップロードボタン */
+
+.top-upload-button {
+  position: fixed;
+  display: flex;
+  bottom: 15px;
+  right: 15px;
+  z-index: 2000;
+  width: 90px;
+  height: 90px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-fawn);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.top-upload-button-icon {
+  width: 60%;
+  object-fit: cover;
 }
