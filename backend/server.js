@@ -19,6 +19,7 @@ const allowedOrigins = [
   `http://${process.env.REACT_BASE_URL}:3000`,
   `http://${process.env.REACT_BASE_URL}`,
   `http://frontend:3000`,
+  `http://${process.env.REACT_BASE_URL}:8080`,
 ];
 
 console.log(allowedOrigins);
@@ -28,6 +29,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log("Not existing in Origins");
       callback(new Error("Not allowed by CORS"));
     }
   },
