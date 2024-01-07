@@ -125,17 +125,20 @@ app.post("/generate", async (req, res) => {
       n: 1,
       size: "1024x1024",
       quality: "standard",
+      response_format: "b64_json",
     });
 
-    const imageUrl = imageResponse;
-    if (!imageUrl) {
+    const imageUrl = imageResponse.data[0].b64_json;
+    const imageData = "data:image/png;base64," + imageUrl;
+
+    if (!imageData) {
       return res.status(500).send({ error: "画像の生成に失敗しました。" });
     }
 
     processedRequestsOfGenerate.delete(requestBodyHashOfGenerate);
 
     // 成功した場合、画像URLを含むオブジェクトを返す
-    res.status(200).json({ image: imageUrl });
+    res.status(200).json({ image: imageData });
   } catch (error) {
     res.status(500).send({
       error: "画像の生成に失敗しました。",

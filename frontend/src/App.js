@@ -6,6 +6,7 @@ import Upload from "./pages/Upload";
 import Recommend from "./pages/Recommend";
 import History from "./pages/History";
 import Test from "./pages/test";
+import Howtouse from "./pages/Howtouse";
 
 class App extends React.Component {
   render() {
@@ -17,6 +18,7 @@ class App extends React.Component {
           <Route path="/Recommend" element={<Recommend />} />
           <Route path="/History" element={<History />} />
           <Route path="/Test" element={<Test />} />
+          <Route path="/Howtouse" element={<Howtouse />} />
         </Routes>
       </BrowserRouter>
     );
