@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import "../css/global.css";
+import "../css/recommend.css";
 
 const Recommend = () => {
   const baseURL = process.env.REACT_APP_API_BASE_URL;
 
+  const navigate = useNavigate();
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState(null);
   const [response, setResponse] = useState("");
   const [generatedImage, setGeneratedImage] = useState(null);
-  const [connecting, setConnecting] = useState(false);
 
   useEffect(() => {
     const imageData = location.state?.image;
@@ -16,11 +18,8 @@ const Recommend = () => {
     if (imageData) {
       setSelectedImage(imageData);
       console.log("イメージ設定");
-      if (!connecting) {
-        fetchData(imageData);
-        setConnecting(true);
-        console.log("通信開始");
-      }
+      createCoordinate(imageData);
+      console.log("通信開始");
     }
   }, [location.state]);
 
@@ -28,13 +27,14 @@ const Recommend = () => {
     console.log("ボタンがクリックされました！");
     setResponse(null);
     setGeneratedImage(null);
-    fetchData(selectedImage);
+    createCoordinate(selectedImage);
+  };
+
+  const createCoordinate = (imageFile) => {
+    fetchData(imageFile);
   };
 
   const fetchData = async (imageFile) => {
-    
-    if (!imageFile || connecting) return;
-    setConnecting(true); 
     console.log("感想生成中");
 
     const base64Str = imageFile.split(",")[1];
@@ -62,49 +62,67 @@ const Recommend = () => {
 
       const dataImage = await responseImage.json();
       console.log(dataImage);
-      const generatedImageUrl = dataImage.image.data[0].url;
+      const generatedImageUrl = dataImage.image;
       setGeneratedImage(generatedImageUrl);
     } catch (error) {
       console.error("Error fetching response:", error);
-      setConnecting(false);
     }
-    setConnecting(false);
   };
 
-
-
   return (
-    <div className="App">
-      <h1>コーディネートを紹介するページ</h1>
-      {selectedImage && (
+    <>
+      {!generatedImage && (
         <div>
-          <h2>アップロードした画像</h2>
-          <img src={selectedImage} alt="Uploaded" width="200" height="60" />
-        </div>
-      )}
-      {response && (
-        <div>
-          <h2>コーディネートの特徴</h2>
-          {response}
+          <div className="recommend-page">ローディングアニメーション</div>
         </div>
       )}
       {generatedImage && (
-        <div>
-          <h2>生成された画像</h2>
-          <img src={generatedImage} alt="Generated" width="200" height="60" />
-          <div>
-            <a href={generatedImage} download>
-              <button style={{ padding: "5px" }}>画像をダウンロード</button>
-            </a>
+        <div className="recommend-page">
+          <div className="recommend-up">
+            <img className="recommend-up-image" src={selectedImage}></img>
+            <img className="recommend-x" src="./images/x-button.png"></img>
           </div>
-          <div>
-            <button onClick={handleClick}>再生成する</button>
+          <div className="recommend-code">
+            <div className="recommend-headline">おすすめコーデ</div>
+            <img className="recommend-code-img" src={generatedImage}></img>
+            <div className="recommend-code-bar">
+              <div className="recommend-code-recreate">
+                <img
+                  className="recommend-code-icon"
+                  src="./images/recreate-button.png"
+                  onClick={handleClick}
+                ></img>
+                <div className="recommend-code-recreate-text">
+                  他のコーデを見る
+                </div>
+              </div>
+              <div className="recommend-code-spacer"></div>
+              <a
+                className="recommend-icon-container"
+                href={generatedImage}
+                download
+              >
+                <img
+                  className="recommend-code-icon"
+                  src="./images/download-button.png"
+                ></img>
+              </a>
+              <img
+                className="recommend-code-icon"
+                src="./images/heart-button.png"
+              ></img>
+            </div>
+            <div className="recommend-code-text">{response}</div>
+            <button
+              className="recommend-code-button"
+              onClick={() => navigate("/Top")}
+            >
+              トップに戻る
+            </button>
           </div>
         </div>
       )}
-      
-      <Link to={`/`}>TOP</Link>
-    </div>
+    </>
   );
 };
 

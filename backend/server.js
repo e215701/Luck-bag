@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const OpenAI = require("openai");
+const crypto = require("crypto");
 require("dotenv").config({ path: "./.env.local" });
 
 const app = express();
@@ -17,6 +18,7 @@ const PORT = process.env.PORT || 8080;
 const allowedOrigins = [
   `http://${process.env.REACT_BASE_URL}:3000`,
   `http://${process.env.REACT_BASE_URL}`,
+  `http://frontend:3000`,
 ];
 
 console.log(allowedOrigins);
@@ -37,6 +39,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 console.log("cors setting complete");
 
+const processedRequestsOfVision = new Set();
+const processedRequestsOfGenerate = new Set();
+
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from Node.js!" });
 });
@@ -46,7 +51,22 @@ app.listen(PORT, () => {
 });
 
 app.post("/generateVision", async (req, res) => {
+  // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
+  const requestBodyHashOfVision = crypto
+    .createHash("sha256")
+    .update(JSON.stringify(req.body))
+    .digest("hex");
+
+  // ユニークなIDが既に処理されたリクエストのセットに含まれているか確認
+  if (processedRequestsOfVision.has(requestBodyHashOfVision)) {
+    return;
+  }
+
+  // 新しいリクエストIDをセットに追加
+  processedRequestsOfVision.add(requestBodyHashOfVision);
+
   try {
+    console.log("コーディネート作成中");
     const url = req.body.url;
     const response = await openai.chat.completions.create({
       model: "gpt-4-vision-preview",
@@ -67,6 +87,7 @@ app.post("/generateVision", async (req, res) => {
       ],
       max_tokens: 500,
     });
+    processedRequestsOfVision.delete(requestBodyHashOfVision);
     res.send(response);
   } catch (error) {
     console.error("generateVisionエラー:", error);
@@ -78,7 +99,22 @@ app.post("/generateVision", async (req, res) => {
 });
 
 app.post("/generate", async (req, res) => {
+  // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
+  const requestBodyHashOfGenerate = crypto
+    .createHash("sha256")
+    .update(JSON.stringify(req.body))
+    .digest("hex");
+
+  // ユニークなIDが既に処理されたリクエストのセットに含まれているか確認
+  if (processedRequestsOfGenerate.has(requestBodyHashOfGenerate)) {
+    return;
+  }
+
+  // 新しいリクエストIDをセットに追加
+  processedRequestsOfGenerate.add(requestBodyHashOfGenerate);
+
   try {
+    console.log("画像作成中");
     const prompt = req.body.prompt;
     //生成された説明に基づいて新しい画像を生成
     const imageResponse = await openai.images.generate({
@@ -87,15 +123,20 @@ app.post("/generate", async (req, res) => {
       n: 1,
       size: "1024x1024",
       quality: "standard",
+      response_format: "b64_json",
     });
 
-    const imageUrl = imageResponse;
-    if (!imageUrl) {
+    const imageUrl = imageResponse.data[0].b64_json;
+    const imageData = "data:image/png;base64," + imageUrl;
+
+    if (!imageData) {
       return res.status(500).send({ error: "画像の生成に失敗しました。" });
     }
 
+    processedRequestsOfGenerate.delete(requestBodyHashOfGenerate);
+
     // 成功した場合、画像URLを含むオブジェクトを返す
-    res.status(200).json({ image: imageUrl });
+    res.status(200).json({ image: imageData });
   } catch (error) {
     res.status(500).send({
       error: "画像の生成に失敗しました。",
