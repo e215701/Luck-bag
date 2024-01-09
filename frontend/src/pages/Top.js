@@ -1,7 +1,4 @@
-
-
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { useNavigate } from "react-router-dom";
 import "@splidejs/react-splide/css";
@@ -13,88 +10,71 @@ const Toppage = () => {
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
-
-  // GIFのパスを配列として定義
-  const gifs = [
-    "./images/Luck-Bag_Animation_v2_1.gif",
-    "./images/Luck-Bag_Animation_v2_2.gif" // 仮の2つ目のGIFパスを設定
-  ];
-
-  // useStateを追加して選択されたGIFを管理
-  const [selectedGif, setSelectedGif] = useState(gifs[0]);
-
+  const [showTooltip, setShowTooltip] = useState(true);
+  const textItemsRef = useRef([]);
 
   useEffect(() => {
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
       setScreenWidth(window.innerWidth);
     };
-    // 0.5秒後にページを表示するように設定
+
     const timeoutId = setTimeout(() => {
       setShowPage(true);
-    }, 2500);
+    }, 500);
 
     window.addEventListener("resize", handleResize);
-
-    // 最初の一回だけ取得する
     handleResize();
 
     const cleanupFunctions = () => {
-      // コンポーネントがアンマウントされたらここでリスナーを削除
       window.removeEventListener("resize", handleResize);
-      clearTimeout(timeoutId); // タイムアウトのクリアもここで行う
-      textItems.forEach((text) => {
-        observer.unobserve(text);
-      });
+      clearTimeout(timeoutId);
     };
 
-    // 監視対象の要素を取得
-    const textItems = document.querySelectorAll(".fade-text");
-
-    // 監視対象の要素に対する処理
-    const showElements = (entries) => {
+    const observerCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // 監視対象の条件を満たしたら .reveal を追加
-          entry.target.classList.add("reveal");
+          entry.target.classList.add("fade-in");
         } else {
-          // 監視対象の条件から外れたら .reveal を削除
-          // ※アニメーションを繰り返さない場合はコメントアウト
-          entry.target.classList.remove("reveal");
+          entry.target.classList.remove("fade-in");
         }
       });
     };
-    // 監視対象が到達したとみなす条件
-    const options = {
+
+    const observerOptions = {
       rootMargin: "0px",
-      threshold: 1.0, // [0-1]
+      threshold: 0.5, // 画面内に50%以上入ったら発火
     };
 
-    const observer = new IntersectionObserver(showElements, options);
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
 
-    // 対象要素すべてについて監視を開始
-    textItems.forEach((text) => {
-      observer.observe(text);
-    });
+    if (textItemsRef.current.length > 0) {
+      textItemsRef.current.forEach((text) => {
+        observer.observe(text);
+      });
+    }
 
-    // GIFをランダムに選択する処理を追加
-    setSelectedGif(gifs[Math.floor(Math.random() * gifs.length)]);
-
-    return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
+    return cleanupFunctions;
   }, []);
 
   return (
     <div id="toppage">
-      <div className={`loading-icon-container ${showPage ? "fade-out" : ""}`}>
-        <img
-          className="loading-icon"
-          src={selectedGif} // srcをselectedGifに設定してランダムなGIFを表示
-          alt="loading animation"
-          style={{
-            height: `${screenHeight}px`,
-            width: `${screenWidth}px`,
-          }}
-        />
+      <div
+        className={`loading-icon-container ${showPage ? "fade-out" : ""}`}
+        style={{ width: `${screenWidth}px`, height: `${screenHeight}px` }}
+      >
+        <img className="loading-image" src="./images/clothes.jpg" alt="logo" />
+        <div className="loading-icon">
+          <div className="loading-text">
+            <span>Luckbag</span>
+          </div>
+          <div className="loading-text">
+            日常のスタイリングを<br></br>もっと楽しく、おしゃれに
+          </div>
+        </div>
       </div>
       {/* <> */}
 
@@ -105,14 +85,17 @@ const Toppage = () => {
           <div id="content" className="fade-in">
             <header class="header">
               <div class="navtext-container">
-                <div class="navtext">LuckBag</div>
+                <div class="navtext" onClick={() => navigate("/")}>
+                  Luck Bag
+                </div>
               </div>
               <input type="checkbox" class="menu-btn" id="menu-btn" />
               <label for="menu-btn" class="menu-icon">
                 <span class="navicon"></span>
               </label>
               <ul class="menu">
-                <li class="top">
+                <div className="menu-spacer"></div>
+                <li>
                   <a onClick={() => navigate("/")}>TOP</a>
                 </li>
                 <li>
@@ -124,11 +107,38 @@ const Toppage = () => {
                 <li>
                   <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
                 </li>
-                <li>
-                  <a onClick={() => navigate("/Home")}>HOME</a>
-                </li>
               </ul>
             </header>
+
+            <div
+              className={`tooltip-container ${showTooltip ? "visible" : ""}`}
+            >
+              <span
+                className="close-button"
+                onClick={() => setShowTooltip(false)}
+              >
+                ×
+              </span>
+              <div
+                className="tooltip-content"
+                onClick={() => navigate("/Howtouse")}
+              >
+                <div className="top-item-text">初めての方へ🔰</div>
+                <div className="top-item-text">
+                  使い方は<span className="colored">ココをタップ</span>👆
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="top-upload-button"
+              onClick={() => navigate("/Upload")}
+            >
+              <img
+                className="top-upload-button-icon"
+                src="./images/upload-button.png"
+              ></img>
+            </div>
 
             <div
               className="top-top"
@@ -181,14 +191,22 @@ const Toppage = () => {
                 </SplideSlide>
               </Splide>
 
-              <div className="fade-text">
+              <div
+                className="fade-text"
+                ref={(el) => textItemsRef.current.push(el)}
+              >
                 <div className="top-item-headline">PRODUCT</div>
                 <div className="top-item-text">
                   "LuckBag"は、手持ちの洋服を活用したいけれど、どうコーディネートしたらいいか迷っている方々のためのWebアプリです。シンプルなデザインが好きな方にぴったり。日常のスタイリングをもっと楽しく、おしゃれにアップデートしましょう。
                 </div>
               </div>
-              <div className="fade-text">
-                <div className="top-item-headline">LUCK BAGの特徴</div>
+              <div
+                className="fade-text"
+                ref={(el) => textItemsRef.current.push(el)}
+              >
+                <div className="top-item-headline">
+                  <span className="luckbag"> Luck Bag</span>の特徴
+                </div>
                 <div className="top-item-container">
                   <div className="top-item-text-title">コーディネート提案</div>
                   <div className="top-item-text">
@@ -219,4 +237,3 @@ const Toppage = () => {
 };
 
 export default Toppage;
-
