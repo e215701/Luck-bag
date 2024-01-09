@@ -40,7 +40,7 @@ const Recommend = () => {
     const base64Str = imageFile.split(",")[1];
 
     try {
-      const response = await fetch(`http://${baseURL}:8080/generateVision`, {
+      const response = await fetch(`/api/generateVision`, {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
@@ -53,7 +53,7 @@ const Recommend = () => {
 
       console.log("画像生成中");
 
-      const responseImage = await fetch(`http://${baseURL}:8080/generate`, {
+      const responseImage = await fetch(`/api/generate`, {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },

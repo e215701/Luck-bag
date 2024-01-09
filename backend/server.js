@@ -19,6 +19,7 @@ const allowedOrigins = [
   `http://${process.env.REACT_BASE_URL}:3000`,
   `http://${process.env.REACT_BASE_URL}`,
   `http://frontend:3000`,
+  `http://backend:8080`,
   `http://${process.env.REACT_BASE_URL}:8080`,
 ];
 
@@ -52,7 +53,7 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.post("/generateVision", async (req, res) => {
+app.post("/api/generateVision", async (req, res) => {
   // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
   const requestBodyHashOfVision = crypto
     .createHash("sha256")
@@ -100,7 +101,7 @@ app.post("/generateVision", async (req, res) => {
   }
 });
 
-app.post("/generate", async (req, res) => {
+app.post("/api/generate", async (req, res) => {
   // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
   const requestBodyHashOfGenerate = crypto
     .createHash("sha256")
