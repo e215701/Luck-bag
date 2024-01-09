@@ -21,4 +21,4 @@ jobs:
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop; rm -rf frontend backend'
           rsync -auvPz ./ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/tbd-develop/
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; touch .env.local; echo OPENAI_API_KEY=\"${{ secrets.OPENAI_API_KEY }}\" >> .env.local'
-          ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop; docker-compose down --rmi all --volumes --remove-orphans;  docker-compose -f compose_prod.yaml up -d --build'
+          ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop; docker-compose down --rmi all --volumes --remove-orphans;  docker-compose -f compose.prod.yaml up -d --build'
