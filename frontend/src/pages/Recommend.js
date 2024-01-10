@@ -11,10 +11,23 @@ const Recommend = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [response, setResponse] = useState("");
   const [generatedImage, setGeneratedImage] = useState(null);
+
   // 初期値に画像を設定
   // const [generatedImage, setGeneratedImage] = useState("./images/clothes.jpg");
   const [isChecked, setIsChecked] = useState(true);
   const imgElement = document.getElementById("heart-icon");
+  const [showPage, setShowPage] = useState(false);
+  const [screenHeight, setScreenHeight] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  // GIFのパスを配列として定義
+  const gifs = [
+    "./images/Luck-Bag_Animation_v2_1.gif",
+    "./images/Luck-Bag_Animation_v2_2.gif", // 仮の2つ目のGIFパスを設定
+  ];
+
+  // useStateを追加して選択されたGIFを管理
+  const [selectedGif, setSelectedGif] = useState(gifs[0]);
 
   useEffect(() => {
     const imageData = location.state?.image;
@@ -25,6 +38,63 @@ const Recommend = () => {
       createCoordinate(imageData);
       console.log("通信開始");
     }
+
+    const handleResize = () => {
+      setScreenHeight(window.innerHeight);
+      setScreenWidth(window.innerWidth);
+    };
+    // 0.5秒後にページを表示するように設定
+    const timeoutId = setTimeout(() => {
+      setShowPage(true);
+    }, 2500);
+
+    window.addEventListener("resize", handleResize);
+
+    // 最初の一回だけ取得する
+    handleResize();
+
+    const cleanupFunctions = () => {
+      // コンポーネントがアンマウントされたらここでリスナーを削除
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeoutId); // タイムアウトのクリアもここで行う
+      textItems.forEach((text) => {
+        observer.unobserve(text);
+      });
+    };
+
+    // 監視対象の要素を取得
+    const textItems = document.querySelectorAll(".fade-text");
+
+    // 監視対象の要素に対する処理
+    const showElements = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 監視対象の条件を満たしたら .reveal を追加
+          entry.target.classList.add("reveal");
+        } else {
+          // 監視対象の条件から外れたら .reveal を削除
+          // ※アニメーションを繰り返さない場合はコメントアウト
+          entry.target.classList.remove("reveal");
+        }
+      });
+    };
+    // 監視対象が到達したとみなす条件
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0, // [0-1]
+    };
+
+    const observer = new IntersectionObserver(showElements, options);
+
+    // 対象要素すべてについて監視を開始
+    textItems.forEach((text) => {
+      observer.observe(text);
+    });
+
+    // GIFをランダムに選択する処理を追加
+    setSelectedGif(gifs[Math.floor(Math.random() * gifs.length)]);
+
+    return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
   }, [location.state]);
 
   const handleClick = () => {
@@ -56,7 +126,7 @@ const Recommend = () => {
     const base64Str = imageFile.split(",")[1];
 
     try {
-      const response = await fetch(`http://${baseURL}:8080/generateVision`, {
+      const response = await fetch(`/api/generateVision`, {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
@@ -69,7 +139,7 @@ const Recommend = () => {
 
       console.log("画像生成中");
 
-      const responseImage = await fetch(`http://${baseURL}:8080/generate`, {
+      const responseImage = await fetch(`/api/generate`, {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
@@ -88,8 +158,20 @@ const Recommend = () => {
   return (
     <>
       {!generatedImage && (
-        <div>
-          <div className="recommend-page">ローディングアニメーション</div>
+        // <div>
+        //   <div className="recommend-page">ローディングアニメーション</div>
+        // </div>
+
+        <div className="loading-animation">
+          <img
+            className="loading-icon"
+            src={selectedGif} // srcをselectedGifに設定してランダムなGIFを表示
+            alt="loading animation"
+            style={{
+              height: `${screenHeight}px`,
+              width: `${screenWidth}px`,
+            }}
+          />
         </div>
       )}
       {generatedImage && (
