@@ -11,6 +11,10 @@ const Recommend = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [response, setResponse] = useState("");
   const [generatedImage, setGeneratedImage] = useState(null);
+  // 初期値に画像を設定
+  // const [generatedImage, setGeneratedImage] = useState("./images/clothes.jpg");
+  const [isChecked, setIsChecked] = useState(true);
+  const imgElement = document.getElementById("heart-icon");
 
   useEffect(() => {
     const imageData = location.state?.image;
@@ -28,6 +32,18 @@ const Recommend = () => {
     setResponse(null);
     setGeneratedImage(null);
     createCoordinate(selectedImage);
+  };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      console.log("checked");
+      if (imgElement) {
+        imgElement.src = "./images/pushed-heart-icon.png"; // 新しい画像のパスに変更してください
+      }
+    } else {
+      imgElement.src = "./images/heart-icon.png";
+    }
   };
 
   const createCoordinate = (imageFile) => {
@@ -80,7 +96,11 @@ const Recommend = () => {
         <div className="recommend-page">
           <div className="recommend-up">
             <img className="recommend-up-image" src={selectedImage}></img>
-            <img className="recommend-x" src="./images/x-button.png"></img>
+            <img
+              className="recommend-x"
+              src="./images/x-button.png"
+              onClick={() => navigate("/Upload")}
+            ></img>
           </div>
           <div className="recommend-code">
             <div className="recommend-headline">おすすめコーデ</div>
@@ -107,15 +127,26 @@ const Recommend = () => {
                   src="./images/download-button.png"
                 ></img>
               </a>
-              <img
-                className="recommend-code-icon"
-                src="./images/heart-button.png"
-              ></img>
+              <input
+                type="checkbox"
+                className="recommend-heart-btn"
+                id="heart-btn"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
+              <label htmlFor="heart-btn" className="recommend-icon-container">
+                <img
+                  className="recommend-heart-icon"
+                  src="./images/heart-icon.png"
+                  id="heart-icon"
+                />
+                {/* <div className="heart"></div> */}
+              </label>
             </div>
             <div className="recommend-code-text">{response}</div>
             <button
               className="recommend-code-button"
-              onClick={() => navigate("/Top")}
+              onClick={() => navigate("/")}
             >
               トップに戻る
             </button>

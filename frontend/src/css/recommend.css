@@ -60,8 +60,9 @@ html {
   height: 52px;
   font-family: var(--font-kaisei-opti);
   font-size: var(--font-size-xxl);
-  color: var(--color-hickory);
+  color: var(--color-fawn);
   margin: 10px 0 10px 0;
+  font-weight: 500;
 }
 
 .recommend-icon-container {
@@ -74,6 +75,8 @@ html {
   width: 80%;
   height: auto;
   aspect-ratio: 1;
+  border-radius: 10px;
+  outline: 3.5px solid var(--color-fawn);
 }
 
 .recommend-code-bar {
@@ -83,12 +86,35 @@ html {
   text-align: center;
   align-items: center;
   justify-content: center;
+  margin: 0px 0 5px 0;
 }
 
 .recommend-code-icon {
   width: auto;
   height: 80%;
   aspect-ratio: 1;
+}
+
+.recommend-heart-btn {
+  display: none; /* チェックボックスを非表示にする */
+}
+
+.recommend-heart-icon {
+  width: auto;
+  height: 100%;
+  aspect-ratio: 1;
+}
+
+.heart {
+  width: 50px;
+  height: 50px;
+  stroke: var(--color-hickory);
+  stroke-width: 2px;
+  clip-path: path(
+    "M41.51,11.63a9.67,9.67,0,0,0-13.7,0L24,15.43l-3.81-3.8a9.69,9.69,0,0,0-13.7,13.7L24,42.84l13.7-13.7h0l3.81-3.81A9.69,9.69,0,0,0,41.51,11.63Z"
+  );
+  fill: #ff5252;
+  transform: scale(1);
 }
 
 .recommend-code-recreate {
@@ -145,7 +171,7 @@ html {
   background-color: var(--color-fawn);
   align-items: center;
   justify-content: center;
-  width: 300px;
+  width: 80%;
   height: 80px;
   cursor: pointer;
   border: none;
