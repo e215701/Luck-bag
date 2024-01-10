@@ -64,7 +64,10 @@ const Toppage = () => {
     <div id="toppage">
       <div
         className={`loading-icon-container ${showPage ? "fade-out" : ""}`}
-        style={{ width: `${screenWidth}px`, height: `${screenHeight}px` }}
+        style={{
+          width: `${screenWidth}px`,
+          height: `${screenHeight}px`,
+        }}
       >
         <img className="loading-image" src="./images/clothes.jpg" alt="logo" />
         <div className="loading-icon">
