@@ -7,6 +7,7 @@ import Recommend from "./pages/Recommend";
 import History from "./pages/History";
 import Test from "./pages/test";
 import Howtouse from "./pages/Howtouse";
+import Login from "./pages/Login";
 
 class App extends React.Component {
   render() {
@@ -19,6 +20,7 @@ class App extends React.Component {
           <Route path="/History" element={<History />} />
           <Route path="/Test" element={<Test />} />
           <Route path="/Howtouse" element={<Howtouse />} />
+          <Route path="/Login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     );
