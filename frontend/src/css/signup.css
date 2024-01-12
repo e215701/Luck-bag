@@ -1,0 +1,149 @@
+/* 
+
+sign-upページ
+
+*/
+.sign-up-back {
+  position: relative; /* 相対的 */
+  background-color: var(--color-linen);
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  text-align: center;
+  align-items: center;
+  color: var(--color-white);
+  font-family: var(--font-kaisei-opti);
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-image {
+    object-fit: cover;
+    width: 100%; /* 画像を親要素にフィットさせる */
+    filter: contrast(70%) brightness(80%);
+    height: auto; /* 画像のアスペクト比を保持 */
+}
+
+.sign-up-text-container {
+    position: absolute;
+    top: 50%;           /* 要素を上から50%の位置に設定 */
+    left: 50%;          /* 要素を左から50%の位置に設定 */
+    transform: translate(-50%, -50%); /* 要素を縦横中央に */
+    color: white;       /* 見やすさのために白色に設定(画像によっては変更が必要) */
+    text-align: center; /* テキストを中央揃えに */
+    z-index: 10;        /* z-indexで画層を調整 */
+}
+
+
+.clothes-1-icon {
+    position: absolute;
+    top: 0;
+    left: -110px;
+    width: 1239px;
+    height: 932px;
+    object-fit: cover;
+}
+.sign-up-container {
+    position: absolute;
+    top: 392px;
+    background-color: rgba(255, 255, 255, 0.36);
+    width: 398px;
+    height: 206px;
+}
+.luck-bag {
+    position: absolute;
+    top: 221px;
+    font-family: var(--font-libre-bodoni);
+    font-size: var(--font-size-loadingicon);
+}
+input.transparent-input {
+    background-color: transparent; /* 入力欄の背景を透明にする */
+    border: none; /* 枠線を非表示にする */
+    border-bottom: 1px solid #ffffff;
+    color: var(--font-libre-bodoni); /* 入力されたテキストの色を黒にする */
+    font-size: var(--font-size-xl);
+    font-family: var(--font-kaisei-opti);
+}
+input.transparent-input::placeholder {
+    color: var(--font-libre-bodoni); /* CSS変数を使った色指定 */
+    opacity: 50%;
+}
+.input-items {
+    width: 100%;
+}
+.name-pass-container {
+    position: absolute;
+    top: 394px;
+    font-size: var(--font-size-xl);
+    display: flex;
+    align-items: center;
+    width: 422px;
+    height: 204px;
+}
+.sign-up-button {
+    position: absolute;
+    top: 616px;
+    border: 2px solid #d9d9d9;
+    background-color: none;
+    width: 211px;
+    height: 59px;
+    cursor: pointer;
+}
+.sign-up {
+    position: relative;
+    top: 7px;
+    font-size: var(--font-size-xl);
+    /* text-align: center; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    cursor: pointer;
+}
+  
+
+/* 
+
+アニメーション
+
+ */
+
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#content {
+  order: 1;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+
+.fade-in #content {
+  opacity: 1;
+  height: auto;
+}
+
+/* ポップアップ？？ */
+/* .tooltip-container {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+} */
