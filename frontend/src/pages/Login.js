@@ -51,12 +51,12 @@ const Loginpage = () => {
                             placeholder='○○ △△'
                             />
                         <p>&nbsp;</p>
-                        <label htmlFor='email' className='text-sm block'>
+                        <label htmlFor='password' className='text-sm block'>
                         Password :&thinsp;
                         </label>
                             <input
-                            id='email'
-                            type='text'
+                            id='password'
+                            type='password'
                             className="transparent-input"
                             placeholder='test@example.com'
                             />
@@ -67,6 +67,18 @@ const Loginpage = () => {
                     onClick={() => navigate("/")}
                     >
                     <div className="log-in">Log in</div>
+                    <div/>
+
+                    <p>&thinsp;</p>
+                    <p>&thinsp;</p>
+                    <p>&thinsp;</p>
+                    <p>&thinsp;</p>
+
+                    <div
+                    className="sign-in-button"
+                    onClick={() => navigate("/Signup")}
+                    >
+                    <div className="sign-in">新規登録はこちらから</div>
                     <div/>
         
                 {/* <div className="login-text-container">
@@ -158,8 +170,8 @@ const Loginpage = () => {
                   <div className="top-item-text-title">新しい着こなし方</div>
                   <div className="top-item-text">
             今までしたことがなかったコーディネートを知るきっかけになります。
-                  </div> 
-                </div> */}
+                  </div> */}
+                </div> 
             </div> 
             </div> 
           </div> 
