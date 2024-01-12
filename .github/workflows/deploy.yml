@@ -15,8 +15,6 @@ jobs:
           config: ${{ secrets.SSH_CONFIG }}
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Grant execute permission to docker_start.sh
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'chmod +x /home/$USER/tbd-develop/docker_start.sh'
       - name: Deploy with rsync
         run: |
           ls -a
@@ -24,4 +22,5 @@ jobs:
           rsync -auvPz ./ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/tbd-develop/
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; touch .env.local; echo OPENAI_API_KEY=\"${{ secrets.OPENAI_API_KEY }}\" >> .env.local'
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; echo REACT_BASE_URL=\"tbd-develop.st.ie.u-ryukyu.ac.jp\" >> .env.local'
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'chmod +x /home/$USER/tbd-develop/docker_start.sh'
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop; ./docker_start.sh
