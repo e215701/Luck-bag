@@ -9,4 +9,8 @@ npm install dotenv
 npm install crypto
 npm install http
 npm install ws
+npm install bcrypt
+npm install jsonwebtoken 
+npm install pg 
+npm install pg-pool
 npm start
