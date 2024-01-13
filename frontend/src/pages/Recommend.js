@@ -11,6 +11,11 @@ const Recommend = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [response, setResponse] = useState("");
   const [generatedImage, setGeneratedImage] = useState(null);
+
+  // 初期値に画像を設定
+  // const [generatedImage, setGeneratedImage] = useState("./images/clothes.jpg");
+  const [isChecked, setIsChecked] = useState(true);
+  const imgElement = document.getElementById("heart-icon");
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
@@ -18,9 +23,9 @@ const Recommend = () => {
   // GIFのパスを配列として定義
   const gifs = [
     "./images/Luck-Bag_Animation_v2_1.gif",
-    "./images/Luck-Bag_Animation_v2_2.gif" // 仮の2つ目のGIFパスを設定
-    ];
-    
+    "./images/Luck-Bag_Animation_v2_2.gif", // 仮の2つ目のGIFパスを設定
+  ];
+
   // useStateを追加して選択されたGIFを管理
   const [selectedGif, setSelectedGif] = useState(gifs[0]);
 
@@ -35,61 +40,61 @@ const Recommend = () => {
     }
 
     const handleResize = () => {
-        setScreenHeight(window.innerHeight);
-        setScreenWidth(window.innerWidth);
-      };
-      // 0.5秒後にページを表示するように設定
-      const timeoutId = setTimeout(() => {
-        setShowPage(true);
-      }, 2500);
-  
-      window.addEventListener("resize", handleResize);
-  
-      // 最初の一回だけ取得する
-      handleResize();
+      setScreenHeight(window.innerHeight);
+      setScreenWidth(window.innerWidth);
+    };
+    // 0.5秒後にページを表示するように設定
+    const timeoutId = setTimeout(() => {
+      setShowPage(true);
+    }, 2500);
+
+    window.addEventListener("resize", handleResize);
+
+    // 最初の一回だけ取得する
+    handleResize();
 
     const cleanupFunctions = () => {
-        // コンポーネントがアンマウントされたらここでリスナーを削除
-        window.removeEventListener("resize", handleResize);
-        clearTimeout(timeoutId); // タイムアウトのクリアもここで行う
-        textItems.forEach((text) => {
-          observer.unobserve(text);
-        });
-      };
-    
-      // 監視対象の要素を取得
-      const textItems = document.querySelectorAll(".fade-text");
-    
-      // 監視対象の要素に対する処理
-      const showElements = (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // 監視対象の条件を満たしたら .reveal を追加
-            entry.target.classList.add("reveal");
-          } else {
-            // 監視対象の条件から外れたら .reveal を削除
-            // ※アニメーションを繰り返さない場合はコメントアウト
-            entry.target.classList.remove("reveal");
-          }
-        });
-      };
-      // 監視対象が到達したとみなす条件
-      const options = {
-        rootMargin: "0px",
-        threshold: 1.0, // [0-1]
-      };
-    
-      const observer = new IntersectionObserver(showElements, options);
-    
-      // 対象要素すべてについて監視を開始
+      // コンポーネントがアンマウントされたらここでリスナーを削除
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeoutId); // タイムアウトのクリアもここで行う
       textItems.forEach((text) => {
-        observer.observe(text);
+        observer.unobserve(text);
       });
-    
-      // GIFをランダムに選択する処理を追加
-      setSelectedGif(gifs[Math.floor(Math.random() * gifs.length)]);
-    
-      return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
+    };
+
+    // 監視対象の要素を取得
+    const textItems = document.querySelectorAll(".fade-text");
+
+    // 監視対象の要素に対する処理
+    const showElements = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 監視対象の条件を満たしたら .reveal を追加
+          entry.target.classList.add("reveal");
+        } else {
+          // 監視対象の条件から外れたら .reveal を削除
+          // ※アニメーションを繰り返さない場合はコメントアウト
+          entry.target.classList.remove("reveal");
+        }
+      });
+    };
+    // 監視対象が到達したとみなす条件
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0, // [0-1]
+    };
+
+    const observer = new IntersectionObserver(showElements, options);
+
+    // 対象要素すべてについて監視を開始
+    textItems.forEach((text) => {
+      observer.observe(text);
+    });
+
+    // GIFをランダムに選択する処理を追加
+    setSelectedGif(gifs[Math.floor(Math.random() * gifs.length)]);
+
+    return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
   }, [location.state]);
 
   const handleClick = () => {
@@ -97,6 +102,18 @@ const Recommend = () => {
     setResponse(null);
     setGeneratedImage(null);
     createCoordinate(selectedImage);
+  };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      console.log("checked");
+      if (imgElement) {
+        imgElement.src = "./images/pushed-heart-icon.png"; // 新しい画像のパスに変更してください
+      }
+    } else {
+      imgElement.src = "./images/heart-icon.png";
+    }
   };
 
   const createCoordinate = (imageFile) => {
@@ -156,13 +173,16 @@ const Recommend = () => {
             }}
           />
         </div>
-        
       )}
       {generatedImage && (
         <div className="recommend-page">
           <div className="recommend-up">
             <img className="recommend-up-image" src={selectedImage}></img>
-            <img className="recommend-x" src="./images/x-button.png"></img>
+            <img
+              className="recommend-x"
+              src="./images/x-button.png"
+              onClick={() => navigate("/Upload")}
+            ></img>
           </div>
           <div className="recommend-code">
             <div className="recommend-headline">おすすめコーデ</div>
@@ -189,15 +209,26 @@ const Recommend = () => {
                   src="./images/download-button.png"
                 ></img>
               </a>
-              <img
-                className="recommend-code-icon"
-                src="./images/heart-button.png"
-              ></img>
+              <input
+                type="checkbox"
+                className="recommend-heart-btn"
+                id="heart-btn"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
+              <label htmlFor="heart-btn" className="recommend-icon-container">
+                <img
+                  className="recommend-heart-icon"
+                  src="./images/heart-icon.png"
+                  id="heart-icon"
+                />
+                {/* <div className="heart"></div> */}
+              </label>
             </div>
             <div className="recommend-code-text">{response}</div>
             <button
               className="recommend-code-button"
-              onClick={() => navigate("/Top")}
+              onClick={() => navigate("/")}
             >
               トップに戻る
             </button>
