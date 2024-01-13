@@ -11,16 +11,14 @@ const Upload = () => {
 
   useEffect(() => {
     if (imageData) {
-        goToRecommend();
-      }
-    
+      goToRecommend();
+    }
 
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
       setScreenWidth(window.innerWidth);
     };
 
-    
     window.addEventListener("resize", handleResize);
 
     // 最初の一回だけ取得する
@@ -31,9 +29,7 @@ const Upload = () => {
       window.removeEventListener("resize", handleResize);
     };
     return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
-}, [imageData]);
-
-
+  }, [imageData]);
 
   const onFileChange = (e) => {
     const files = e.target.files;
@@ -55,129 +51,98 @@ const Upload = () => {
   };
 
   return (
-    // <div className="upload-upload">
-    //   <div className="header">LuckBag</div>
-    //   <div className="upload-container">
-    //     <label
-    //       htmlFor="upload"
-    //       // style={{
-    //       //   alignItems: "center",
-    //       //   outline: "2px solid blue",
-    //       // }}
-    //     >
-        //   <div className="upload-picture-container">
-        //     <img className="upload-picture" alt="" src={imageData}></img>
-        //     <input
-        //       id="upload"
-        //       type="file"
-        //       name="image"
-        //       accept="image/*"
-        //       onChange={onFileChange}
-        //       style={{ display: "none" }}
-        //     />
-        //   </div>
-    //     </label>
-
-    //     <button className="upload-button" onClick={goToRecommend}>
-    //       Coordinate
-    //     </button>
-    //   </div>
-
-    //   {/* {imageData && (
-    //     <div>
-    //       <img src={imageData} alt="Uploaded" width="200" height="60" />
-    //     </div>
-    //   )} */}
-    // </div>
     <div id="upload-page">
-        <div id="wrapper">
-          <div id="content" className="fade-in">
-            {/* <div className="header">LuckBag</div> */}
-            <header class="header">
-              <div class="navtext-container">
-                <div class="navtext">company</div>
-              </div>
+      <div id="wrapper">
+        <div id="content" className="fade-in">
+          {/* <div className="header">LuckBag</div> */}
+          <header class="header">
+            <div className="top-hum-icon">
               <input type="checkbox" class="menu-btn" id="menu-btn" />
               <label for="menu-btn" class="menu-icon">
                 <span class="navicon"></span>
               </label>
               <ul class="menu">
-                <li class="top">
-                  <a href="#home">home</a>
+                <div className="menu-spacer"></div>
+                <li>
+                  <a onClick={() => navigate("/")}>TOP</a>
                 </li>
                 <li>
-                  <a href="#skills">skills</a>
+                  <a onClick={() => navigate("/Upload")}>UPLOAD</a>
                 </li>
                 <li>
-                  <a href="#projects">projects</a>
+                  <a onClick={() => navigate("/History")}>HISTORY</a>
                 </li>
                 <li>
-                  <a href="#contact">contact</a>
+                  <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
                 </li>
               </ul>
-            </header>
+            </div>
+            <div class="navtext-container">
+              <div class="navtext" onClick={() => navigate("/")}>
+                Luck Bag
+              </div>
+            </div>
+            <img className="top-login-icon" src="./images/login-icon.png"></img>
+          </header>
 
-            <div className="upload-page"
-                style={{
-                  width: `${screenWidth}px`,
-                }}
-            >
-
+          <div
+            className="upload-page"
+            style={{
+              width: `${screenWidth}px`,
+            }}
+          >
             <img
-                    className="upload-image"
-                    src="./images/image-12_1.jpeg"
-                    alt="image1"
-                    style={{
-                      height: `${screenHeight}px`,
-                      width: `${screenWidth}px`,
-                    }}
-                  />
+              className="upload-image"
+              src="./images/image-12_1.jpeg"
+              alt="image1"
+              style={{
+                height: `${screenHeight}px`,
+                width: `${screenWidth}px`,
+              }}
+            />
 
-              <div className="upload-item-container">
-                <div className="upload-item-headline">写真のポイント</div>
-                <div className="upload-item-text-center">
-                  服の形がはっきりとわかる写真にしましょう。
-                </div>
+            <div className="upload-item-container">
+              <div className="upload-item-headline">写真のポイント</div>
+              <div className="upload-item-text-center">
+                服の形がはっきりとわかる写真にしましょう。
+              </div>
+            </div>
+            <div className="upload-item-container">
+              <div className="upload-item-text-center">
+                <p>写真に複数の服が写っていると、</p>
+                <p>うまくいかない場合があります。</p>
               </div>
               <div className="upload-item-container">
-                <div className="upload-item-text-center">
-                  <p>写真に複数の服が写っていると、</p>
-                  <p>うまくいかない場合があります。</p>                
-                </div>
-                <div className="upload-item-container">
                 {/* <button className="upload-button" onClick={goToRecommend}>
                     写真をアップロードする
                 </button> */}
 
                 <div className="upload-picture-container">
-                    {/* <img className="upload-picture" alt="" src={imageData}></img> */}
-                    <input
+                  {/* <img className="upload-picture" alt="" src={imageData}></img> */}
+                  <input
                     id="upload"
                     type="file"
                     name="image"
                     accept="image/*"
                     onChange={onFileChange}
                     style={{ display: "none" }}
-                    />
+                  />
                 </div>
 
-                <label
-                    htmlFor="upload"
-                    class="upload-button"
-                >
-                    <div class="upload-button-text">写真をアップロードする</div>
+                <label htmlFor="upload" class="upload-button">
+                  <div class="upload-button-text">写真をアップロードする</div>
                 </label>
-                
+
                 {/* {imageData && (
                     <div>
                         <img src={imageData} alt="Uploaded" width="200" height="60" />
                     </div>
                 )} */}
-                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
   );
 };
