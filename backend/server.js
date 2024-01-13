@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const OpenAI = require("openai");
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { Pool } = require("pg");
 require("dotenv").config({ path: "./.env.local" });
 
 const app = express();
@@ -23,7 +26,7 @@ const allowedOrigins = [
   `http://${process.env.REACT_BASE_URL}:8080`,
 ];
 
-console.log(allowedOrigins);
+//console.log(allowedOrigins);
 const corsOptions = {
   origin: function (origin, callback) {
     // originが許可されたリストに含まれているか確認
@@ -43,6 +46,43 @@ const corsOptions = {
 app.use(cors(corsOptions));
 console.log("cors setting complete");
 
+const pool = new Pool({
+  user: `${process.env.POSTGRES_USER}`,
+  host: `db`,
+  database: `${process.env.POSTGRES_DB}`,
+  password: `${process.env.POSTGRES_PASSWORD}`,
+  port: 5432,
+});
+
+// JWTの検証と認証ミドルウェア
+const authenticateToken = (req, res, next) => {
+  console.log("確認中");
+  const token = req.header("Authorization");
+  console.log(token);
+  if (!token) {
+    console.log("ログインしていないです。");
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  jwt.verify(token, `${process.env.SECRET_KEY}`, (err, user) => {
+    if (err) {
+      console.error("Token verification error:", err);
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    console.log("Token verified successfully");
+    console.log(user);
+    req.user = user;
+    next();
+  });
+};
+
+// 認証情報を提供するエンドポイント
+app.get("/api/authenticate", authenticateToken, (req, res) => {
+  console.log("認証が行われています");
+  res.json({ isAuthenticated: true });
+  console.log("認証情報を送信しました。");
+});
+
 const processedRequestsOfVision = new Set();
 const processedRequestsOfGenerate = new Set();
 
@@ -55,6 +95,7 @@ app.listen(PORT, () => {
 });
 
 app.post("/api/generateVision", async (req, res) => {
+  console.log("通信重複確認");
   // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
   const requestBodyHashOfVision = crypto
     .createHash("sha256")
@@ -146,5 +187,65 @@ app.post("/api/generate", async (req, res) => {
       error: "画像の生成に失敗しました。",
       details: error.message,
     });
+  }
+});
+
+// ユーザー登録のエンドポイント
+app.post("/api/register", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // パスワードをハッシュ化
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("ハッシュ化完了");
+    // PostgreSQLに新しいユーザーを追加
+
+    await pool.query(
+      "INSERT INTO accounts (username, password) VALUES ($1, $2)",
+      [username, hashedPassword]
+    );
+    console.log("追加完了");
+    res.json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // PostgreSQLでユーザー認証を行う
+    const result = await pool.query(
+      "SELECT * FROM accounts WHERE username = $1",
+      [username]
+    );
+
+    if (result.rows.length === 1) {
+      console.log("ユーザーが存在します。");
+      // パスワードの比較
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        result.rows[0].password
+      );
+
+      if (isPasswordValid) {
+        console.log("パスワード認証完了");
+        // 認証成功時にJWTを発行
+        const token = jwt.sign({ username }, `${process.env.SECRET_KEY}`);
+        res.json({ token });
+        console.log("トークン発行完了");
+      } else {
+        // パスワードが一致しない場合
+        res.status(401).json({ error: "Authentication failed" });
+      }
+    } else {
+      // ユーザーが存在しない場合
+      res.status(401).json({ error: "Authentication failed" });
+    }
+  } catch (error) {
+    console.error("Error authenticating user:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
