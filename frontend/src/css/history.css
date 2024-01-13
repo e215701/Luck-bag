@@ -1,3 +1,30 @@
+input[type="checkbox"] {
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type="checkbox"] {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  vertical-align: -5px;
+}
+
+input[type="checkbox"]:checked:before {
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  transform: rotate(50deg);
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  content: "";
+}
+
 .history-page {
   position: relative;
   width: 100%;
@@ -19,28 +46,42 @@
   height: 80px;
   z-index: 1010;
   display: flex;
+  border-bottom: 0.5px solid var(--color-hickory);
 }
 .history-header-button {
   position: fixed;
-  width: 200px;
+  width: 100%;
   height: 30px;
-  display: flex;
   top: 50px;
-  right: 0px;
+  left: 0px;
 }
 .history-header-checkbox {
   display: none;
 }
-.history-header-text {
-  position: relative;
+.history-header-sort {
+  color: var(--color-hickory);
+  position: absolute;
+  top: 0px;
+  right: 0px;
   width: auto;
   height: auto;
-  flex: 1;
+  display: inline-block;
+  margin: 0 10px 0 10px;
+}
+.history-header-filter {
+  color: var(--color-hickory);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: auto;
+  height: auto;
+  display: inline-block;
+  margin: 0 10px 0 10px;
 }
 
 .history-container {
   position: relative;
-  top: 80px;
+  top: 96px;
   height: auto;
   max-width: 500px;
   width: 100%;
@@ -51,8 +92,8 @@
 }
 
 .history-image {
-  width: calc(33.33% - 6.66px);
-  margin-bottom: 10px;
+  width: calc(33.33% - 2.66px);
+  margin-bottom: 4px;
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
@@ -62,7 +103,7 @@
 
 .history-image:nth-child(3n + 1) {
   margin-left: 0;
-  margin-right: 10px;
+  margin-right: 4px;
 }
 
 /* 修正：余白を均等に配置するために margin を追加 */
@@ -73,7 +114,7 @@
 
 /* 修正：余白を均等に配置するために margin を追加 */
 .history-image:nth-child(3n + 3) {
-  margin-left: 10px;
+  margin-left: 4px;
   margin-right: 0;
 }
 
@@ -84,15 +125,28 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
-  z-index: 999; /* Set z-index to ensure it's above other elements */
+  background-color: var(--color-linen);
   overflow: auto; /* Add overflow for scroll if content is too long */
   border-radius: 10px;
   text-align: center;
   align-items: center;
   justify-content: center;
+  max-width: 400px;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 }
 
+.history-popup-bg {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 4999;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
 .history-popup-button {
   width: 50px;
   height: 50px;
@@ -110,27 +164,61 @@
 
 .history-popup-text {
   position: relative;
+  display: inline-block;
   width: auto;
   height: auto;
   font-size: var(--font-size-xxl);
-  margin: 20px 0px 20px 0px;
+  margin: 21px 0px 21px 0px;
+  font-family: var(--font-kaisei-opti);
 }
 
 .history-popup-content {
-  width: 75%;
-  left: 50%;
+  width: 100%;
+  height: 100px;
   position: relative;
   text-align: center;
   align-items: center;
   justify-content: center;
-  transform: translate(-50%, 0);
 }
 
+.history-popup-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 12px 0 12px;
+  width: calc(100% - 24px);
+  aspect-ratio: 1/1;
+  display: flex;
+
+  flex-direction: column;
+}
 .history-popup-image {
   width: 100%;
+  height: auto;
   aspect-ratio: 1/1;
   object-fit: cover;
-  margin: 0px 0 30px 0;
   border-radius: 20px;
   outline: 3px solid var(--color-fawn);
+  overflow: hidden;
+}
+
+.history-popup-img-item {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.history-popup-content-text {
+  width: calc(100% - 50px);
+  position: relative;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  /* transform: translate(-50%, 0); */
+  font-family: var(--font-kaisei-opti);
+  font-size: var(--font-size-base);
+  color: var(--color-hickory);
+  text-align: left;
+
+  flex: 1;
 }

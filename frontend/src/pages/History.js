@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Splide, SplideTrack, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 import "../css/global.css";
 import "../css/history.css";
 import "../css/top.css";
 
 const History = () => {
   const navigate = useNavigate();
+  const [screenHeight, setScreenHeight] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(0);
   const [imageData, setImageData] = useState([
     {
       id: 1,
@@ -45,21 +49,21 @@ const History = () => {
   const [originalOrder, setOriginalOrder] = useState([...imageData]);
   const [sortAscending, setSortAscending] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [sortChecked, setSortChecked] = useState(false);
 
   const handleSortCheckboxChange = () => {
     let sortedData;
     if (filterChecked) {
       sortedData = [...filteredData].sort((a, b) => {
-        return sortAscending ? b.id - a.id : a.id - b.id;
+        return sortChecked ? a.id - b.id : b.id - a.id; // 修正点
       });
       setFilteredData(sortedData);
     } else {
       sortedData = [...originalOrder].sort((a, b) => {
-        return sortAscending ? b.id - a.id : a.id - b.id;
+        return sortChecked ? a.id - b.id : b.id - a.id; // 修正点
       });
       setImageData(sortedData);
       setOriginalOrder(sortedData); // ソート後の順序を新しい原本として保存
-      setSortAscending(!sortAscending);
     }
     console.log("並べ替え");
   };
@@ -84,7 +88,16 @@ const History = () => {
   };
 
   useEffect(() => {
-    setOriginalOrder([...imageData]);
+    const handleResize = () => {
+      setScreenHeight(window.innerHeight);
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    // cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [imageData]);
 
   return (
@@ -113,31 +126,36 @@ const History = () => {
         </div>
         <div className="navtext-container">
           <div className="navtext" onClick={() => navigate("/")}>
-            History
+            Luck bag
           </div>
         </div>
         <img className="top-login-icon" src="./images/login-icon.png"></img>
 
         <div className="history-header-button">
-          <input
-            type="checkbox"
-            className="history-header-checkbox"
-            id="sortCheckbox"
-            onChange={handleSortCheckboxChange}
-          />
-          <label htmlFor="sortCheckbox" className="history-header-text">
-            並べ替え
-          </label>
-          <input
-            type="checkbox"
-            className="history-header-checkbox"
-            id="filterCheckbox"
-            onChange={handleFilterCheckboxChange}
-            checked={filterChecked}
-          />
-          <label htmlFor="filterCheckbox" className="history-header-text">
-            絞り込み
-          </label>
+          <div className="history-header-sort">
+            <input
+              type="checkbox"
+              className="history-header-checkbox"
+              id="sortCheckbox"
+              onChange={() => {
+                setSortChecked(!sortChecked);
+                handleSortCheckboxChange();
+              }}
+              checked={sortChecked}
+            />
+            <label htmlFor="sortCheckbox">
+              {sortChecked ? "↓降順" : "↑昇順"}
+            </label>
+          </div>
+          <div className="history-header-filter">
+            <input
+              type="checkbox"
+              id="filterCheckbox"
+              onChange={handleFilterCheckboxChange}
+              checked={filterChecked}
+            />
+            <label htmlFor="filterCheckbox">お気に入り</label>
+          </div>
         </div>
       </header>
       <div className="history-container">
@@ -160,20 +178,56 @@ const History = () => {
             ))}
       </div>
       {selectedImage && (
-        <div className="history-popup">
-          <span className="history-popup-close" onClick={closePopup}>
-            &times;
-          </span>
-          <div className="history-popup-text">コーデについて</div>
-          <div className="history-popup-content">
-            <img
-              className="history-popup-image"
-              src={selectedImage.src}
-              alt={`Image ${selectedImage.id}`}
-            />
-            <p>ここに詳細な説明やテキストが入ります。</p>
+        <>
+          <div
+            className="history-popup-bg"
+            onClick={closePopup}
+            style={{ width: `${screenWidth}px`, height: `${screenHeight}px` }}
+          />
+          <div className="history-popup">
+            <div className="history-popup-close" onClick={closePopup}>
+              &times;
+            </div>
+            <div className="history-popup-text">コーデについて</div>
+            <Splide
+              className="history-popup-container"
+              hasTrack={false}
+              id="image-carousel"
+              options={{ arrows: false }}
+            >
+              <div className="history-popup-image">
+                <SplideTrack>
+                  <SplideSlide>
+                    <img
+                      className="history-popup-img-item"
+                      src={selectedImage.src}
+                    />
+                  </SplideSlide>
+                  <SplideSlide>
+                    <img
+                      className="history-popup-img-item"
+                      src={selectedImage.src}
+                    />
+                  </SplideSlide>
+                </SplideTrack>
+              </div>
+              <div
+                className="splide__pagination"
+                style={{
+                  color: "pink",
+                  position: "relative",
+                  bottom: "0px",
+                  margin: "5px 0 0 0",
+                }}
+              />
+            </Splide>
+
+            {/* </div> */}
+            <p className="history-popup-content-text">
+              ここに詳細な説明やテキストが入ります。
+            </p>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
