@@ -29,7 +29,7 @@ loginページ
     top: 50%;           /* 要素を上から50%の位置に設定 */
     left: 50%;          /* 要素を左から50%の位置に設定 */
     transform: translate(-50%, -50%); /* 要素を縦横中央に */
-    color: white;       /* 見やすさのために白色に設定(画像によっては変更が必要) */
+    color: var(--color-white);       /* 見やすさのために白色に設定(画像によっては変更が必要) */
     text-align: center; /* テキストを中央揃えに */
     z-index: 10;        /* z-indexで画層を調整 */
 }
@@ -46,15 +46,15 @@ loginページ
 .login-container {
     position: absolute;
     top: 392px;
-    background-color: rgba(255, 255, 255, 0.36);
-    width: 398px;
+    background-color: rgba(0, 0, 0, 0.30);
+    width: 100%;
     height: 206px;
 }
-.luck-bag {
+.login-luck-bag {
     position: absolute;
     top: 221px;
     font-family: var(--font-libre-bodoni);
-    font-size: var(--font-size-loadingicon);
+    font-size: 50px; /* 変更したいテキストの大きさを指定してください */
 }
 input.transparent-input {
     background-color: transparent; /* 入力欄の背景を透明にする */
@@ -83,22 +83,59 @@ input.transparent-input::placeholder {
 .login-button {
     position: absolute;
     top: 616px;
-    border: 2px solid #d9d9d9;
+    border: 4px solid #d9d9d9;
     background-color: none;
-    width: 211px;
-    height: 59px;
+    width: 201px;
+    height: 50px;
+    padding:5px; 
+    border-radius:7px; 
     cursor: pointer;
 }
 .log-in {
     position: relative;
-    top: 7px;
-    font-size: var(--font-size-xl);
+    top: -5px;
+    font-size: var(--font-size-header);
     /* text-align: center; */
     /* display: flex; */
     /* align-items: center; */
     /* justify-content: center; */
     cursor: pointer;
 }
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 中央に配置する場合 */
+    gap: 10px; /* ボタン間の隙間 */
+}
+.sign-in-button {
+    position: absolute;
+    top: calc(616px + 59px + 30px); /* login-buttonのtop + height + 希望の余白 */
+    background-color: transparent; /* 背景透明 */
+    width: 211px; /* login-buttonと同じ幅 */
+    height: 59px; /* login-buttonと同じ高さ */
+    cursor: pointer;
+    display: flex;
+    justify-content: center; /* ボタン内のテキストを中央揃えに */
+    align-items: center; /* ボタン内のテキストを中央揃えに */
+}
+  
+/* 新規登録ボタンのテキストスタイル */
+.sign-in {
+    font-size: var(--font-size-xl); /* 見た目の一貫性のためにloginと同じサイズ */
+    color: var(--color-white); /* テキストの色をwhiteに */
+    border-bottom: 1px solid var(--color-white);
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-linen);
+    z-index: 10; /* 他のコンテンツより上に表示させるためのz-index */
+}
+  
   
 
 /* 
@@ -107,43 +144,30 @@ input.transparent-input::placeholder {
 
  */
 
-
-.fade-out {
-  opacity: 0;
-}
-
-.fade-in {
-  opacity: 1;
-  animation: fadeIn 2s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+ .fade-Out {
+    animation: fadeout 1s ease-out forwards;
   }
-  to {
-    opacity: 1;
+  
+  @keyframes fadeout {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      display: none;
+    }
   }
-}
-
-#content {
-  order: 1;
-  opacity: 0;
-  transition: opacity 3s ease-in-out;
-}
-
-.fade-in #content {
-  opacity: 1;
-  height: auto;
-}
-
-/* ポップアップ？？ */
-/* .tooltip-container {
-  position: fixed;
-  bottom: 15px;
-  left: 15px;
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-} */
+  
+  .fade-In {
+    animation: fadein 0.05s ease-in forwards;
+  }
+  
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
