@@ -215,7 +215,7 @@ body {
 }
 
 .top-item-container {
-  margin: 20px 0px 20px 0px;
+  margin: 0px 0px 10px 0px;
   align-items: flex-start; /* 縦方向 */
   justify-content: center;
   height: auto;
