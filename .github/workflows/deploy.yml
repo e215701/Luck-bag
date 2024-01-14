@@ -22,4 +22,8 @@ jobs:
           rsync -auvPz ./ ${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/tbd-develop/
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; touch .env.local; echo OPENAI_API_KEY=\"${{ secrets.OPENAI_API_KEY }}\" >> .env.local'
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; echo REACT_BASE_URL=\"tbd-develop.st.ie.u-ryukyu.ac.jp\" >> .env.local'
+          ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; echo POSTGRES_USER=\"${{ secrets.SQL_USER }}\" >> .env.local'
+          ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; echo POSTGRES_DB=\"${{ secrets.SQL_DB }}\" >> .env.local'
+          ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; echo POSTGRES_PASSWORD=\"${{ secrets.SQL_PASS }}\" >> .env.local'
+          ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop/backend; echo SECRET_KEY=\"${{ secrets.HASH_SECRET_KEY }}\" >> .env.local'
           ssh ${{ secrets.SSH_HOST }} 'cd /home/$USER/tbd-develop; docker-compose down --rmi all --volumes --remove-orphans;  docker-compose -f compose.prod.yaml up -d --build'

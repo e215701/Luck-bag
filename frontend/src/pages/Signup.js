@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "@splidejs/react-splide/css";
 import "../css/global.css";
@@ -10,6 +10,9 @@ const Signup = () => {
     const [screenHeight, setScreenHeight] = useState(0);
     const [screenWidth, setScreenWidth] = useState(0);
     const [loadingState, setLoadingState] = useState(true); // trueでロード時の黒画面を示す
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
   
     useEffect(() => {
       const handleResize = () => {
@@ -19,21 +22,44 @@ const Signup = () => {
   
       const timeoutId = setTimeout(() => {
         setShowPage(true);
-      }, 50);
+      }, 100);
   
       window.addEventListener("resize", handleResize);
       handleResize();
   
       // ローディング状態をフェードアウトするタイムアウトを設定
       const loadingTimeoutId = setTimeout(() => setLoadingState(false), 150);
-  
+    
       return () => {
           clearTimeout(loadingTimeoutId);
           window.removeEventListener('resize', handleResize);
         };
-  
-      
     }, []);
+  
+
+  const handleSignup = async () => {
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        // ユーザー登録成功時の処理
+        navigate("/Login");
+      } else {
+        // ユーザー登録失敗時の処理
+        const errorData = await response.json();
+        setError(errorData.error);
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      setError("An error occurred during signup.");
+    }
+  };
 
   return (
     <div id="sign-up-page">
@@ -54,27 +80,32 @@ const Signup = () => {
                         <label htmlFor='your_name' className='text-sm block'>
                         Name :&thinsp;
                         </label>
-                            <input
-                            id='your_name'
-                            type='text'
+                        <input
+                            id="your_name"
+                            type="text"
                             className="transparent-input"
-                            placeholder='○○ △△'
-                            />
+                            placeholder="○○ △△"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
                         <p>&nbsp;</p>
                         <label htmlFor='password' className='text-sm block'>
                         Password :&thinsp;
                         </label>
-                            <input
+                        <input
                             id="password"
-                            type="password"
+                            type="password" // パスワード入力用のフィールドに変更
                             className="transparent-input"
-                            placeholder='************'
-                            />
-                    </span>
+                            placeholder="password1234"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        </span>
                     </div>
+                    {error && <div className="error-message">{error}</div>}
                     <div
                     className="sign-up-button"
-                    onClick={() => navigate("/")}
+                    onClick={handleSignup}
                     >
                     <div className="sign-up">Sign up</div>
                     <div/>              
@@ -82,6 +113,7 @@ const Signup = () => {
                 </div> 
               </div> 
             </div> 
+
       )}
     </div>
   );

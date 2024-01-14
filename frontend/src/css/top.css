@@ -17,21 +17,6 @@ topページ
   display: flex;
   flex-direction: column;
 }
-/* .header {
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  color: var(--color-black);
-  background: linear-gradient(180deg, #d5d2c1 3.13%, rgba(213, 210, 193, 0));
-  font-family: var(--font-libre-bodoni);
-  font-size: var(--font-header);
-  display: flex;
-  width: 100%;
-  height: 80px;
-  z-index: 1000;
-} */
 
 .header {
   background: linear-gradient(to bottom, var(--color-linen), transparent);
@@ -40,6 +25,7 @@ topページ
   width: 100%;
   height: 80px;
   z-index: 1010;
+  display: flex;
 }
 
 /* ハンバーガーメニュー */
@@ -83,7 +69,7 @@ body {
   transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
 }
 
-/* Hamburger menbu text */
+/* Hamburger menu text */
 .menu a {
   text-decoration: none;
   font-weight: 500;
@@ -182,9 +168,9 @@ body {
 
 /* Navbar Container */
 .navtext-container {
-  width: 100%;
+  flex: 1;
+  width: auto;
   height: 52px;
-  position: absolute;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -201,6 +187,21 @@ body {
   font-family: var(--font-libre-bodoni);
 }
 
+.top-hum-icon {
+  width: 52px;
+  height: 52px;
+  right: -100px;
+  top: 0px;
+  flex: 0;
+}
+.top-login-icon {
+  width: 35px;
+  height: 35px;
+  aspect-ratio: 1f;
+  flex: 0;
+  margin: 9px;
+}
+
 .top-image {
   object-fit: cover;
   display: block;
@@ -214,7 +215,7 @@ body {
 }
 
 .top-item-container {
-  margin: 20px 0px 20px 0px;
+  margin: 0px 0px 10px 0px;
   align-items: flex-start; /* 縦方向 */
   justify-content: center;
   height: auto;
@@ -339,6 +340,8 @@ body {
 }
 
 .loading-image {
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
   filter: contrast(60%) brightness(70%);

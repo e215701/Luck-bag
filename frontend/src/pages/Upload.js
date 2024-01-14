@@ -13,16 +13,14 @@ const Upload = () => {
 
   useEffect(() => {
     if (imageData) {
-        // goToRecommend();
-      }
-    
+      goToRecommend();
+    }
 
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
       setScreenWidth(window.innerWidth);
     };
 
-    
     window.addEventListener("resize", handleResize);
 
     // 最初の一回だけ取得する
@@ -33,9 +31,7 @@ const Upload = () => {
       window.removeEventListener("resize", handleResize);
     };
     return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
-}, [imageData]);
-
-
+  }, [imageData]);
 
   const onFileChange = (e) => {
     const files = e.target.files;
@@ -78,17 +74,18 @@ const Upload = () => {
                 <span class="navicon"></span>
               </label>
               <ul class="menu">
-                <li class="top">
-                  <a href="#home">home</a>
+                <div className="menu-spacer"></div>
+                <li>
+                  <a onClick={() => navigate("/")}>TOP</a>
                 </li>
                 <li>
-                  <a href="#skills">skills</a>
+                  <a onClick={() => navigate("/Upload")}>UPLOAD</a>
                 </li>
                 <li>
-                  <a href="#projects">projects</a>
+                  <a onClick={() => navigate("/History")}>HISTORY</a>
                 </li>
                 <li>
-                  <a href="#contact">contact</a>
+                  <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
                 </li>
               </ul>
             </header>

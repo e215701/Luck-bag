@@ -2,19 +2,19 @@
 uploadページ
 */
 .upload-page {
-    position: relative; /* 相対的 */
-    background-color: var(--color-linen);
-    width: auto;
-    height: auto;
-    overflow: visible;
-    text-align: center;
-    align-items: center;
-    font-size: var(--font-size-base);
-    color: var(--color-black);
-    font-family: var(--font-inter);
-    display: flex;
-    flex-direction: column;
-  }
+  position: relative; /* 相対的 */
+  background-color: var(--color-linen);
+  width: auto;
+  height: auto;
+  overflow: visible;
+  text-align: center;
+  align-items: center;
+  font-size: var(--font-size-base);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+  display: flex;
+  flex-direction: column;
+}
 
   .upload-button {
     position: relative;
@@ -344,26 +344,25 @@ uploadページ
   アニメーション
    */
 
-  /* upload.css */
-  #upload-page {
-    position: relative;
-  }
-  
-  .fade-out {
+/* upload.css */
+#upload-page {
+  position: relative;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
     opacity: 0;
   }
-  
-  .fade-in {
+  to {
     opacity: 1;
-    animation: fadeIn 2s ease-in-out forwards;
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
+}

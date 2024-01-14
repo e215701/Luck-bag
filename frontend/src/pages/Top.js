@@ -64,7 +64,10 @@ const Toppage = () => {
     <div id="toppage">
       <div
         className={`loading-icon-container ${showPage ? "fade-out" : ""}`}
-        style={{ width: `${screenWidth}px`, height: `${screenHeight}px` }}
+        style={{
+          width: `${screenWidth}px`,
+          height: `${screenHeight}px`,
+        }}
       >
         <img className="loading-image" src="./images/clothes.jpg" alt="logo" />
         <div className="loading-icon">
@@ -84,30 +87,36 @@ const Toppage = () => {
         <div id="wrapper">
           <div id="content" className="fade-in">
             <header class="header">
+              <div className="top-hum-icon">
+                <input type="checkbox" class="menu-btn" id="menu-btn" />
+                <label for="menu-btn" class="menu-icon">
+                  <span class="navicon"></span>
+                </label>
+                <ul class="menu">
+                  <div className="menu-spacer"></div>
+                  <li>
+                    <a onClick={() => navigate("/")}>TOP</a>
+                  </li>
+                  <li>
+                    <a onClick={() => navigate("/Upload")}>UPLOAD</a>
+                  </li>
+                  <li>
+                    <a onClick={() => navigate("/History")}>HISTORY</a>
+                  </li>
+                  <li>
+                    <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
+                  </li>
+                </ul>
+              </div>
               <div class="navtext-container">
                 <div class="navtext" onClick={() => navigate("/")}>
                   Luck Bag
                 </div>
               </div>
-              <input type="checkbox" class="menu-btn" id="menu-btn" />
-              <label for="menu-btn" class="menu-icon">
-                <span class="navicon"></span>
-              </label>
-              <ul class="menu">
-                <div className="menu-spacer"></div>
-                <li>
-                  <a onClick={() => navigate("/")}>TOP</a>
-                </li>
-                <li>
-                  <a onClick={() => navigate("/Upload")}>UPLOAD</a>
-                </li>
-                <li>
-                  <a onClick={() => navigate("/History")}>HISTORY</a>
-                </li>
-                <li>
-                  <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
-                </li>
-              </ul>
+              <img
+                className="top-login-icon"
+                src="./images/login-icon.png"
+              ></img>
             </header>
 
             <div
@@ -192,8 +201,8 @@ const Toppage = () => {
               </Splide>
 
               <div
-                className="fade-text"
                 ref={(el) => textItemsRef.current.push(el)}
+                className="fade-text"
               >
                 <div className="top-item-headline">PRODUCT</div>
                 <div className="top-item-text">
@@ -201,8 +210,8 @@ const Toppage = () => {
                 </div>
               </div>
               <div
-                className="fade-text"
                 ref={(el) => textItemsRef.current.push(el)}
+                className="fade-text"
               >
                 <div className="top-item-headline">
                   <span className="luckbag"> Luck Bag</span>の特徴

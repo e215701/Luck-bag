@@ -1,15 +1,18 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "@splidejs/react-splide/css";
 import "../css/global.css";
 import "../css/login.css";
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
   const [loadingState, setLoadingState] = useState(true); // trueでロード時の黒画面を示す
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,6 +38,42 @@ const Login = () => {
     
   }, []);
 
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const { token } = await response.json();
+        localStorage.setItem("token", token);
+
+        // 認証情報を再取得
+        await fetch("/api/authenticate", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        // ログイン成功時のリダイレクト先
+        navigate("/");
+
+        // ログイン成功時のコールバック（認証情報の更新など）
+        if (onLoginSuccess) {
+          onLoginSuccess();
+        }
+      } else {
+        setError("名前もしくはパスワードが違います。");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
   return (
     <div id="loginpage">
       <div className={`loading-overlay ${!loadingState ? "fade-Out" : ""}`}></div>
@@ -59,6 +98,8 @@ const Login = () => {
                     type="text"
                     className="transparent-input"
                     placeholder="○○ △△"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                   <p>&nbsp;</p>
                   <label htmlFor="password" className="text-sm block">
@@ -69,23 +110,24 @@ const Login = () => {
                     type="password"
                     className="transparent-input"
                     placeholder="************"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </span>
               </div>
-              <div className="buttons-container">
-                <div className="login-button" onClick={() => navigate("/")}>
-                    <div className="log-in">Log in</div>
-                </div>
-                <div
-                    className="sign-in-button"
-                    onClick={() => navigate("/Signup")}
-                >
-                    <div className="sign-in">新規登録はこちら</div>
-                </div>
+              <div className="login-button" onClick={handleLogin}>
+                <div className="log-in">Log in</div>
               </div>
+              <div
+                className="sign-in-button"
+                onClick={() => navigate("/Signup")}
+              >
+                <div className="sign-in">新規登録はこちらから</div>
+              </div>
+              {error && <div className="error-message">{error}</div>}
             </div>
-          </div> 
-        </div> 
+          </div>
+        </div>
       )}
     </div>
   );
