@@ -77,28 +77,35 @@ const Upload = () => {
         <div id="content" className="fade-in">
           {/* <div className="header">LuckBag</div> */}
           <header class="header">
-            <div class="navtext-container">
-              <div class="navtext">Luck Bag</div>
+            <div className="top-hum-icon">
+              <input type="checkbox" class="menu-btn" id="menu-btn" />
+              <label for="menu-btn" class="menu-icon">
+                <span class="navicon"></span>
+              </label>
+              <ul class="menu">
+                <div className="menu-spacer"></div>
+                <li>
+                  <button onClick={() => navigate("/")}>TOP</button>
+                </li>
+                <li>
+                  <button onClick={() => navigate("/Upload")}>UPLOAD</button>
+                </li>
+                <li>
+                  <button onClick={() => navigate("/History")}>HISTORY</button>
+                </li>
+                <li>
+                  <button onClick={() => navigate("/Howtouse")}>
+                    HOW TO USE
+                  </button>
+                </li>
+              </ul>
             </div>
-            <input type="checkbox" class="menu-btn" id="menu-btn" />
-            <label for="menu-btn" class="menu-icon">
-              <span class="navicon"></span>
-            </label>
-            <ul class="menu">
-              <div className="menu-spacer"></div>
-              <li>
-                <a onClick={() => navigate("/")}>TOP</a>
-              </li>
-              <li>
-                <a onClick={() => navigate("/Upload")}>UPLOAD</a>
-              </li>
-              <li>
-                <a onClick={() => navigate("/History")}>HISTORY</a>
-              </li>
-              <li>
-                <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
-              </li>
-            </ul>
+            <div class="navtext-container">
+              <button class="navtext" onClick={() => navigate("/")}>
+                Luck Bag
+              </button>
+            </div>
+            <img className="top-login-icon" src="./images/login-icon.png"></img>
           </header>
 
           <div
