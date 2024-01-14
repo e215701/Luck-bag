@@ -11,7 +11,7 @@ uploadページ
   align-items: center;
   font-size: var(--font-size-base);
   color: var(--color-black);
-  font-family: var(--font-inter);
+  font-family: var(--font-kaisei-opti);
   display: flex;
   flex-direction: column;
 }
@@ -20,8 +20,10 @@ uploadページ
     position: relative;
     border-radius: var(--br-31xl);
     background-color: var(--color-fawn);
-    width: 304px;
+    width: calc(100% - 80px);
+    margin: 40px 0px 40px 0px;
     height: 103px;
+    /* outline: 2px solid white; */
     cursor: pointer;
     border: none;
     border-radius: 50px 50px 50px 50px;
@@ -33,7 +35,7 @@ uploadページ
     border-radius: var(--br-31xl);
     background-color: var(--color-fawn);
     width: 304px;
-    height: 103px;
+    height: 50px;
     cursor: pointer;
     border: none;
     border-radius: 50px 50px 50px 50px;
@@ -53,166 +55,10 @@ uploadページ
     position: relative;
     color: var(--color-white);
     text-align: center;
-    font-size: var(--font-size-xxl);
+    top: 0px;
     height: 45px;
-    margin: 0px 0px 0px 0px;
-  }
-  
-  .header {
-    background: var(--color-twine);
-    position: fixed;
-    width: 100%;
-    height: 52px;
-    z-index: 1010;
-  }
-  
-  /* ハンバーガーメニュー */
-  .top-menu {
-    position: absolute;
-    top: 15px;
-    right: 100%;
-    width: 50px;
-    height: 50px;
-    color: var(--color-hickory);
-    background: none;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1005;
-  }
-  body {
-    margin: 0;
-    font-family: "Futura", Helvetica, sans-serif;
-  }
-  
-  /* Nav items */
-  .menu {
-    list-style: none;
-    position: absolute;
-    width: 100%;
-    height: auto;
-    top: 0;
-    margin-top: 52px;
-    padding: 0 0 10px 0;
-    clear: both;
-    background: var(--color-twine);
-    transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
-    transform: scale(1, 0);
-    transform-origin: top;
-  }
-  
-  /* Hamburger menu button */
-  .menu-btn:checked ~ .menu {
-    transform: scale(1, 1);
-    transform-origin: top;
-    transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
-  }
-  
-  /* Hamburger menbu text */
-  .menu a {
-    text-decoration: none;
-    font-weight: 500;
-    letter-spacing: 2px;
-    font-size: 16px;
-    text-transform: capitalize;
-    color: #ddd;
-    opacity: 0;
-    transition: 0.5s;
-  }
-  
-  .menu li {
-    border-top: 1px solid var(--color-white);
-    padding: 15px 0;
-    margin: 0 54px;
-    opacity: 0;
-    transition: 0.5s;
-  }
-  
-  .menu-btn:checked ~ .menu a,
-  .menu-btn:checked ~ .menu li {
-    opacity: 1;
-    transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.2s;
-  }
-  
-  .menu-btn {
-    display: none;
-  }
-  
-  .menu-icon {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    padding: 24px 14px;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  }
-  
-  .navicon {
-    background: #ddd;
-    display: block;
-    height: 3px;
-    width: 26px;
-    position: relative;
-    transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
-  }
-  
-  .navicon:before,
-  .navicon:after {
-    content: "";
-    display: block;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    background: #ddd;
-    transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
-  }
-  
-  .navicon:before {
-    top: 9px;
-  }
-  
-  .navicon:after {
-    bottom: 9px;
-  }
-  
-  /* Hamburger Menu Animation Start */
-  .menu-btn:checked ~ .menu-icon .navicon:before {
-    transform: rotate(-45deg);
-  }
-  
-  .menu-btn:checked ~ .menu-icon .navicon:after {
-    transform: rotate(45deg);
-  }
-  
-  .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before {
-    top: 0;
-  }
-  .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
-    bottom: 0;
-  }
-  
-  .menu-btn:checked ~ .menu-icon .navicon {
-    background: rgba(0, 0, 0, 0);
-    transition: 0.2192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.1008s;
-  }
-  /* Hamburger Menu Animation End */
-  
-  /* Navbar Container */
-  .navtext-container {
-    width: 100%;
-    height: 52px;
-    position: absolute;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Navbar Text */
-  .navtext {
-    position: absolute;
-    /* text-transform: uppercase; */
-    color: #ddd;
-    letter-spacing: 4px;
-    font-size: 20px;
+    font-size: var(--font-size-xl);
+    margin: 10px 0px 0px 0px;
   }
   
   .upload-image {
@@ -221,8 +67,6 @@ uploadページ
     margin: 0px 0px 0px 0px;
     /* outline: 2px solid yellow; */
   }
-
-
   
   .upload-image-container {
     margin: 20px 0px 20px 0px;
@@ -250,7 +94,6 @@ uploadページ
   
   .upload-item-headline {
     font-size: var(--font-size-xl);
-    font-family: var(--font-libre-bodoni);
     color: var(--color-fawn);
     font-weight: 500;
     align-items: center;
@@ -260,8 +103,8 @@ uploadページ
     top: 0px;
     left: 0px;
     height: auto;
-    flex: 0;
-    margin: 10px 0px 10px 0px;
+    /* flex: 0; */
+    /* margin: 5px 0px 5px 0px; */
   }
   .upload-item-text-left {
     font-size: var(--font-size-base);
@@ -288,7 +131,7 @@ uploadページ
     left: 0px;
     width: 100%;
     height: auto;
-    white-space: pre-wrap;
+    /* white-space: pre-wrap; */
   }
 
   .gender-item-container {
@@ -296,48 +139,46 @@ uploadページ
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
     display: flex;
+  }
+
+  .gender-image {
+    width: 50px; /* これは目安です、実際に合うサイズに調整してください */
+    height: auto;
+    /* transition: border-color 0.2s, box-shadow 0.2s; */
   }
   
   .gender-label {
-    display: inline-flex;
-    align-items: center;
+    margin: 0 10px;
     cursor: pointer;
-    margin-right: 20px; /* 任意の間隔を調節 */
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid transparent; /* 常に境界線を持たせるが透明にしておく */
+  }
+
+  .gender-label .gender-image {
+    width: 70px;
+    height: 70px; /* 遷移効果をここに移動 */
   }
   
   .gender-input {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    position: absolute;
+    display: none;
   }
   
-  .gender-custom-radio {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #c8c8c8;
-    border-radius: 50%;
-    display: inline-block;
-    position: relative;
-    margin-right: 10px; /* ラベルテキストとの間隔 */
-    vertical-align: middle;
+  
+  
+  .gender-label.selected .gender-image {
+    border: 2px solid var(--color-fawn); /* 枠色を変更 */
+    background-color: #D9D9D9;
+    border-radius: 8px;
+    /* コンテンツサイズを維持するために、ここでのpaddingを調整します */
+    box-sizing: border-box; /* borderとpaddingを含んだサイズ計算をする */
   }
   
-  .gender-input:checked + .gender-custom-radio:before {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 16px;
-    height: 16px;
-    background-color: #4A90E2;
-    border-radius: 50%;
-  }
-  
-  .upload-gender-image{
-    width: 50px;
-    height: 50px;
+  .gender-image{
+    width: 70px;
+    height: 70px;
   }
   
   /* 

@@ -8,7 +8,7 @@ const Upload = () => {
   const [imageData, setImageData] = useState(null);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
-  const [gender, setGender] = useState("")
+  const [gender, setGender] = useState("anything")
   const [genderImage, setGenderImage] = useState({male: './images/gender_male_image.png', female: './images/gender_female_image.png', anything: './images/gender_anything_image.png'});
 
   useEffect(() => {
@@ -98,39 +98,12 @@ const Upload = () => {
             >
 
             <p>&thinsp;</p>
-            <p>&thinsp;</p>
             <div className="upload-item-headline">
-            <p>あなたの気になっている</p>
-            <p>性別を選んでください</p>
+            <p>どのスタイルの</p>
+            <p>コーデが見たいですか？</p>
             </div>
             <div className="gender-item-container">
-            <label className="gender-label">
-                <input
-                type="radio"
-                name="gender"
-                value="male"
-                checked={gender === 'male'}
-                onChange={() => selectGender('male')}
-                className="gender-input"
-                />
-                <span className="gender-custom-radio"></span>
-                Male
-            </label>
-
-            <label className="gender-label">
-                <input
-                type="radio"
-                name="gender"
-                value="female"
-                checked={gender === 'female'}
-                onChange={() => selectGender('female')}
-                className="gender-input"
-                />
-                <span className="gender-custom-radio"></span>
-                Female
-            </label>
-
-            <label className="gender-label">
+            <label className={`gender-label ${gender === 'anything' ? 'selected' : ''}`}>
                 <input
                 type="radio"
                 name="gender"
@@ -139,16 +112,41 @@ const Upload = () => {
                 onChange={() => selectGender('anything')}
                 className="gender-input"
                 />
-                <span className="gender-custom-radio"></span>
-                Anything
+                <img src="./images/gender_anything_image.png" alt="Anything" className="gender-image" />
+            </label>
+
+            <label className={`gender-label ${gender === 'male' ? 'selected' : ''}`}>
+                <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={gender === 'male'}
+                onChange={() => selectGender('male')}
+                className="gender-input"
+                />
+                <img src="./images/gender_male_image.png" alt="Male" className="gender-image" />
+            </label>
+
+            <label className={`gender-label ${gender === 'female' ? 'selected' : ''}`}>
+                <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={gender === 'female'}
+                onChange={() => selectGender('female')}
+                className="gender-input"
+                />
+                <img src="./images/gender_female_image.png" alt="Female" className="gender-image" />
             </label>
             </div>
+
 
                 
             <div className="upload-item-container">
                 <div className="upload-item-headline">写真のポイント</div>
                 <div className="upload-item-text-center">
-                    服の形がはっきりとわかる写真にしましょう。
+                    <p>服の形がはっきりとわかる</p>
+                    <p>写真にしましょう</p>
                 </div>
             </div>
             <div className="upload-item-container">
