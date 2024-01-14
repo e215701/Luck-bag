@@ -17,8 +17,8 @@ const Recommend = () => {
 
   // GIFのパスを配列として定義
   const gifs = [
-    "./images/Luck-Bag_Animation_v2_1.gif",
-    "./images/Luck-Bag_Animation_v2_2.gif" // 仮の2つ目のGIFパスを設定
+    "./images/Luck-Bag_Animation_v3_1.gif",
+    "./images/Luck-Bag_Animation_v3_2.gif" // 仮の2つ目のGIFパスを設定
     ];
     
   // useStateを追加して選択されたGIFを管理
@@ -100,7 +100,7 @@ const Recommend = () => {
   };
 
   const createCoordinate = (imageFile) => {
-    fetchData(imageFile);
+    // fetchData(imageFile);
   };
 
   const fetchData = async (imageFile) => {
@@ -146,16 +146,21 @@ const Recommend = () => {
         // </div>
 
         <div className="loading-animation">
-          <img
-            className="loading-icon"
-            src={selectedGif} // srcをselectedGifに設定してランダムなGIFを表示
-            alt="loading animation"
-            style={{
-              height: `${screenHeight}px`,
-              width: `${screenWidth}px`,
-            }}
-          />
+            <img
+                className="loading-icon"
+                src={selectedGif} // srcをselectedGifに設定してランダムなGIFを表示
+                alt="loading animation"
+                style={{
+                height: `${screenHeight}px`,
+                width: `${screenWidth}px`,
+                }}
+            />
+            {/* New div for loading text */}
+            <div className="load-text">
+                Now Loading...
+            </div>
         </div>
+
         
       )}
       {generatedImage && (
