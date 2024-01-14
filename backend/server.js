@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
+const Jimp = require("jimp");
 require("dotenv").config({ path: "./.env.local" });
 
 const app = express();
@@ -44,7 +45,6 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 app.use(cors(corsOptions));
-console.log("cors setting complete");
 
 const pool = new Pool({
   user: `${process.env.POSTGRES_USER}`,
@@ -76,11 +76,110 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+const convertPngToJpeg = async (inputBase64) => {
+  try {
+    const inputImageData = inputBase64;
+
+    // 200KB以下にするための品質設定
+    const targetFileSizeInBytes = 200 * 1024; // 200KB
+    let quality = 80; // 初期の品質
+
+    // 画像データをBufferに変換
+    const inputImageBuffer = Buffer.from(inputImageData, "base64");
+
+    // JPEGファイルに変換して出力
+    const outputBase64 = await new Promise((resolve, reject) => {
+      Jimp.read(inputImageBuffer)
+        .then((image) => {
+          // 出力画像の品質を調整
+          while (
+            Buffer.byteLength(image.bitmap.data) > targetFileSizeInBytes &&
+            quality > 10
+          ) {
+            quality -= 5;
+            image.quality(quality);
+          }
+
+          // 最終的なJPEGデータをBufferとして取得
+          image
+            .getBufferAsync(Jimp.MIME_JPEG)
+            .then((outputBuffer) => {
+              // 最終的なJPEGデータをBase64エンコードして出力
+              const outputBase64 = `data:image/jpeg;base64,${outputBuffer.toString(
+                "base64"
+              )}`;
+              resolve(outputBase64);
+            })
+            .catch((err) => {
+              console.error("Error processing image data:", err);
+              reject(err);
+            });
+        })
+        .catch((err) => {
+          console.error("Error reading image:", err);
+          reject(err);
+        });
+    });
+
+    return outputBase64;
+  } catch {
+    console.error("convertPNGToJPEGエラー:", error);
+    res.status(500).send({
+      error: "ファイルの変換で失敗しました。",
+      details: error.message,
+    });
+  }
+};
+
+app.post("/api/convertJPEG", async (req, res) => {
+  try {
+    const inputImageData = req.body.imageData;
+
+    // 400KB以下にするための品質設定
+    const targetFileSizeInBytes = 400 * 1024; // 400KB
+    let quality = 80; // 初期の品質
+
+    // 画像データをBufferに変換
+    const inputImageBuffer = Buffer.from(inputImageData, "base64");
+
+    // JPEGファイルに変換して出力
+    Jimp.read(inputImageBuffer)
+      .then((image) => {
+        // 出力画像の品質を調整
+        while (
+          Buffer.byteLength(image.bitmap.data) > targetFileSizeInBytes &&
+          quality > 10
+        ) {
+          quality -= 5;
+          image.quality(quality);
+        }
+
+        // 最終的なJPEGデータをBufferとして取得
+        return image.getBufferAsync(Jimp.MIME_JPEG);
+      })
+      .then((outputBuffer) => {
+        // 最終的なJPEGデータをBase64エンコードして出力
+        const outputBase64 = `data:image/jpeg;base64,${outputBuffer.toString(
+          "base64"
+        )}`;
+
+        res.status(200).json({ imageJpeg: outputBase64 });
+      })
+      .catch((err) => {
+        console.error("Error processing image data:", err);
+      });
+  } catch {
+    console.error("convertJPEGエラー:", error);
+    res.status(500).send({
+      error: "ファイルの変換で失敗しました。",
+      details: error.message,
+    });
+  }
+});
+
 // 認証情報を提供するエンドポイント
 app.get("/api/authenticate", authenticateToken, (req, res) => {
-  console.log("認証が行われています");
   res.json({ isAuthenticated: true });
-  console.log("認証情報を送信しました。");
 });
 
 const processedRequestsOfVision = new Set();
@@ -125,7 +224,7 @@ app.post("/api/generateVision", async (req, res) => {
             },
             {
               type: "image_url",
-              image_url: { url: `data:image/jpeg;base64,${url}` },
+              image_url: { url: `${url}` },
             },
           ],
         },
@@ -172,16 +271,17 @@ app.post("/api/generate", async (req, res) => {
     });
 
     const imageUrl = imageResponse.data[0].b64_json;
-    const imageData = "data:image/png;base64," + imageUrl;
+    const imageData = imageUrl;
+    const imageJpeg = await convertPngToJpeg(imageData);
 
-    if (!imageData) {
+    if (!imageJpeg) {
       return res.status(500).send({ error: "画像の生成に失敗しました。" });
     }
 
     processedRequestsOfGenerate.delete(requestBodyHashOfGenerate);
 
     // 成功した場合、画像URLを含むオブジェクトを返す
-    res.status(200).json({ image: imageData });
+    res.status(200).json({ image: imageJpeg });
   } catch (error) {
     res.status(500).send({
       error: "画像の生成に失敗しました。",
@@ -195,9 +295,22 @@ app.post("/api/register", async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    // ユーザーが既に存在するか確認
+    const userExists = await pool.query(
+      "SELECT * FROM accounts WHERE username = $1",
+      [username]
+    );
+
+    if (userExists.rows.length > 0) {
+      // ユーザーが既に存在する場合はエラーを返す
+      console.error("Error registering user: Used same username");
+      return res
+        .status(401)
+        .json({ error: "このユーザー名は既に使用されています" });
+    }
+
     // パスワードをハッシュ化
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("ハッシュ化完了");
     // PostgreSQLに新しいユーザーを追加
 
     await pool.query(
@@ -208,7 +321,7 @@ app.post("/api/register", async (req, res) => {
     res.json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "サーバー側でエラーが発生しました" });
   }
 });
 
@@ -233,19 +346,20 @@ app.post("/api/login", async (req, res) => {
       if (isPasswordValid) {
         console.log("パスワード認証完了");
         // 認証成功時にJWTを発行
-        const token = jwt.sign({ username }, `${process.env.SECRET_KEY}`);
+        const account_id = result.rows[0].account_id;
+        const token = jwt.sign({ account_id }, `${process.env.SECRET_KEY}`);
         res.json({ token });
         console.log("トークン発行完了");
       } else {
         // パスワードが一致しない場合
-        res.status(401).json({ error: "Authentication failed" });
+        res.status(401).json({ error: "パスワードが違います。" });
       }
     } else {
       // ユーザーが存在しない場合
-      res.status(401).json({ error: "Authentication failed" });
+      res.status(401).json({ error: "ユーザーが存在しません。" });
     }
   } catch (error) {
     console.error("Error authenticating user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "サーバー側でエラーが発生しました。" });
   }
 });

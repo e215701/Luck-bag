@@ -56,7 +56,7 @@ const Login = ({ onLoginSuccess }) => {
           onLoginSuccess();
         }
       } else {
-        setError("ユーザー認証に失敗しました");
+        setError("名前もしくはパスワードが違います。");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -113,6 +113,7 @@ const Login = ({ onLoginSuccess }) => {
               >
                 <div className="sign-in">新規登録はこちらから</div>
               </div>
+              {error && <div className="error-message">{error}</div>}
             </div>
           </div>
         </div>
