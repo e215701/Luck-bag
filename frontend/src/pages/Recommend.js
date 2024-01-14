@@ -31,7 +31,6 @@ const Recommend = () => {
 
   useEffect(() => {
     const imageData = location.state?.image;
-    console.log(location.state);
     if (imageData) {
       setSelectedImage(imageData);
       console.log("イメージ設定");
@@ -123,9 +122,20 @@ const Recommend = () => {
   const fetchData = async (imageFile) => {
     console.log("感想生成中");
 
-    const base64Str = imageFile.split(",")[1];
+    const base64 = imageFile.split(",")[1];
 
     try {
+      const imageResponse = await fetch("/api/convertJPEG", {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageData: base64 }),
+      });
+
+      const base64img = await imageResponse.json();
+      const base64Str = base64img.imageJpeg; //生成前の画像データ
+      console.log(base64img);
+
       const response = await fetch(`/api/generateVision`, {
         method: "POST",
         mode: "cors",
@@ -134,7 +144,7 @@ const Recommend = () => {
       });
 
       const data = await response.json();
-      const description = data.choices[0].message.content;
+      const description = data.choices[0].message.content; //生成されたコーデの文章
       setResponse(description);
 
       console.log("画像生成中");
@@ -149,7 +159,7 @@ const Recommend = () => {
       const dataImage = await responseImage.json();
       console.log(dataImage);
       const generatedImageUrl = dataImage.image;
-      setGeneratedImage(generatedImageUrl);
+      setGeneratedImage(generatedImageUrl); //生成されたコーデの画像
     } catch (error) {
       console.error("Error fetching response:", error);
     }

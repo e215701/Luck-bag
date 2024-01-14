@@ -14,6 +14,7 @@
         "dotenv": "^16.3.1",
         "express": "^4.18.2",
         "http": "^0.0.1-security",
+        "jimp": "^0.22.10",
         "jsonwebtoken": "^9.0.2",
         "openai": "^4.24.7",
         "pg": "^8.11.3",
