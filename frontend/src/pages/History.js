@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Splide, SplideTrack, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import "../css/global.css";
-import "../css/history.css";
 import "../css/top.css";
+import "../css/history.css";
 
 const History = () => {
   const navigate = useNavigate();
@@ -111,23 +111,23 @@ const History = () => {
           <ul className="menu">
             <div className="menu-spacer"></div>
             <li>
-              <a onClick={() => navigate("/")}>TOP</a>
+              <button onClick={() => navigate("/")}>TOP</button>
             </li>
             <li>
-              <a onClick={() => navigate("/Upload")}>UPLOAD</a>
+              <button onClick={() => navigate("/Upload")}>UPLOAD</button>
             </li>
             <li>
-              <a onClick={() => navigate("/History")}>HISTORY</a>
+              <button onClick={() => navigate("/History")}>HISTORY</button>
             </li>
             <li>
-              <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
+              <button onClick={() => navigate("/Howtouse")}>HOW TO USE</button>
             </li>
           </ul>
         </div>
         <div className="navtext-container">
-          <div className="navtext" onClick={() => navigate("/")}>
+          <button className="navtext" onClick={() => navigate("/")}>
             Luck bag
-          </div>
+          </button>
         </div>
         <img className="top-login-icon" src="./images/login-icon.png"></img>
 

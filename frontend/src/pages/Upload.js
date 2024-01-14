@@ -64,23 +64,25 @@ const Upload = () => {
               <ul class="menu">
                 <div className="menu-spacer"></div>
                 <li>
-                  <a onClick={() => navigate("/")}>TOP</a>
+                  <button onClick={() => navigate("/")}>TOP</button>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/Upload")}>UPLOAD</a>
+                  <button onClick={() => navigate("/Upload")}>UPLOAD</button>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/History")}>HISTORY</a>
+                  <button onClick={() => navigate("/History")}>HISTORY</button>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
+                  <button onClick={() => navigate("/Howtouse")}>
+                    HOW TO USE
+                  </button>
                 </li>
               </ul>
             </div>
             <div class="navtext-container">
-              <div class="navtext" onClick={() => navigate("/")}>
+              <button class="navtext" onClick={() => navigate("/")}>
                 Luck Bag
-              </div>
+              </button>
             </div>
             <img className="top-login-icon" src="./images/login-icon.png"></img>
           </header>
