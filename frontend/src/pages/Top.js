@@ -201,8 +201,8 @@ const Toppage = () => {
               </Splide>
 
               <div
-                className="fade-text"
                 ref={(el) => textItemsRef.current.push(el)}
+                className="fade-text"
               >
                 <div className="top-item-headline">PRODUCT</div>
                 <div className="top-item-text">
@@ -210,8 +210,8 @@ const Toppage = () => {
                 </div>
               </div>
               <div
-                className="fade-text"
                 ref={(el) => textItemsRef.current.push(el)}
+                className="fade-text"
               >
                 <div className="top-item-headline">
                   <span className="luckbag"> Luck Bag</span>の特徴
