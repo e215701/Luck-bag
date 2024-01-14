@@ -13,4 +13,5 @@ npm install bcrypt
 npm install jsonwebtoken 
 npm install pg 
 npm install pg-pool
+npm install jimp
 npm start
