@@ -8,12 +8,15 @@ const Upload = () => {
   const [imageData, setImageData] = useState(null);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
+  const [gender, setGender] = useState("not specified");
+  const [genderImage, setGenderImage] = useState({
+    male: "./images/gender_male_image.png",
+    female: "./images/gender_female_image.png",
+    anything: "./images/gender_anything_image.png",
+  });
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (imageData) {
-      goToRecommend();
-    }
-
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
       setScreenWidth(window.innerWidth);
@@ -47,7 +50,25 @@ const Upload = () => {
   };
 
   const goToRecommend = () => {
-    navigate("/Recommend", { state: { image: imageData } });
+    if (imageData) {
+      console.log(gender);
+      navigate("/Recommend", { state: { image: imageData, gender: gender } });
+    } else {
+      setError("画像を選択してください。");
+    }
+  };
+
+  const selectGender = (selectedGender) => {
+    setGender(selectedGender);
+    setGenderImage({
+      ...genderImage,
+      [selectedGender]:
+        selectedGender === "male"
+          ? "./images/gender_anything_image.png"
+          : selectedGender === "female"
+          ? "./images/gender_anything_image.png"
+          : "./images/gender_male_image.png",
+    });
   };
 
   return (
@@ -84,24 +105,61 @@ const Upload = () => {
                 Luck Bag
               </button>
             </div>
-            <img className="top-login-icon" src="./images/login-icon.png"></img>
           </header>
 
           <div
             className="upload-page"
             style={{
               width: `${screenWidth}px`,
+              height: `${screenHeight}px`,
             }}
           >
-            <img
-              className="upload-image"
-              src="./images/image-12_1.jpeg"
-              alt="image1"
-              style={{
-                height: `${screenHeight}px`,
-                width: `${screenWidth}px`,
-              }}
-            />
+            <p>&thinsp;</p>
+            <p>&thinsp;</p>
+            <div className="upload-item-headline">
+              <p>あなたの気になっている</p>
+              <p>性別を選んでください</p>
+            </div>
+            <div className="gender-item-container">
+              <label className="gender-label">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={gender === "mens"}
+                  onChange={() => selectGender("mens")}
+                  className="gender-input"
+                />
+                <span className="gender-custom-radio"></span>
+                Male
+              </label>
+
+              <label className="gender-label">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  checked={gender === "ladies"}
+                  onChange={() => selectGender("ladies")}
+                  className="gender-input"
+                />
+                <span className="gender-custom-radio"></span>
+                Female
+              </label>
+
+              <label className="gender-label">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="anything"
+                  checked={gender === "not specified"}
+                  onChange={() => selectGender("not specified")}
+                  className="gender-input"
+                />
+                <span className="gender-custom-radio"></span>
+                Anything
+              </label>
+            </div>
 
             <div className="upload-item-container">
               <div className="upload-item-headline">写真のポイント</div>
@@ -114,33 +172,42 @@ const Upload = () => {
                 <p>写真に複数の服が写っていると、</p>
                 <p>うまくいかない場合があります。</p>
               </div>
-              <div className="upload-item-container">
-                {/* <button className="upload-button" onClick={goToRecommend}>
-                    写真をアップロードする
-                </button> */}
+            </div>
 
-                <div className="upload-picture-container">
-                  {/* <img className="upload-picture" alt="" src={imageData}></img> */}
-                  <input
-                    id="upload"
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={onFileChange}
-                    style={{ display: "none" }}
-                  />
+            {/* <button className="upload-button" onClick={goToRecommend}>
+                        写真をアップロードする
+                    </button> */}
+
+            {/* <img className="upload-picture" alt="" src={imageData}></img> */}
+            <input
+              id="upload"
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={onFileChange}
+              style={{ display: "none" }}
+            />
+
+            {!imageData && (
+              // <div className="upload-image-container">
+              <label htmlFor="upload" class="select-button">
+                <div class="select-button-text">写真をアップロードする</div>
+              </label>
+            )}
+
+            {imageData && (
+              // <div className="upload-image-container">
+              <img src={imageData} alt="Uploaded" className="upload-image" />
+
+              // </div>
+            )}
+
+            <div className="upload-item-container">
+              <label htmlFor="upload" class="upload-button">
+                <div class="upload-button-text" onClick={() => goToRecommend()}>
+                  送信
                 </div>
-
-                <label htmlFor="upload" class="upload-button">
-                  <div class="upload-button-text">写真をアップロードする</div>
-                </label>
-
-                {/* {imageData && (
-                    <div>
-                        <img src={imageData} alt="Uploaded" width="200" height="60" />
-                    </div>
-                )} */}
-              </div>
+              </label>
             </div>
           </div>
         </div>
