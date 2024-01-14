@@ -295,6 +295,20 @@ app.post("/api/register", async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    // ユーザーが既に存在するか確認
+    const userExists = await pool.query(
+      "SELECT * FROM accounts WHERE username = $1",
+      [username]
+    );
+
+    if (userExists.rows.length > 0) {
+      // ユーザーが既に存在する場合はエラーを返す
+      console.error("Error registering user: Used same username");
+      return res
+        .status(401)
+        .json({ error: "このユーザー名は既に使用されています" });
+    }
+
     // パスワードをハッシュ化
     const hashedPassword = await bcrypt.hash(password, 10);
     // PostgreSQLに新しいユーザーを追加
@@ -307,7 +321,7 @@ app.post("/api/register", async (req, res) => {
     res.json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "サーバー側でエラーが発生しました" });
   }
 });
 
@@ -338,14 +352,14 @@ app.post("/api/login", async (req, res) => {
         console.log("トークン発行完了");
       } else {
         // パスワードが一致しない場合
-        res.status(401).json({ error: "Authentication failed" });
+        res.status(401).json({ error: "パスワードが違います。" });
       }
     } else {
       // ユーザーが存在しない場合
-      res.status(401).json({ error: "Authentication failed" });
+      res.status(401).json({ error: "ユーザーが存在しません。" });
     }
   } catch (error) {
     console.error("Error authenticating user:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "サーバー側でエラーが発生しました。" });
   }
 });
