@@ -9,6 +9,7 @@ const Login = ({ onLoginSuccess }) => {
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
+  const [loadingState, setLoadingState] = useState(true); // trueでロード時の黒画面を示す
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -21,10 +22,18 @@ const Login = ({ onLoginSuccess }) => {
 
     const timeoutId = setTimeout(() => {
       setShowPage(true);
-    }, 100);
+    }, 50);
 
     window.addEventListener("resize", handleResize);
     handleResize();
+
+    // ローディング状態をフェードアウトするタイムアウトを設定
+    const loadingTimeoutId = setTimeout(() => setLoadingState(false), 150);
+
+    return () => {
+      clearTimeout(loadingTimeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const handleLogin = async () => {
@@ -65,9 +74,16 @@ const Login = ({ onLoginSuccess }) => {
 
   return (
     <div id="loginpage">
+      <div
+        className={`loading-overlay ${!loadingState ? "fade-Out" : ""}`}
+      ></div>
       {showPage && (
         <div id="wrapper">
-          <div id="content" className="fade-in">
+          <div id="content" className="fade-In">
+            {/* <div
+            //   className={`tooltip-container ${showTooltip ? "visible" : ""}`}
+            >
+            </div> */}
             <div className="login-back" style={{ width: `${screenWidth}px` }}>
               <img
                 className="login-image"
@@ -76,7 +92,7 @@ const Login = ({ onLoginSuccess }) => {
                 style={{ height: `${screenHeight}px`, width: "100%" }}
               />
               <div className="login-container" />
-              <div className="luck-bag">Luck bag</div>
+              <div className="login-luck-bag">Luck bag</div>
               <div className="name-pass-container">
                 <span className="input-items">
                   <label htmlFor="your_name" className="text-sm block">

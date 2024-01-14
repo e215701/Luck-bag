@@ -260,10 +260,11 @@ app.post("/api/generate", async (req, res) => {
   try {
     console.log("画像作成中");
     const prompt = req.body.prompt;
+    const gender = req.body.fashion;
     //生成された説明に基づいて新しい画像を生成
     const imageResponse = await openai.images.generate({
       model: "dall-e-3",
-      prompt: `#Instruction\nYou are a stylist who specializes in creating basic fashion. Please generate the best basic fashion coordinate based on the following constraints:\n#Constraints\n- Consider the input text\n- Output a full-body image, including the person's face\n#Input Text\n${prompt}\n#Output Image`,
+      prompt: `#Instruction\nYou are a stylist tasked with envisioning basic fashion. Please generate the best basic fashion coordination based on the following constraints:\n#Constraints\n- Consider the input text\n- Output a full-body image including the person's face\n- The clothing is ${gender}\n- Keep expressions of gender moderate\n#Input Text\n${prompt}\n#Output Image`,
       n: 1,
       size: "1024x1024",
       quality: "standard",

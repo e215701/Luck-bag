@@ -9,6 +9,7 @@ const Signup = () => {
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
+  const [loadingState, setLoadingState] = useState(true); // trueでロード時の黒画面を示す
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -25,6 +26,14 @@ const Signup = () => {
 
     window.addEventListener("resize", handleResize);
     handleResize();
+
+    // ローディング状態をフェードアウトするタイムアウトを設定
+    const loadingTimeoutId = setTimeout(() => setLoadingState(false), 150);
+
+    return () => {
+      clearTimeout(loadingTimeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const handleSignup = async () => {
@@ -53,9 +62,12 @@ const Signup = () => {
 
   return (
     <div id="sign-up-page">
+      <div
+        className={`loading-overlay ${!loadingState ? "fade-Out" : ""}`}
+      ></div>
       {showPage && (
         <div id="wrapper">
-          <div id="content" className="fade-in">
+          <div id="content" className="fade-In">
             {/* <div
             //   className={`tooltip-container ${showTooltip ? "visible" : ""}`}
             >
@@ -83,7 +95,7 @@ const Signup = () => {
                     onChange={(e) => setUsername(e.target.value)}
                   />
                   <p>&nbsp;</p>
-                  <label htmlFor="email" className="text-sm block">
+                  <label htmlFor="password" className="text-sm block">
                     Password :&thinsp;
                   </label>
                   <input
