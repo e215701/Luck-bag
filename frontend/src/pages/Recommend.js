@@ -18,15 +18,14 @@ const Recommend = () => {
   // GIFのパスを配列として定義
   const gifs = [
     "./images/Luck-Bag_Animation_v2_1.gif",
-    "./images/Luck-Bag_Animation_v2_2.gif" // 仮の2つ目のGIFパスを設定
-    ];
-    
+    "./images/Luck-Bag_Animation_v2_2.gif", // 仮の2つ目のGIFパスを設定
+  ];
+
   // useStateを追加して選択されたGIFを管理
   const [selectedGif, setSelectedGif] = useState(gifs[0]);
 
   useEffect(() => {
     const imageData = location.state?.image;
-    console.log(location.state);
     if (imageData) {
       setSelectedImage(imageData);
       console.log("イメージ設定");
@@ -35,61 +34,61 @@ const Recommend = () => {
     }
 
     const handleResize = () => {
-        setScreenHeight(window.innerHeight);
-        setScreenWidth(window.innerWidth);
-      };
-      // 0.5秒後にページを表示するように設定
-      const timeoutId = setTimeout(() => {
-        setShowPage(true);
-      }, 2500);
-  
-      window.addEventListener("resize", handleResize);
-  
-      // 最初の一回だけ取得する
-      handleResize();
+      setScreenHeight(window.innerHeight);
+      setScreenWidth(window.innerWidth);
+    };
+    // 0.5秒後にページを表示するように設定
+    const timeoutId = setTimeout(() => {
+      setShowPage(true);
+    }, 2500);
+
+    window.addEventListener("resize", handleResize);
+
+    // 最初の一回だけ取得する
+    handleResize();
 
     const cleanupFunctions = () => {
-        // コンポーネントがアンマウントされたらここでリスナーを削除
-        window.removeEventListener("resize", handleResize);
-        clearTimeout(timeoutId); // タイムアウトのクリアもここで行う
-        textItems.forEach((text) => {
-          observer.unobserve(text);
-        });
-      };
-    
-      // 監視対象の要素を取得
-      const textItems = document.querySelectorAll(".fade-text");
-    
-      // 監視対象の要素に対する処理
-      const showElements = (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // 監視対象の条件を満たしたら .reveal を追加
-            entry.target.classList.add("reveal");
-          } else {
-            // 監視対象の条件から外れたら .reveal を削除
-            // ※アニメーションを繰り返さない場合はコメントアウト
-            entry.target.classList.remove("reveal");
-          }
-        });
-      };
-      // 監視対象が到達したとみなす条件
-      const options = {
-        rootMargin: "0px",
-        threshold: 1.0, // [0-1]
-      };
-    
-      const observer = new IntersectionObserver(showElements, options);
-    
-      // 対象要素すべてについて監視を開始
+      // コンポーネントがアンマウントされたらここでリスナーを削除
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timeoutId); // タイムアウトのクリアもここで行う
       textItems.forEach((text) => {
-        observer.observe(text);
+        observer.unobserve(text);
       });
-    
-      // GIFをランダムに選択する処理を追加
-      setSelectedGif(gifs[Math.floor(Math.random() * gifs.length)]);
-    
-      return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
+    };
+
+    // 監視対象の要素を取得
+    const textItems = document.querySelectorAll(".fade-text");
+
+    // 監視対象の要素に対する処理
+    const showElements = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 監視対象の条件を満たしたら .reveal を追加
+          entry.target.classList.add("reveal");
+        } else {
+          // 監視対象の条件から外れたら .reveal を削除
+          // ※アニメーションを繰り返さない場合はコメントアウト
+          entry.target.classList.remove("reveal");
+        }
+      });
+    };
+    // 監視対象が到達したとみなす条件
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0, // [0-1]
+    };
+
+    const observer = new IntersectionObserver(showElements, options);
+
+    // 対象要素すべてについて監視を開始
+    textItems.forEach((text) => {
+      observer.observe(text);
+    });
+
+    // GIFをランダムに選択する処理を追加
+    setSelectedGif(gifs[Math.floor(Math.random() * gifs.length)]);
+
+    return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
   }, [location.state]);
 
   const handleClick = () => {
@@ -106,9 +105,20 @@ const Recommend = () => {
   const fetchData = async (imageFile) => {
     console.log("感想生成中");
 
-    const base64Str = imageFile.split(",")[1];
+    const base64 = imageFile.split(",")[1];
 
     try {
+      const imageResponse = await fetch("/api/convertJPEG", {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageData: base64 }),
+      });
+
+      const base64img = await imageResponse.json();
+      const base64Str = base64img.imageJpeg; //生成前の画像データ
+      console.log(base64img);
+
       const response = await fetch(`/api/generateVision`, {
         method: "POST",
         mode: "cors",
@@ -117,7 +127,7 @@ const Recommend = () => {
       });
 
       const data = await response.json();
-      const description = data.choices[0].message.content;
+      const description = data.choices[0].message.content; //生成されたコーデの文章
       setResponse(description);
 
       console.log("画像生成中");
@@ -132,7 +142,7 @@ const Recommend = () => {
       const dataImage = await responseImage.json();
       console.log(dataImage);
       const generatedImageUrl = dataImage.image;
-      setGeneratedImage(generatedImageUrl);
+      setGeneratedImage(generatedImageUrl); //生成されたコーデの画像
     } catch (error) {
       console.error("Error fetching response:", error);
     }
@@ -156,7 +166,6 @@ const Recommend = () => {
             }}
           />
         </div>
-        
       )}
       {generatedImage && (
         <div className="recommend-page">
