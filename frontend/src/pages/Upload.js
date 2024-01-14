@@ -105,6 +105,7 @@ const Upload = () => {
                 Luck Bag
               </button>
             </div>
+            <img className="top-login-icon" src="./images/login-icon.png"></img>
           </header>
 
           <div
