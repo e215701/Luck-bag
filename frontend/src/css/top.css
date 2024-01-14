@@ -70,7 +70,10 @@ body {
 }
 
 /* Hamburger menu text */
-.menu a {
+.menu button {
+  background-color: transparent;
+  border: none;
+  font-family: var(--font-libre-bodoni);
   text-decoration: none;
   font-weight: 500;
   letter-spacing: 2px;
@@ -87,9 +90,10 @@ body {
   margin: 0 54px;
   opacity: 0;
   transition: 0.5s;
+  text-align: left;
 }
 
-.menu-btn:checked ~ .menu a,
+.menu-btn:checked ~ .menu button,
 .menu-btn:checked ~ .menu li {
   opacity: 1;
   transition: 0.3192s cubic-bezier(0.04, 0.04, 0.12, 0.96) 0.2s;
@@ -180,6 +184,9 @@ body {
 
 /* Navbar Text */
 .navtext {
+  background-color: transparent;
+  border: none;
+  display: inline-block;
   position: absolute;
   color: var(--color-hickory);
   letter-spacing: 4px;
