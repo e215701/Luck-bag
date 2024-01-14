@@ -332,7 +332,8 @@ app.post("/api/login", async (req, res) => {
       if (isPasswordValid) {
         console.log("パスワード認証完了");
         // 認証成功時にJWTを発行
-        const token = jwt.sign({ username }, `${process.env.SECRET_KEY}`);
+        const account_id = result.rows[0].account_id;
+        const token = jwt.sign({ account_id }, `${process.env.SECRET_KEY}`);
         res.json({ token });
         console.log("トークン発行完了");
       } else {
