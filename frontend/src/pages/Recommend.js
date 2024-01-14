@@ -164,6 +164,28 @@ const Recommend = () => {
       console.log(dataImage);
       const generatedImageUrl = dataImage.image;
       setGeneratedImage(generatedImageUrl); //生成されたコーデの画像
+
+      // 画像データをサーバーに送信し、サーバーでデータベースに追加
+      const token = localStorage.getItem("token");
+
+      // 画像データをサーバーに送信し、サーバーでデータベースに追加
+      const responseDatabase = await fetch("/api/addToDatabase", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          before_image: base64Str,
+          after_image: generatedImageUrl,
+          is_favorite: "f",
+          description: description,
+        }),
+      });
+
+      const dataDatabase = await responseDatabase.json();
+      console.log(dataDatabase);
     } catch (error) {
       console.error("Error fetching response:", error);
     }
