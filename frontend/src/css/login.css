@@ -4,10 +4,9 @@ loginページ
 
 */
 .login-back {
-  position: relative; /* 相対的 */
-  background-color: var(--color-linen);
   width: 100%;
-  height: auto;
+  height: 100%;
+  position: absolute; /* 相対的 */
   overflow: visible;
   text-align: center;
   align-items: center;
@@ -18,137 +17,134 @@ loginページ
 }
 
 .login-image {
-    object-fit: cover;
-    width: 100%; /* 画像を親要素にフィットさせる */
-    filter: contrast(70%) brightness(80%);
-    height: auto; /* 画像のアスペクト比を保持 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100%;
+  filter: contrast(60%) brightness(70%);
+  object-fit: cover;
+  overflow: visible;
 }
-
-.login-text-container {
-    position: absolute;
-    top: 50%;           /* 要素を上から50%の位置に設定 */
-    left: 50%;          /* 要素を左から50%の位置に設定 */
-    transform: translate(-50%, -50%); /* 要素を縦横中央に */
-    color: var(--color-white);       /* 見やすさのために白色に設定(画像によっては変更が必要) */
-    text-align: center; /* テキストを中央揃えに */
-    z-index: 10;        /* z-indexで画層を調整 */
-}
-
 
 .clothes-1-icon {
-    position: absolute;
-    top: 0;
-    left: -110px;
-    width: 1239px;
-    height: 932px;
-    object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: -110px;
+  width: 1239px;
+  height: 932px;
+  object-fit: cover;
 }
+
+.login-input-container {
+  position: relative;
+  display: flex;
+  position: relative;
+  width: auto;
+  height: auto;
+  text-align: center;
+  align-items: center;
+  margin: 20px 0px;
+}
+
 .login-container {
-    position: absolute;
-    top: 392px;
-    background-color: rgba(0, 0, 0, 0.30);
-    width: 100%;
-    height: 206px;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 206px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .login-luck-bag {
-    position: absolute;
-    top: 221px;
-    font-family: var(--font-libre-bodoni);
-    font-size: 50px; /* 変更したいテキストの大きさを指定してください */
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  font-family: var(--font-libre-bodoni);
+  font-size: 50px; /* 変更したいテキストの大きさを指定してください */
 }
 input.transparent-input {
-    background-color: transparent; /* 入力欄の背景を透明にする */
-    border: none; /* 枠線を非表示にする */
-    border-bottom: 1px solid #ffffff;
-    color: var(--font-libre-bodoni); /* 入力されたテキストの色を黒にする */
-    font-size: var(--font-size-xl);
-    font-family: var(--font-kaisei-opti);
+  background-color: transparent; /* 入力欄の背景を透明にする */
+  border: none; /* 枠線を非表示にする */
+  border-bottom: 1px solid #ffffff;
+  color: var(--font-libre-bodoni); /* 入力されたテキストの色を黒にする */
+  font-size: var(--font-size-xl);
+  font-family: var(--font-kaisei-opti);
 }
 input.transparent-input::placeholder {
-    color: var(--font-libre-bodoni); /* CSS変数を使った色指定 */
-    opacity: 50%;
+  color: var(--font-libre-bodoni); /* CSS変数を使った色指定 */
+  opacity: 50%;
 }
 .input-items {
-    width: 100%;
+  width: 100%;
 }
-.name-pass-container {
-    position: absolute;
-    top: 394px;
-    font-size: var(--font-size-xl);
-    display: flex;
-    align-items: center;
-    width: 422px;
-    height: 204px;
+
+.login-error-message {
+  position: relative;
+  width: auto;
+  height: 30px;
+  font-size: var(--font-size-base);
+  color: var(--color-white);
+  margin: 10px 0px 30px 0px;
 }
+
 .login-button {
-    position: absolute;
-    top: 636px;
-    border: 4px solid #d9d9d9;
-    background-color: none;
-    width: 201px;
-    height: 50px;
-    padding:5px; 
-    border-radius:7px; 
-    cursor: pointer;
+  position: relative;
+  border: 4px solid #d9d9d9;
+  background-color: none;
+  width: 201px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 7px;
+  cursor: pointer;
+  margin: 0px 0px 15px 0px;
 }
 .log-in {
-    position: relative;
-    top: -5px;
-    font-size: var(--font-size-header);
-    /* text-align: center; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
-    cursor: pointer;
+  position: relative;
+  font-size: var(--font-size-header);
+  /* text-align: center; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  cursor: pointer;
 }
 .buttons-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 中央に配置する場合 */
-    gap: 10px; /* ボタン間の隙間 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 中央に配置する場合 */
+  gap: 10px; /* ボタン間の隙間 */
 }
 .sign-in-button {
-    position: absolute;
-    top: calc(616px + 59px + 40px); /* login-buttonのtop + height + 希望の余白 */
-    background-color: transparent; /* 背景透明 */
-    width: 211px; /* login-buttonと同じ幅 */
-    height: 59px; /* login-buttonと同じ高さ */
-    cursor: pointer;
-    display: flex;
-    justify-content: center; /* ボタン内のテキストを中央揃えに */
-    align-items: center; /* ボタン内のテキストを中央揃えに */
+  position: relative;
+  background-color: transparent; /* 背景透明 */
+  width: 211px; /* login-buttonと同じ幅 */
+  height: 59px; /* login-buttonと同じ高さ */
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* ボタン内のテキストを中央揃えに */
+  align-items: center; /* ボタン内のテキストを中央揃えに */
 }
-  
+
 /* 新規登録ボタンのテキストスタイル */
 .sign-in {
-    font-size: var(--font-size-xl); /* 見た目の一貫性のためにloginと同じサイズ */
-    color: var(--color-white); /* テキストの色をwhiteに */
-    border-bottom: 1px solid var(--color-white);
+  width: auto;
+  font-size: var(--font-size-xl); /* 見た目の一貫性のためにloginと同じサイズ */
+  color: var(--color-white); /* テキストの色をwhiteに */
+  border-bottom: 1px solid var(--color-white);
+  margin: 0px 0px 30px 0px;
 }
-
-.error-message {
-    position: absolute; /* 絶対位置指定 */
-    top: 600px; /* 例: Log in ボタンの高さとエラー表示の間の間隔 */
-    left: 50%; /* 中央揃え */
-    width: 422px;
-    transform: translateX(-50%); /* 中央揃えのために横方向に移動 */
-    font-size: var(--font-size-base);
-    color: var(--color-white);
-    /* 必要ならborderの指定は削除する */
-  }
-  
 
 .loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-linen);
-    z-index: 10; /* 他のコンテンツより上に表示させるためのz-index */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-linen);
 }
-  
-  
 
 /* 
 
@@ -156,30 +152,29 @@ input.transparent-input::placeholder {
 
  */
 
- .fade-Out {
-    animation: fadeout 1s ease-out forwards;
+.fade-Out {
+  animation: fadeout 1s ease-out forwards;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
   }
-  
-  @keyframes fadeout {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-      display: none;
-    }
+  to {
+    opacity: 0;
+    display: none;
   }
-  
-  .fade-In {
-    animation: fadein 0.05s ease-in forwards;
+}
+
+.fade-In {
+  animation: fadein 0.05s ease-in forwards;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
   }
-  
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  to {
+    opacity: 1;
   }
-  
+}

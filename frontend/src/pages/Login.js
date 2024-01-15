@@ -84,17 +84,19 @@ const Login = ({ onLoginSuccess }) => {
             //   className={`tooltip-container ${showTooltip ? "visible" : ""}`}
             >
             </div> */}
-            <div className="login-back" style={{ width: `${screenWidth}px` }}>
-              <img
-                className="login-image"
-                src="./images/clothes.jpg"
-                alt="logo"
-                style={{ height: `${screenHeight}px`, width: "100%" }}
-              />
-              <div className="login-container" />
+            <img
+              className="login-image"
+              src="./images/clothes.jpg"
+              alt="logo"
+              style={{ height: `${screenHeight}`, width: `${screenWidth}px` }}
+            />
+            <div
+              className="login-back"
+              style={{ height: `${screenHeight}`, width: `${screenWidth}px` }}
+            >
               <div className="login-luck-bag">Luck bag</div>
-              <div className="name-pass-container">
-                <span className="input-items">
+              <div className="login-container">
+                <div className="login-input-container">
                   <label htmlFor="your_name" className="text-sm block">
                     Name :&thinsp;
                   </label>
@@ -106,7 +108,9 @@ const Login = ({ onLoginSuccess }) => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
-                  <p>&nbsp;</p>
+                </div>
+                <div className="login-input-container">
+                  {" "}
                   <label htmlFor="password" className="text-sm block">
                     Password :&thinsp;
                   </label>
@@ -118,9 +122,10 @@ const Login = ({ onLoginSuccess }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                </span>
+                </div>
               </div>
-              {error && <div className="error-message">{error}</div>}
+
+              <div className="login-error-message">{error ? error : ""}</div>
               <div className="login-button" onClick={handleLogin}>
                 <div className="log-in">Log in</div>
               </div>
