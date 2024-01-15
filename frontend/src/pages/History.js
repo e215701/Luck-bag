@@ -20,28 +20,27 @@ const History = () => {
   const [sortChecked, setSortChecked] = useState(true);
 
   const handleSortCheckboxChange = () => {
-    setSortChecked(!sortChecked); // チェックボックスがトグルされたことを示すために先にトグル
-    let sortedData;
-    if (filterChecked) {
-      sortedData = [...filteredData].sort((a, b) => {
-        const dateA = new Date(a.uploaded_at);
-        const dateB = new Date(b.uploaded_at);
-
-        return sortChecked ? dateA - dateB : dateB - dateA;
+    const newSortChecked = !sortChecked;
+    setSortChecked(newSortChecked); // ステートを更新
+  
+    const sortData = (data) => {
+      return [...data].sort((a, b) => {
+        // image_id を数値として比較
+        return !newSortChecked ? a.image_id - b.image_id : b.image_id - a.image_id;
       });
+    };
+  
+    if (filterChecked) {
+      const sortedData = sortData(filteredData);
       setFilteredData(sortedData);
     } else {
-      sortedData = [...originalOrder].sort((a, b) => {
-        const dateA = new Date(a.uploaded_at);
-        const dateB = new Date(b.uploaded_at);
-
-        return sortChecked ? dateA - dateB : dateB - dateA;
-      });
+      const sortedData = sortData(imageData);
       setImageData(sortedData);
       setOriginalOrder(sortedData);
     }
-    console.log("並べ替え");
   };
+  
+  
 
   const handleFilterCheckboxChange = () => {
     if (!filterChecked) {
