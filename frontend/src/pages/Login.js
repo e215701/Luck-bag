@@ -97,27 +97,26 @@ const Login = ({ onLoginSuccess }) => {
               <div className="login-luck-bag">Luck bag</div>
               <div className="login-container">
                 <div className="login-input-container">
-                  <label htmlFor="your_name" className="text-sm block">
-                    Name :&thinsp;
+                  <label htmlFor="your_name" className="login-text">
+                    Name&thinsp;:
                   </label>
                   <input
                     id="your_name"
                     type="text"
-                    className="transparent-input"
+                    className="login-transparent-input"
                     placeholder="○○ △△"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div className="login-input-container">
-                  {" "}
-                  <label htmlFor="password" className="text-sm block">
-                    Password :&thinsp;
+                  <label htmlFor="password" className="login-text">
+                    Password&thinsp;:
                   </label>
                   <input
                     id="password"
                     type="password"
-                    className="transparent-input"
+                    className="login-transparent-input"
                     placeholder="************"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
