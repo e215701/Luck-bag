@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../css/global.css";
 import "../css/recommend.css";
+import animation1 from "../gif/Luck-bag_Animation_v3_1.gif";
+import animation2 from "../gif/Luck-bag_Animation_v3_2.gif";
+
 
 const Recommend = () => {
   const baseURL = process.env.REACT_APP_API_BASE_URL;
@@ -23,10 +26,10 @@ const Recommend = () => {
 
   // GIFのパスを配列として定義
   const gifs = [
-    "./images/Luck-Bag_Animation_v3_1.gif",
-    "./images/Luck-Bag_Animation_v3_2.gif", // 仮の2つ目のGIFパスを設定
-  ];
-
+    animation1,
+    animation2 // 仮の2つ目のGIFパスを設定
+    ];
+    
   // useStateを追加して選択されたGIFを管理
   const [selectedGif, setSelectedGif] = useState(gifs[0]);
 
@@ -93,8 +96,9 @@ const Recommend = () => {
       observer.observe(text);
     });
 
-    // GIFをランダムに選択する処理を追加
-    setSelectedGif(gifs[Math.floor(Math.random() * gifs.length)]);
+    const newSelectedGif = gifs[Math.floor(Math.random() * gifs.length)];
+    setSelectedGif(newSelectedGif);
+    console.log(Math.floor(Math.random() * gifs.length), newSelectedGif)
 
     return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
   }, [location.state]);
@@ -260,7 +264,6 @@ const Recommend = () => {
                   src="./images/heart-icon.png"
                   id="heart-icon"
                 />
-                {/* <div className="heart"></div> */}
               </label>
             </div>
             <div className="recommend-code-text">{response}</div>

@@ -116,100 +116,97 @@ const Upload = () => {
             }}
           >
             <p>&thinsp;</p>
-            <p>&thinsp;</p>
             <div className="upload-item-headline">
-              <p>あなたの気になっている</p>
-              <p>性別を選んでください</p>
+            <p>どのスタイルの</p>
+            <p>コーデが見たいですか？</p>
             </div>
             <div className="gender-item-container">
-              <label className="gender-label">
+            <label className={`gender-label ${gender === 'not specified' ? 'selected' : ''}`}>
                 <input
                   type="radio"
                   name="gender"
-                  value="male"
-                  checked={gender === "mens"}
-                  onChange={() => selectGender("mens")}
-                  className="gender-input"
-                />
-                <span className="gender-custom-radio"></span>
-                Male
-              </label>
-
-              <label className="gender-label">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={gender === "ladies"}
-                  onChange={() => selectGender("ladies")}
-                  className="gender-input"
-                />
-                <span className="gender-custom-radio"></span>
-                Female
-              </label>
-
-              <label className="gender-label">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="anything"
+                  value="not specified"
                   checked={gender === "not specified"}
                   onChange={() => selectGender("not specified")}
                   className="gender-input"
                 />
-                <span className="gender-custom-radio"></span>
-                Anything
-              </label>
-            </div>
+                <img src="./images/gender_anything_image.png" alt="Anything" className="gender-image" />
+            </label>
 
-            <div className="upload-item-container">
-              <div className="upload-item-headline">写真のポイント</div>
-              <div className="upload-item-text-center">
-                服の形がはっきりとわかる写真にしましょう。
-              </div>
-            </div>
-            <div className="upload-item-container">
-              <div className="upload-item-text-center">
-                <p>写真に複数の服が写っていると、</p>
-                <p>うまくいかない場合があります。</p>
-              </div>
-            </div>
+            <label className={`gender-label ${gender === 'mens' ? 'selected' : ''}`}>
+                <input
+                type="radio"
+                name="gender"
+                value="mens"
+                checked={gender === 'mens'}
+                onChange={() => selectGender('mens')}
+                className="gender-input"
+                />
+                <img src="./images/gender_male_image.png" alt="Male" className="gender-image" />
+            </label>
 
-            {/* <button className="upload-button" onClick={goToRecommend}>
-                        写真をアップロードする
-                    </button> */}
+            <label className={`gender-label ${gender === 'female' ? 'selected' : ''}`}>
+                <input
+                type="radio"
+                name="gender"
+                value="ladies"
+                checked={gender === 'ladies'}
+                onChange={() => selectGender('ladies')}
+                className="gender-input"
+                />
+                <img src="./images/gender_female_image.png" alt="Female" className="gender-image" />
+            </label>
+            </div>
+                    
 
-            {/* <img className="upload-picture" alt="" src={imageData}></img> */}
             <input
-              id="upload"
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={onFileChange}
-              style={{ display: "none" }}
+                id="upload"
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={onFileChange}
+                style={{ display: "none" }}
             />
-
+                    
             {!imageData && (
-              // <div className="upload-image-container">
-              <label htmlFor="upload" class="select-button">
-                <div class="select-button-text">写真をアップロードする</div>
-              </label>
+                // <div className="upload-image-container">
+                <label
+                htmlFor="upload"
+                class="select-button"
+            >
+                <div class="select-button-text">
+                    <p>写真を</p>
+                    <p>アップロードする</p>
+                </div>
+                </label>
             )}
 
             {imageData && (
-              // <div className="upload-image-container">
-              <img src={imageData} alt="Uploaded" className="upload-image" />
+                // <div className="upload-image-container">
+                <img src={imageData} alt="Uploaded" className="upload-image" />
 
-              // </div>
+                // </div>
             )}
 
             <div className="upload-item-container">
-              <label htmlFor="upload" class="upload-button">
-                <div class="upload-button-text" onClick={() => goToRecommend()}>
-                  送信
+                <div className="upload-item-text-left">
+                    ※服の形がはっきりとわかる写真にしましょう
                 </div>
-              </label>
             </div>
+            <div className="upload-item-container">
+                <div className="upload-item-text-left">
+                    ※写真に複数の服が写っていると、うまくいかない場合があります。              
+                </div>
+            </div>
+
+            <div className="upload-item-container">
+            <label
+                htmlFor="upload"
+                class="upload-button"
+            >
+                <div class="upload-button-text" onClick={() => goToRecommend()}>送信</div>
+            </label>
+            </div> 
           </div>
         </div>
       </div>
