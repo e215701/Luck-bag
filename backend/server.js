@@ -8,16 +8,18 @@ const { Pool } = require("pg");
 const Jimp = require("jimp");
 require("dotenv").config({ path: "./.env.local" });
 
+//Expressサーバー、OpenAIモジュールの設定
 const app = express();
-const port = 8080;
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+//リクエストボディの解読に用いるモジュールの設定
 var bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+//CORS通信の設定
 const PORT = process.env.PORT || 8080;
 const allowedOrigins = [
   `http://${process.env.REACT_BASE_URL}:3000`,
@@ -26,7 +28,6 @@ const allowedOrigins = [
   `http://backend:8080`,
   `http://${process.env.REACT_BASE_URL}:8080`,
 ];
-
 //console.log(allowedOrigins);
 const corsOptions = {
   origin: function (origin, callback) {
@@ -46,6 +47,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+//データベースの設定
 const pool = new Pool({
   user: `${process.env.POSTGRES_USER}`,
   host: `db`,
@@ -76,12 +78,13 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+//400KB以下のJPEGファイルデータ(base64)に変換するコード(backend用)
 const convertPngToJpeg = async (inputBase64) => {
   try {
     const inputImageData = inputBase64;
 
-    // 200KB以下にするための品質設定
-    const targetFileSizeInBytes = 200 * 1024; // 200KB
+    // 400KB以下にするための品質設定
+    const targetFileSizeInBytes = 600 * 1024; // 400KB
     let quality = 80; // 初期の品質
 
     // 画像データをBufferに変換
@@ -120,7 +123,6 @@ const convertPngToJpeg = async (inputBase64) => {
           reject(err);
         });
     });
-
     return outputBase64;
   } catch {
     console.error("convertPNGToJPEGエラー:", error);
@@ -131,6 +133,7 @@ const convertPngToJpeg = async (inputBase64) => {
   }
 };
 
+//400KB以下のJPEGファイルデータ(base64)に変換するコード(frontend用)
 app.post("/api/convertJPEG", async (req, res) => {
   try {
     const inputImageData = req.body.imageData;
@@ -182,19 +185,23 @@ app.get("/api/authenticate", authenticateToken, (req, res) => {
   res.json({ isAuthenticated: true });
 });
 
+//通信の重複確認用の変数
 const processedRequestsOfVision = new Set();
 const processedRequestsOfGenerate = new Set();
 
+//デフォルトメッセージを出力するコード
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from Node.js!" });
 });
 
+//起動しているかを出力するコード
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+//洋服の画像からコーデの説明を生成するコード
 app.post("/api/generateVision", async (req, res) => {
-  console.log("通信重複確認");
+  console.log("generateVision確認");
   // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
   const requestBodyHashOfVision = crypto
     .createHash("sha256")
@@ -212,6 +219,7 @@ app.post("/api/generateVision", async (req, res) => {
   try {
     console.log("コーディネート作成中");
     const url = req.body.url;
+    //生成部分
     const response = await openai.chat.completions.create({
       model: "gpt-4-vision-preview",
       messages: [
@@ -242,7 +250,9 @@ app.post("/api/generateVision", async (req, res) => {
   }
 });
 
+//説明からコーデの画像を生成するコード
 app.post("/api/generate", async (req, res) => {
+  console.log("generate確認");
   // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
   const requestBodyHashOfGenerate = crypto
     .createHash("sha256")
@@ -273,7 +283,7 @@ app.post("/api/generate", async (req, res) => {
 
     const imageUrl = imageResponse.data[0].b64_json;
     const imageData = imageUrl;
-    const imageJpeg = await convertPngToJpeg(imageData);
+    const imageJpeg = await convertPngToJpeg(imageData); //JPEGに変換
 
     if (!imageJpeg) {
       return res.status(500).send({ error: "画像の生成に失敗しました。" });
@@ -326,6 +336,7 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
+//ログイン認証をするコード
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -362,5 +373,29 @@ app.post("/api/login", async (req, res) => {
   } catch (error) {
     console.error("Error authenticating user:", error);
     res.status(500).json({ error: "サーバー側でエラーが発生しました。" });
+  }
+});
+
+//データベースに画像データを追加するコード
+app.post("/api/addToDatabase", authenticateToken, async (req, res) => {
+  const { before_image, after_image, is_favorite, description } = req.body;
+  const account_id = req.user.account_id; // デコードされたトークンから取得
+
+  try {
+    // 画像データをデータベースに追加する処理
+    const result = await pool.query(
+      "INSERT INTO images (account_id, before_image, after_image, is_favorite, description) VALUES ($1, $2, $3, $4, $5) RETURNING image_id",
+      [account_id, before_image, after_image, is_favorite, description]
+    );
+
+    const insertedId = result.rows[0].image_id;
+
+    console.log("データベースに追加しました。 ID:", insertedId);
+    res.json({ message: "データベースに追加しました。", id: insertedId });
+  } catch (error) {
+    console.error("Error adding to database:", error);
+    res
+      .status(500)
+      .json({ error: "データベースへの追加中にエラーが発生しました。" });
   }
 });
