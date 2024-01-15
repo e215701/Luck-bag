@@ -16,6 +16,7 @@ topページ
   font-family: var(--font-inter);
   display: flex;
   flex-direction: column;
+  padding: 0px 0px 105px 0px;
 }
 
 .header {
@@ -458,7 +459,7 @@ body {
 .tooltip-content {
   background-color: var(--color-linen);
   padding: 20px;
-  margin: 10px 10px 10px 10px;
+  margin: 10px 10px 0px 0px;
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

@@ -132,13 +132,17 @@ const Toppage = () => {
               >
                 ×
               </span>
-              <div
-                className="tooltip-content"
-                onClick={() => navigate("/Howtouse")}
-              >
+              <div className="tooltip-content">
                 <div className="top-item-text">初めての方へ🔰</div>
                 <div className="top-item-text">
-                  使い方は<span className="colored">ココをタップ</span>👆
+                  使い方は
+                  <span
+                    className="colored"
+                    onClick={() => navigate("/Howtouse")}
+                  >
+                    ココをタップ
+                  </span>
+                  👆
                 </div>
               </div>
             </div>
