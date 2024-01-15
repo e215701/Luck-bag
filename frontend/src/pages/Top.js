@@ -11,6 +11,7 @@ const Toppage = () => {
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
   const [showTooltip, setShowTooltip] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const textItemsRef = useRef([]);
 
   useEffect(() => {
@@ -56,6 +57,25 @@ const Toppage = () => {
         observer.observe(text);
       });
     }
+
+    const fetchAuthenticatedStatus = async () => {
+      try {
+        const response = await fetch("/api/authenticate", {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setIsAuthenticated(data.isAuthenticated);
+        }
+      } catch (error) {
+        console.error("Error fetching authentication status:", error);
+      }
+    };
+
+    fetchAuthenticatedStatus();
 
     return cleanupFunctions;
   }, []);
@@ -119,8 +139,13 @@ const Toppage = () => {
               </div>
               <img
                 className="top-login-icon"
-                src="./images/login-icon.png"
-              ></img>
+                src={
+                  isAuthenticated
+                    ? "./images/login-icon.png"
+                    : "./images/login-icon-dash.png"
+                }
+                alt="login icon"
+              />
             </header>
 
             <div
