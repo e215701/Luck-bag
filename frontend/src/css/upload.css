@@ -22,7 +22,7 @@ uploadページ
     background-color: var(--color-fawn);
     width: calc(100% - 80px);
     margin: 40px 0px 40px 0px;
-    height: 103px;
+    height: 63px;
     /* outline: 2px solid white; */
     cursor: pointer;
     border: none;
@@ -34,12 +34,14 @@ uploadページ
     position: relative;
     border-radius: var(--br-31xl);
     background-color: var(--color-fawn);
-    width: 304px;
-    height: 50px;
+    width: 223px;
+    height: 223px;
+    aspect-ratio: 1/1;
+    /* flex: 1; */
     cursor: pointer;
     border: none;
     border-radius: 50px 50px 50px 50px;
-    margin: 10px 0px 10px 0px;
+    margin: 0px 0px 0px 0px;
   }
 
   .upload-button-text {
@@ -48,15 +50,15 @@ uploadページ
     text-align: center;
     font-size: var(--font-size-xxl);
     height: 45px;
-    margin: 30px 0px 0px 0px;
+    margin: 12px 0px 0px 0px;
   }
 
   .select-button-text {
     position: relative;
     color: var(--color-white);
     text-align: center;
-    top: 0px;
-    height: 45px;
+    top: 25%;
+    /* height: 0px; */
     font-size: var(--font-size-xl);
     margin: 10px 0px 0px 0px;
   }
@@ -81,11 +83,11 @@ uploadページ
   }
   
   .upload-item-container {
-    margin: 20px 0px 20px 0px;
+    margin: 10px 0px 10px 0px;
     align-items: center; /* 縦方向 */
     justify-content: center;
     height: auto;
-    width: 364px;
+    width: 304px;
     display: flex;
     flex-direction: column;
     flex: 0;
@@ -95,7 +97,7 @@ uploadページ
   .upload-item-headline {
     font-size: var(--font-size-xl);
     color: var(--color-fawn);
-    font-weight: 500;
+    font-weight: 600;
     align-items: center;
     justify-content: center;
     text-align: center; /* 中央寄せに変更 */
@@ -107,7 +109,7 @@ uploadページ
     /* margin: 5px 0px 5px 0px; */
   }
   .upload-item-text-left {
-    font-size: var(--font-size-base);
+    font-size: 12px;
     color: var(--color-hickory);
     flex: 0;
     align-items: center;
@@ -120,7 +122,7 @@ uploadページ
   }
   
   .upload-item-text-center {
-    font-size: var(--font-size-base);
+    font-size: 12px;
     color: var(--color-hickory);
     font-weight: 500;
     flex: 0;
@@ -135,11 +137,11 @@ uploadページ
   }
 
   .gender-item-container {
-    margin: 5px 0px 5px 0px;
+    margin: 0px 0px 10px 0px;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 182px;
     display: flex;
   }
 

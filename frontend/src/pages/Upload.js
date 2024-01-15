@@ -13,7 +13,7 @@ const Upload = () => {
 
   useEffect(() => {
     if (imageData) {
-      goToRecommend();
+    //   goToRecommend();
     }
 
     const handleResize = () => {
@@ -139,70 +139,60 @@ const Upload = () => {
                 <img src="./images/gender_female_image.png" alt="Female" className="gender-image" />
             </label>
             </div>
+                    
 
+            <input
+                id="upload"
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={onFileChange}
+                style={{ display: "none" }}
+            />
+                    
+            {!imageData && (
+                // <div className="upload-image-container">
+                <label
+                htmlFor="upload"
+                class="select-button"
+            >
+                <div class="select-button-text">
+                    <p>写真を</p>
+                    <p>アップロードする</p>
+                </div>
+                </label>
+            )}
 
-                
+            {imageData && (
+                // <div className="upload-image-container">
+                <img src={imageData} alt="Uploaded" className="upload-image" />
+
+                // </div>
+            )}
+
             <div className="upload-item-container">
-                <div className="upload-item-headline">写真のポイント</div>
-                <div className="upload-item-text-center">
-                    <p>服の形がはっきりとわかる</p>
-                    <p>写真にしましょう</p>
+                <div className="upload-item-text-left">
+                    ※服の形がはっきりとわかる写真にしましょう
                 </div>
             </div>
             <div className="upload-item-container">
-                <div className="upload-item-text-center">
-                    <p>写真に複数の服が写っていると、</p>
-                    <p>うまくいかない場合があります。</p>                
+                <div className="upload-item-text-left">
+                    ※写真に複数の服が写っていると、うまくいかない場合があります。              
                 </div>
+            </div>
+
+            <div className="upload-item-container">
+            <label
+                htmlFor="upload"
+                class="upload-button"
+            >
+                <div class="upload-button-text">送信</div>
+            </label>
             </div> 
-                    
-                    {/* <button className="upload-button" onClick={goToRecommend}>
-                        写真をアップロードする
-                    </button> */}
-
-                        {/* <img className="upload-picture" alt="" src={imageData}></img> */}
-                        <input
-                        id="upload"
-                        type="file"
-                        name="image"
-                        accept="image/*"
-                        onChange={onFileChange}
-                        style={{ display: "none" }}
-                        />
-                    
-                    {!imageData && (
-                        // <div className="upload-image-container">
-                        <label
-                        htmlFor="upload"
-                        class="select-button"
-                    >
-                        <div class="select-button-text">写真をアップロードする</div>
-                        </label>
-                    )}
-
-                    {imageData && (
-                        // <div className="upload-image-container">
-                        <img src={imageData} alt="Uploaded" className="upload-image" />
-
-                        // </div>
-                    )}
-
-                    <div className="upload-item-container">
-                    <label
-                        htmlFor="upload"
-                        class="upload-button"
-                    >
-                        <div class="upload-button-text">送信</div>
-                    </label>
-
-                    
-
-                    
-                  </div> 
-                </div>
-              </div>
-            </div>
           </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
