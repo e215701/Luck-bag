@@ -76,6 +76,7 @@ const Toppage = () => {
           const data = await response.json();
           console.log(data);
           setIsAuthenticated(data.isAuthenticated);
+          setShowTooltip(false);
         }
       } catch (error) {
         console.error("Error fetching authentication status:", error);
