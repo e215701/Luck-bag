@@ -11,7 +11,15 @@ const Toppage = () => {
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
   const [showTooltip, setShowTooltip] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const textItemsRef = useRef([]);
+
+  const clickLoginIcon = () => {
+    if (!isAuthenticated) {
+      navigate("/Login");
+      console.log("loginしていません");
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,6 +65,25 @@ const Toppage = () => {
       });
     }
 
+    const fetchAuthenticatedStatus = async () => {
+      try {
+        const response = await fetch("/api/authenticate", {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setIsAuthenticated(data.isAuthenticated);
+        }
+      } catch (error) {
+        console.error("Error fetching authentication status:", error);
+      }
+    };
+
+    fetchAuthenticatedStatus();
+
     return cleanupFunctions;
   }, []);
 
@@ -72,7 +99,7 @@ const Toppage = () => {
         <img className="loading-image" src="./images/clothes.jpg" alt="logo" />
         <div className="loading-icon">
           <div className="loading-text">
-            <span>Luckbag</span>
+            <span>Luck bag</span>
           </div>
           <div className="loading-text">
             日常のスタイリングを<br></br>もっと楽しく、おしゃれに
@@ -114,13 +141,19 @@ const Toppage = () => {
               </div>
               <div class="navtext-container">
                 <button class="navtext" onClick={() => navigate("/")}>
-                  Luck Bag
+                  Luck bag
                 </button>
               </div>
               <img
                 className="top-login-icon"
-                src="./images/login-icon.png"
-              ></img>
+                src={
+                  isAuthenticated
+                    ? "./images/login-icon.png"
+                    : "./images/login-icon-solid.png"
+                }
+                alt="login icon"
+                onClick={() => clickLoginIcon()}
+              />
             </header>
 
             <div
@@ -132,13 +165,17 @@ const Toppage = () => {
               >
                 ×
               </span>
-              <div
-                className="tooltip-content"
-                onClick={() => navigate("/Howtouse")}
-              >
+              <div className="tooltip-content">
                 <div className="top-item-text">初めての方へ🔰</div>
                 <div className="top-item-text">
-                  使い方は<span className="colored">ココをタップ</span>👆
+                  使い方は
+                  <span
+                    className="colored"
+                    onClick={() => navigate("/Howtouse")}
+                  >
+                    ココをタップ
+                  </span>
+                  👆
                 </div>
               </div>
             </div>
@@ -210,7 +247,8 @@ const Toppage = () => {
               >
                 <div className="top-item-headline">PRODUCT</div>
                 <div className="top-item-text">
-                  "LuckBag"は、手持ちの洋服を活用したいけれど、どうコーディネートしたらいいか迷っている方々のためのWebアプリです。シンプルなデザインが好きな方にぴったり。日常のスタイリングをもっと楽しく、おしゃれにアップデートしましょう。
+                  "<span>Luckbag</span>
+                  "は、手持ちの洋服を活用したいけれど、どうコーディネートしたらいいか迷っている方々のためのWebアプリです。シンプルなデザインが好きな方にぴったり。日常のスタイリングをもっと楽しく、おしゃれにアップデートしましょう。
                 </div>
               </div>
               <div
@@ -218,7 +256,7 @@ const Toppage = () => {
                 className="fade-text"
               >
                 <div className="top-item-headline">
-                  <span className="luckbag"> Luck Bag</span>の特徴
+                  <span className="luckbag"> Luck bag</span>の特徴
                 </div>
                 <div className="top-item-container">
                   <div className="top-item-text-title">コーディネート提案</div>
