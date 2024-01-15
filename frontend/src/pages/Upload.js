@@ -117,11 +117,15 @@ const Upload = () => {
           >
             <p>&thinsp;</p>
             <div className="upload-item-headline">
-            <p>どのスタイルの</p>
-            <p>コーデが見たいですか？</p>
+              <p>どのスタイルの</p>
+              <p>コーデが見たいですか？</p>
             </div>
             <div className="gender-item-container">
-            <label className={`gender-label ${gender === 'not specified' ? 'selected' : ''}`}>
+              <label
+                className={`gender-label ${
+                  gender === "not specified" ? "selected" : ""
+                }`}
+              >
                 <input
                   type="radio"
                   name="gender"
@@ -130,83 +134,98 @@ const Upload = () => {
                   onChange={() => selectGender("not specified")}
                   className="gender-input"
                 />
-                <img src="./images/gender_anything_image.png" alt="Anything" className="gender-image" />
-            </label>
-
-            <label className={`gender-label ${gender === 'mens' ? 'selected' : ''}`}>
-                <input
-                type="radio"
-                name="gender"
-                value="mens"
-                checked={gender === 'mens'}
-                onChange={() => selectGender('mens')}
-                className="gender-input"
+                <img
+                  src="./images/gender_anything_image.png"
+                  alt="Anything"
+                  className="gender-image"
                 />
-                <img src="./images/gender_male_image.png" alt="Male" className="gender-image" />
-            </label>
+              </label>
 
-            <label className={`gender-label ${gender === 'female' ? 'selected' : ''}`}>
+              <label
+                className={`gender-label ${
+                  gender === "mens" ? "selected" : ""
+                }`}
+              >
                 <input
-                type="radio"
-                name="gender"
-                value="ladies"
-                checked={gender === 'ladies'}
-                onChange={() => selectGender('ladies')}
-                className="gender-input"
+                  type="radio"
+                  name="gender"
+                  value="mens"
+                  checked={gender === "mens"}
+                  onChange={() => selectGender("mens")}
+                  className="gender-input"
                 />
-                <img src="./images/gender_female_image.png" alt="Female" className="gender-image" />
-            </label>
+                <img
+                  src="./images/gender_male_image.png"
+                  alt="Male"
+                  className="gender-image"
+                />
+              </label>
+
+              <label
+                className={`gender-label ${
+                  gender === "ladies" ? "selected" : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="gender"
+                  value="ladies"
+                  checked={gender === "ladies"}
+                  onChange={() => selectGender("ladies")}
+                  className="gender-input"
+                />
+                <img
+                  src="./images/gender_female_image.png"
+                  alt="Female"
+                  className="gender-image"
+                />
+              </label>
             </div>
-                    
 
             <input
-                id="upload"
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={onFileChange}
-                style={{ display: "none" }}
+              id="upload"
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={onFileChange}
+              style={{ display: "none" }}
             />
-                    
+
             {!imageData && (
-                // <div className="upload-image-container">
-                <label
-                htmlFor="upload"
-                class="select-button"
-            >
+              // <div className="upload-image-container">
+              <label htmlFor="upload" class="select-button">
                 <div class="select-button-text">
-                    <p>写真を</p>
-                    <p>アップロードする</p>
+                  <p>写真を</p>
+                  <p>アップロードする</p>
                 </div>
-                </label>
+              </label>
             )}
 
             {imageData && (
-                // <div className="upload-image-container">
-                <img src={imageData} alt="Uploaded" className="upload-image" />
+              // <div className="upload-image-container">
+              <img src={imageData} alt="Uploaded" className="upload-image" />
 
-                // </div>
+              // </div>
             )}
 
             <div className="upload-item-container">
-                <div className="upload-item-text-left">
-                    ※服の形がはっきりとわかる写真にしましょう
-                </div>
+              <div className="upload-item-text-left">
+                ※服の形がはっきりとわかる写真にしましょう
+              </div>
             </div>
             <div className="upload-item-container">
-                <div className="upload-item-text-left">
-                    ※写真に複数の服が写っていると、うまくいかない場合があります。              
-                </div>
+              <div className="upload-item-text-left">
+                ※写真に複数の服が写っていると、うまくいかない場合があります。
+              </div>
             </div>
 
             <div className="upload-item-container">
-            <label
-                htmlFor="upload"
-                class="upload-button"
-            >
-                <div class="upload-button-text" onClick={() => goToRecommend()}>送信</div>
-            </label>
-            </div> 
+              <label htmlFor="upload" class="upload-button">
+                <div class="upload-button-text" onClick={() => goToRecommend()}>
+                  送信
+                </div>
+              </label>
+            </div>
           </div>
         </div>
       </div>
