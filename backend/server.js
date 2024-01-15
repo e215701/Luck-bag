@@ -399,3 +399,21 @@ app.post("/api/addToDatabase", authenticateToken, async (req, res) => {
       .json({ error: "データベースへの追加中にエラーが発生しました。" });
   }
 });
+
+app.post("/api/getHistory", authenticateToken, async (req, res) => {
+  const account_id = req.user.account_id; // デコードされたトークンから取得
+
+  try {
+    // 画像データをデータベースに追加する処理
+    const queryResult = await pool.query(
+      "SELECT image_id, before_image, after_image, description, uploaded_at, is_favorite FROM images WHERE account_id=$1",
+      [account_id]
+    );
+
+    // 取得したデータをJSON形式でクライアントに送信
+    res.json({ history_data: queryResult.rows });
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ error: "サーバー側でエラーが発生しました。" });
+  }
+});
