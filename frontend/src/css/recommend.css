@@ -114,18 +114,6 @@ html {
   outline: 2px solid blue;
 }
 
-.heart {
-  width: 50px;
-  height: 50px;
-  stroke: var(--color-hickory);
-  stroke-width: 2px;
-  clip-path: path(
-    "M41.51,11.63a9.67,9.67,0,0,0-13.7,0L24,15.43l-3.81-3.8a9.69,9.69,0,0,0-13.7,13.7L24,42.84l13.7-13.7h0l3.81-3.81A9.69,9.69,0,0,0,41.51,11.63Z"
-  );
-  fill: #ff5252;
-  transform: scale(1);
-}
-
 .recommend-code-recreate {
   width: auto;
   height: 52px;
@@ -216,7 +204,7 @@ html {
   font-weight: lighter;
   z-index: 10; /* 必要に応じてz-indexを設定して、テキストを前面に保持 */
   text-shadow: none;
-  animation: blink 2.5s ease-in-out infinite; /* 1.5秒の間隔で点滅 */
+  animation: blink 1.75s ease-in-out infinite;
 }
 
 @keyframes blink {
