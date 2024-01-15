@@ -9,6 +9,33 @@ const Howtouse = () => {
   const navigate = useNavigate();
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const clickLoginIcon = () => {
+    if (!isAuthenticated) {
+      navigate("/Login");
+      console.log("loginしていません");
+    }
+  };
+
+  const fetchAuthenticatedStatus = async () => {
+    try {
+      const response = await fetch("/api/authenticate", {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setIsAuthenticated(data.isAuthenticated);
+      }
+    } catch (error) {
+      console.error("Error fetching authentication status:", error);
+    }
+  };
+
+  fetchAuthenticatedStatus();
   useEffect(() => {
     // 画面サイズの取得
     const handleResize = () => {
@@ -42,10 +69,19 @@ const Howtouse = () => {
         </div>
         <div class="navtext-container">
           <button class="navtext" onClick={() => navigate("/")}>
-            Luck Bag
+            Luck bag
           </button>
         </div>
-        <img className="top-login-icon" src="./images/login-icon.png"></img>
+        <img
+          className="top-login-icon"
+          src={
+            isAuthenticated
+              ? "./images/login-icon.png"
+              : "./images/login-icon-dash.png"
+          }
+          alt="login icon"
+          onClick={() => clickLoginIcon()}
+        />
       </header>
       <body>
         <div className="howtouse-howtouse">
