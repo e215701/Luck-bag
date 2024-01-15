@@ -9,11 +9,6 @@ topページ
   width: 100%;
   height: auto;
   overflow: visible;
-  text-align: center;
-  align-items: center;
-  font-size: var(--font-size-base);
-  color: var(--color-black);
-  font-family: var(--font-inter);
   display: flex;
   flex-direction: column;
   padding: 0px 0px 105px 0px;
@@ -22,7 +17,6 @@ topページ
 .header {
   background: linear-gradient(to bottom, var(--color-linen), transparent);
   position: fixed;
-  font-size: var(--font-header);
   width: 100%;
   height: 80px;
   z-index: 1010;
@@ -190,9 +184,10 @@ body {
   display: inline-block;
   position: absolute;
   color: var(--color-hickory);
-  letter-spacing: 4px;
   font-size: var(--font-size-header);
   font-family: var(--font-libre-bodoni);
+  font-weight: normal;
+  font-style: normal;
 }
 
 .top-hum-icon {
@@ -203,11 +198,10 @@ body {
   flex: 0;
 }
 .top-login-icon {
-  width: 35px;
-  height: 35px;
-  aspect-ratio: 1f;
+  width: calc(52px - 18px);
+  height: calc(52px - 18px);
   flex: 0;
-  margin: 9px;
+  padding: 9px;
 }
 
 .top-image {
@@ -295,7 +289,7 @@ body {
 .top-item-text .colored {
   color: var(--color-fawn);
 }
-.top-item-text .luckbag {
+.luckbag {
   font-family: var(--font-libre-bodoni);
 }
 
@@ -384,7 +378,7 @@ body {
   font-family: var(--font-libre-bodoni);
   flex: 0;
   font-size: var(--font-size-loadingicon);
-  font-weight: 800;
+  font-weight: 400;
 }
 
 .fade-out {

@@ -99,7 +99,7 @@ const Toppage = () => {
         <img className="loading-image" src="./images/clothes.jpg" alt="logo" />
         <div className="loading-icon">
           <div className="loading-text">
-            <span>Luckbag</span>
+            <span>Luck bag</span>
           </div>
           <div className="loading-text">
             日常のスタイリングを<br></br>もっと楽しく、おしゃれに
@@ -141,7 +141,7 @@ const Toppage = () => {
               </div>
               <div class="navtext-container">
                 <button class="navtext" onClick={() => navigate("/")}>
-                  Luck Bag
+                  Luck bag
                 </button>
               </div>
               <img
@@ -247,7 +247,8 @@ const Toppage = () => {
               >
                 <div className="top-item-headline">PRODUCT</div>
                 <div className="top-item-text">
-                  "LuckBag"は、手持ちの洋服を活用したいけれど、どうコーディネートしたらいいか迷っている方々のためのWebアプリです。シンプルなデザインが好きな方にぴったり。日常のスタイリングをもっと楽しく、おしゃれにアップデートしましょう。
+                  "<span>Luckbag</span>
+                  "は、手持ちの洋服を活用したいけれど、どうコーディネートしたらいいか迷っている方々のためのWebアプリです。シンプルなデザインが好きな方にぴったり。日常のスタイリングをもっと楽しく、おしゃれにアップデートしましょう。
                 </div>
               </div>
               <div
@@ -255,7 +256,7 @@ const Toppage = () => {
                 className="fade-text"
               >
                 <div className="top-item-headline">
-                  <span className="luckbag"> Luck Bag</span>の特徴
+                  <span className="luckbag"> Luck bag</span>の特徴
                 </div>
                 <div className="top-item-container">
                   <div className="top-item-text-title">コーディネート提案</div>
