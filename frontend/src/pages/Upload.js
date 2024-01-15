@@ -102,7 +102,7 @@ const Upload = () => {
             </div>
             <div class="navtext-container">
               <button class="navtext" onClick={() => navigate("/")}>
-                Luck Bag
+                Luck bag
               </button>
             </div>
             <img className="top-login-icon" src="./images/login-icon.png"></img>
