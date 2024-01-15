@@ -31,11 +31,9 @@ const Login = ({ onLoginSuccess }) => {
     const loadingTimeoutId = setTimeout(() => setLoadingState(false), 150);
 
     return () => {
-        clearTimeout(loadingTimeoutId);
-        window.removeEventListener('resize', handleResize);
-      };
-
-    
+      clearTimeout(loadingTimeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const handleLogin = async () => {
@@ -76,7 +74,9 @@ const Login = ({ onLoginSuccess }) => {
 
   return (
     <div id="loginpage">
-      <div className={`loading-overlay ${!loadingState ? "fade-Out" : ""}`}></div>
+      <div
+        className={`loading-overlay ${!loadingState ? "fade-Out" : ""}`}
+      ></div>
       {showPage && (
         <div id="wrapper">
           <div id="content" className="fade-In">
@@ -85,8 +85,13 @@ const Login = ({ onLoginSuccess }) => {
             >
             </div> */}
             <div className="login-back" style={{ width: `${screenWidth}px` }}>
-                <img className="login-image" src="./images/clothes.jpg" alt="logo" style={{ height: `${screenHeight}px`, width: '100%' }} />
-                <div className="login-container" />
+              <img
+                className="login-image"
+                src="./images/clothes.jpg"
+                alt="logo"
+                style={{ height: `${screenHeight}px`, width: "100%" }}
+              />
+              <div className="login-container" />
               <div className="login-luck-bag">Luck bag</div>
               <div className="name-pass-container">
                 <span className="input-items">

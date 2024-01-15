@@ -12,6 +12,7 @@ const Recommend = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedGender, setSelectedGender] = useState("");
   const [response, setResponse] = useState("");
   const [generatedImage, setGeneratedImage] = useState(null);
 
@@ -34,10 +35,12 @@ const Recommend = () => {
 
   useEffect(() => {
     const imageData = location.state?.image;
-    if (imageData) {
+    const gender = location.state?.gender;
+    if (imageData && gender) {
       setSelectedImage(imageData);
+      setSelectedGender(gender);
       console.log("イメージ設定");
-      createCoordinate(imageData);
+      createCoordinate(imageData, gender);
       console.log("通信開始");
     }
 
@@ -119,11 +122,11 @@ const Recommend = () => {
     }
   };
 
-  const createCoordinate = (imageFile) => {
-    // fetchData(imageFile);
+  const createCoordinate = (imageFile, gender) => {
+    fetchData(imageFile, gender);
   };
 
-  const fetchData = async (imageFile) => {
+  const fetchData = async (imageFile, gender) => {
     console.log("感想生成中");
 
     const base64 = imageFile.split(",")[1];
@@ -138,6 +141,7 @@ const Recommend = () => {
 
       const base64img = await imageResponse.json();
       const base64Str = base64img.imageJpeg; //生成前の画像データ
+      setSelectedImage(base64Str);
       console.log(base64img);
 
       const response = await fetch(`/api/generateVision`, {
@@ -157,7 +161,7 @@ const Recommend = () => {
         method: "POST",
         mode: "cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: description }),
+        body: JSON.stringify({ prompt: description, fashion: gender }),
       });
 
       const dataImage = await responseImage.json();
@@ -177,19 +181,17 @@ const Recommend = () => {
         // </div>
 
         <div className="loading-animation">
-            <img
-                className="loading-icon"
-                src={selectedGif} // srcをselectedGifに設定してランダムなGIFを表示
-                alt="loading animation"
-                style={{
-                height: `${screenHeight}px`,
-                width: `${screenWidth}px`,
-                }}
-            />
-            {/* New div for loading text */}
-            <div className="load-text">
-                Now Loading...
-            </div>
+          <img
+            className="loading-icon"
+            src={selectedGif} // srcをselectedGifに設定してランダムなGIFを表示
+            alt="loading animation"
+            style={{
+              height: `${screenHeight}px`,
+              width: `${screenWidth}px`,
+            }}
+          />
+          {/* New div for loading text */}
+          <div className="load-text">Now Loading...</div>
         </div>
       )}
       {generatedImage && (

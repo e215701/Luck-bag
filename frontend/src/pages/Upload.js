@@ -8,14 +8,15 @@ const Upload = () => {
   const [imageData, setImageData] = useState(null);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
-  const [gender, setGender] = useState("anything")
-  const [genderImage, setGenderImage] = useState({male: './images/gender_male_image.png', female: './images/gender_female_image.png', anything: './images/gender_anything_image.png'});
+  const [gender, setGender] = useState("not specified");
+  const [genderImage, setGenderImage] = useState({
+    male: "./images/gender_male_image.png",
+    female: "./images/gender_female_image.png",
+    anything: "./images/gender_anything_image.png",
+  });
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (imageData) {
-    //   goToRecommend();
-    }
-
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
       setScreenWidth(window.innerWidth);
@@ -49,26 +50,34 @@ const Upload = () => {
   };
 
   const goToRecommend = () => {
-    navigate("/Recommend", { state: { image: imageData, gender: gender } });
+    if (imageData) {
+      console.log(gender);
+      navigate("/Recommend", { state: { image: imageData, gender: gender } });
+    } else {
+      setError("画像を選択してください。");
+    }
   };
 
   const selectGender = (selectedGender) => {
     setGender(selectedGender);
     setGenderImage({
       ...genderImage,
-      [selectedGender]: selectedGender === 'male' ? './images/gender_anything_image.png' : selectedGender === 'female' ? './images/gender_anything_image.png' : './images/gender_male_image.png'
+      [selectedGender]:
+        selectedGender === "male"
+          ? "./images/gender_anything_image.png"
+          : selectedGender === "female"
+          ? "./images/gender_anything_image.png"
+          : "./images/gender_male_image.png",
     });
-};
+  };
 
   return (
     <div id="upload-page">
-        <div id="wrapper">
-          <div id="content" className="fade-in">
-            {/* <div className="header">LuckBag</div> */}
-            <header class="header">
-              <div class="navtext-container">
-                <div class="navtext">Luck Bag</div>
-              </div>
+      <div id="wrapper">
+        <div id="content" className="fade-in">
+          {/* <div className="header">LuckBag</div> */}
+          <header class="header">
+            <div className="top-hum-icon">
               <input type="checkbox" class="menu-btn" id="menu-btn" />
               <label for="menu-btn" class="menu-icon">
                 <span class="navicon"></span>
@@ -76,52 +85,61 @@ const Upload = () => {
               <ul class="menu">
                 <div className="menu-spacer"></div>
                 <li>
-                  <a onClick={() => navigate("/")}>TOP</a>
+                  <button onClick={() => navigate("/")}>TOP</button>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/Upload")}>UPLOAD</a>
+                  <button onClick={() => navigate("/Upload")}>UPLOAD</button>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/History")}>HISTORY</a>
+                  <button onClick={() => navigate("/History")}>HISTORY</button>
                 </li>
                 <li>
-                  <a onClick={() => navigate("/Howtouse")}>HOW TO USE</a>
+                  <button onClick={() => navigate("/Howtouse")}>
+                    HOW TO USE
+                  </button>
                 </li>
               </ul>
-            </header>
-            
-            <div className="upload-page"
-                style={{
-                  width: `${screenWidth}px`,
-                  height: `${screenHeight}px`,
-                }}
-            >
+            </div>
+            <div class="navtext-container">
+              <button class="navtext" onClick={() => navigate("/")}>
+                Luck Bag
+              </button>
+            </div>
+            <img className="top-login-icon" src="./images/login-icon.png"></img>
+          </header>
 
+          <div
+            className="upload-page"
+            style={{
+              width: `${screenWidth}px`,
+              height: `${screenHeight}px`,
+            }}
+          >
             <p>&thinsp;</p>
             <div className="upload-item-headline">
             <p>どのスタイルの</p>
             <p>コーデが見たいですか？</p>
             </div>
             <div className="gender-item-container">
-            <label className={`gender-label ${gender === 'anything' ? 'selected' : ''}`}>
+            <label className={`gender-label ${gender === 'not specified' ? 'selected' : ''}`}>
                 <input
-                type="radio"
-                name="gender"
-                value="anything"
-                checked={gender === 'anything'}
-                onChange={() => selectGender('anything')}
-                className="gender-input"
+                  type="radio"
+                  name="gender"
+                  value="not specified"
+                  checked={gender === "not specified"}
+                  onChange={() => selectGender("not specified")}
+                  className="gender-input"
                 />
                 <img src="./images/gender_anything_image.png" alt="Anything" className="gender-image" />
             </label>
 
-            <label className={`gender-label ${gender === 'male' ? 'selected' : ''}`}>
+            <label className={`gender-label ${gender === 'mens' ? 'selected' : ''}`}>
                 <input
                 type="radio"
                 name="gender"
-                value="male"
-                checked={gender === 'male'}
-                onChange={() => selectGender('male')}
+                value="mens"
+                checked={gender === 'mens'}
+                onChange={() => selectGender('mens')}
                 className="gender-input"
                 />
                 <img src="./images/gender_male_image.png" alt="Male" className="gender-image" />
@@ -131,9 +149,9 @@ const Upload = () => {
                 <input
                 type="radio"
                 name="gender"
-                value="female"
-                checked={gender === 'female'}
-                onChange={() => selectGender('female')}
+                value="ladies"
+                checked={gender === 'ladies'}
+                onChange={() => selectGender('ladies')}
                 className="gender-input"
                 />
                 <img src="./images/gender_female_image.png" alt="Female" className="gender-image" />
@@ -186,7 +204,7 @@ const Upload = () => {
                 htmlFor="upload"
                 class="upload-button"
             >
-                <div class="upload-button-text">送信</div>
+                <div class="upload-button-text" onClick={() => goToRecommend()}>送信</div>
             </label>
             </div> 
           </div>
