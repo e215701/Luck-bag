@@ -135,7 +135,7 @@ loginページ
   position: relative;
   background-color: transparent; /* 背景透明 */
   width: 211px; /* login-buttonと同じ幅 */
-  height: 59px; /* login-buttonと同じ高さ */
+  height: 60px; /* login-buttonと同じ高さ */
   cursor: pointer;
   display: flex;
   justify-content: center; /* ボタン内のテキストを中央揃えに */
