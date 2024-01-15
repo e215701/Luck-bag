@@ -195,19 +195,34 @@ const Upload = () => {
               // <div className="upload-image-container">
               <label htmlFor="upload" class="select-button">
                 <div class="select-button-text">
-                  <p>写真を</p>
-                  <p>アップロードする</p>
+                  <img
+                    className="select-button-image"
+                    src="./images/camera-icon.png"
+                  ></img>
                 </div>
               </label>
             )}
 
             {imageData && (
-              // <div className="upload-image-container">
-              <img src={imageData} alt="Uploaded" className="upload-image" />
+              <label htmlFor="upload" class="selected-button">
+                <div class="select-button-text">
+                  <img
+                    src={imageData}
+                    alt="Uploaded image"
+                    className="upload-image"
+                  />
+                  <div className="upload-icon-container">
+                    <img
+                      className="select-button-image"
+                      src="./images/camera-icon-white.png"
+                    ></img>
+                  </div>
+                </div>
+              </label>
 
               // </div>
             )}
-
+            <div className="upload-spacer"></div>
             <div className="upload-item-container">
               <div className="upload-item-text-left">
                 ※服の形がはっきりとわかる写真にしましょう
@@ -218,14 +233,12 @@ const Upload = () => {
                 ※写真に複数の服が写っていると、うまくいかない場合があります。
               </div>
             </div>
-
-            <div className="upload-item-container">
-              <label htmlFor="upload" class="upload-button">
-                <div class="upload-button-text" onClick={() => goToRecommend()}>
-                  送信
-                </div>
-              </label>
-            </div>
+            <div className="upload-spacer" style={{ height: "40px" }}></div>
+            <label htmlFor="upload" class="upload-button">
+              <div class="upload-button-text" onClick={() => goToRecommend()}>
+                送信
+              </div>
+            </label>
           </div>
         </div>
       </div>

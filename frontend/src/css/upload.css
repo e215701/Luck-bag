@@ -14,176 +14,230 @@ uploadページ
   font-family: var(--font-kaisei-opti);
   display: flex;
   flex-direction: column;
+  max-width: 500px;
+  left: 50%;
+  transform: translate(-50%);
 }
 
-  .upload-button {
-    position: relative;
-    border-radius: var(--br-31xl);
-    background-color: var(--color-fawn);
-    width: calc(100% - 80px);
-    margin: 40px 0px 40px 0px;
-    height: 63px;
-    /* outline: 2px solid white; */
-    cursor: pointer;
-    border: none;
-    border-radius: 50px 50px 50px 50px;
-    margin: 10px 0px 10px 0px;
-  }
+.upload-button {
+  position: relative;
+  background-color: var(--color-fawn);
+  width: calc(100% - 120px);
+  margin: 0px;
+  height: 80px;
+  /* outline: 2px solid white; */
+  cursor: pointer;
+  border: none;
+  border-radius: 50px 50px 50px 50px;
+  margin: 0px 60px 10px 60px;
+}
 
-  .select-button {
-    position: relative;
-    border-radius: var(--br-31xl);
-    background-color: var(--color-fawn);
-    width: 223px;
-    height: 223px;
-    aspect-ratio: 1/1;
-    /* flex: 1; */
-    cursor: pointer;
-    border: none;
-    border-radius: 50px 50px 50px 50px;
-    margin: 0px 0px 0px 0px;
-  }
+.select-button-image {
+  position: relative;
+  width: 70px;
+  height: auto;
+  object-fit: cover;
+  display: flex;
+}
 
-  .upload-button-text {
-    position: relative;
-    color: var(--color-white);
-    text-align: center;
-    font-size: var(--font-size-xxl);
-    height: 45px;
-    margin: 12px 0px 0px 0px;
-  }
+.select-button {
+  position: relative;
+  width: calc(100% - 130px);
+  height: auto;
+  background-color: var(--color-linen);
+  aspect-ratio: 1;
+  border: 5px dashed var(--color-fawn);
+  cursor: pointer;
+  border-radius: 50px;
+  overflow: hidden;
+  margin: 0px 50px 0px 50px;
+}
+.selected-button {
+  position: relative;
+  width: calc(100% - 130px);
+  height: auto;
+  background-color: var(--color-linen);
+  aspect-ratio: 1;
+  border: 5px solid var(--color-fawn);
+  cursor: pointer;
+  border-radius: 50px;
+  overflow: hidden;
+  margin: 0px 50px 0px 50px;
+  overflow: hidden;
+}
 
-  .select-button-text {
-    position: relative;
-    color: var(--color-white);
-    text-align: center;
-    top: 25%;
-    /* height: 0px; */
-    font-size: var(--font-size-xl);
-    margin: 10px 0px 0px 0px;
-  }
-  
-  .upload-image {
-    width: auto;
-    height: 30%;
-    margin: 0px 0px 0px 0px;
-    /* outline: 2px solid yellow; */
-  }
-  
-  .upload-image-container {
-    margin: 20px 0px 20px 0px;
-    align-items: center; /* 縦方向 */
-    justify-content: center;
-    height: auto;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    flex: 0;
-    /* outline: 2px solid yellow; */
-  }
-  
-  .upload-item-container {
-    margin: 10px 0px 10px 0px;
-    align-items: center; /* 縦方向 */
-    justify-content: center;
-    height: auto;
-    width: 304px;
-    display: flex;
-    flex-direction: column;
-    flex: 0;
-    /* outline: 2px solid yellow; */
-  }
-  
-  .upload-item-headline {
-    font-size: var(--font-size-xl);
-    color: var(--color-fawn);
-    font-weight: 600;
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* 中央寄せに変更 */
-    width: 100%;
-    top: 0px;
-    left: 0px;
-    height: auto;
-    /* flex: 0; */
-    /* margin: 5px 0px 5px 0px; */
-  }
-  .upload-item-text-left {
-    font-size: 12px;
-    color: var(--color-hickory);
-    flex: 0;
-    align-items: center;
-    justify-content: center;
-    text-align: left; /* 左寄せに変更 */
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: auto;
-  }
-  
-  .upload-item-text-center {
-    font-size: 12px;
-    color: var(--color-hickory);
-    font-weight: 500;
-    flex: 0;
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* 中央寄せに変更 */
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: auto;
-    /* white-space: pre-wrap; */
-  }
+.upload-button-text {
+  position: relative;
+  color: var(--color-white);
+  text-align: center;
+  align-items: center; /* 横方向の中央揃え */
+  display: flex; /* flexコンテナとして設定 */
+  flex-direction: column; /* 縦方向に並べる */
+  justify-content: center; /* 縦方向の中央揃え */
+  font-size: var(--font-size-xxl);
+  height: 80px;
+}
 
-  .gender-item-container {
-    margin: 0px 0px 10px 0px;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 182px;
-    display: flex;
-  }
+.select-button-text {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  text-align: center;
+  align-items: center; /* 横方向の中央揃え */
+  display: flex; /* flexコンテナとして設定 */
+  flex-direction: column; /* 縦方向に並べる */
+  justify-content: center; /* 縦方向の中央揃え */
+  font-size: var(--font-size-xl);
+}
 
-  .gender-image {
-    width: 50px; /* これは目安です、実際に合うサイズに調整してください */
-    height: auto;
-    /* transition: border-color 0.2s, box-shadow 0.2s; */
-  }
-  
-  .gender-label {
-    margin: 0 10px;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 10px;
-    border: 2px solid transparent; /* 常に境界線を持たせるが透明にしておく */
-  }
+.upload-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  object-fit: contain;
+  margin: 0px 0px 0px 0px;
+  /* outline: 2px solid yellow; */
+  z-index: 1800;
+}
 
-  .gender-label .gender-image {
-    width: 70px;
-    height: 70px; /* 遷移効果をここに移動 */
-  }
-  
-  .gender-input {
-    display: none;
-  }
-  
-  
-  
-  .gender-label.selected .gender-image {
-    border: 2px solid var(--color-fawn); /* 枠色を変更 */
-    background-color: #D9D9D9;
-    border-radius: 8px;
-    /* コンテンツサイズを維持するために、ここでのpaddingを調整します */
-    box-sizing: border-box; /* borderとpaddingを含んだサイズ計算をする */
-  }
-  
-  .gender-image{
-    width: 70px;
-    height: 70px;
-  }
-  
-  /* 
+.upload-image-container {
+  margin: 20px 0px 20px 0px;
+  align-items: center; /* 縦方向 */
+  justify-content: center;
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+  /* outline: 2px solid yellow; */
+}
+.upload-spacer {
+  height: 10px;
+  width: 100%;
+}
+
+.upload-icon-container {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  align-items: center; /* 横方向の中央揃え */
+  display: flex; /* flexコンテナとして設定 */
+  flex-direction: column; /* 縦方向に並べる */
+  justify-content: center; /* 縦方向の中央揃え */
+  flex-direction: column;
+  z-index: 2000;
+}
+.upload-item-container {
+  margin: 0px 40px 0px 40px;
+  align-items: center; /* 縦方向 */
+  justify-content: center;
+  height: auto;
+  width: calc(100% - 130px);
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+  /* outline: 2px solid yellow; */
+}
+
+.upload-item-headline {
+  font-size: var(--font-size-xl);
+  color: var(--color-fawn);
+  font-weight: 600;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* 中央寄せに変更 */
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  height: auto;
+  /* flex: 0; */
+  /* margin: 5px 0px 5px 0px; */
+}
+.upload-item-headline p {
+  margin: 10px 0px;
+}
+.upload-item-text-left {
+  font-size: 12px;
+  color: var(--color-hickory);
+  flex: 0;
+  align-items: center;
+  justify-content: center;
+  text-align: left; /* 左寄せに変更 */
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: auto;
+}
+
+.upload-item-text-center {
+  font-size: 12px;
+  color: var(--color-hickory);
+  font-weight: 500;
+  flex: 0;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* 中央寄せに変更 */
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: auto;
+  /* white-space: pre-wrap; */
+}
+
+.gender-item-container {
+  position: relative;
+  margin: 0px 60px 0px 60px;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 120px);
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.gender-label {
+  flex: 1;
+  margin: 10px 0px 15px 0px;
+  position: relative;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  border: 2px solid transparent; /* 常に境界線を持たせるが透明にしておく */
+}
+
+.gender-label .gender-image {
+  position: relative;
+  width: 75px;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.gender-input {
+  display: none;
+}
+
+.gender-label.selected .gender-image {
+  border: 2px solid var(--color-fawn); /* 枠色を変更 */
+  background-color: #d9d9d9;
+  border-radius: 8px;
+  /* コンテンツサイズを維持するために、ここでのpaddingを調整します */
+  box-sizing: border-box; /* borderとpaddingを含んだサイズ計算をする */
+}
+
+.gender-image {
+  width: 70px;
+  height: 70px;
+}
+
+/* 
   アニメーション
    */
 
