@@ -15,8 +15,8 @@ const Recommend = () => {
 
   // 初期値に画像を設定
   // const [generatedImage, setGeneratedImage] = useState("./images/clothes.jpg");
-  const [isChecked, setIsChecked] = useState(true);
-  const imgElement = document.getElementById("heart-icon");
+  const [isChecked, setIsChecked] = useState(false);
+  const [imgSrc, setImgSrc] = useState("./images/heart-icon.png");
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
@@ -110,11 +110,10 @@ const Recommend = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
       console.log("checked");
-      if (imgElement) {
-        imgElement.src = "./images/pushed-heart-icon.png"; // 新しい画像のパスに変更してください
-      }
+      setImgSrc("./images/pushed-heart-icon.png");
     } else {
-      imgElement.src = "./images/heart-icon.png";
+      console.log("not checked");
+      setImgSrc("./images/heart-icon.png");
     }
   };
 
@@ -243,7 +242,7 @@ const Recommend = () => {
                 download
               >
                 <img
-                  className="recommend-code-icon"
+                  className="recommend-download-icon"
                   src="./images/download-button.png"
                 ></img>
               </a>
@@ -257,7 +256,7 @@ const Recommend = () => {
               <label htmlFor="heart-btn" className="recommend-icon-container">
                 <img
                   className="recommend-heart-icon"
-                  src="./images/heart-icon.png"
+                  src={imgSrc}
                   id="heart-icon"
                 />
                 {/* <div className="heart"></div> */}

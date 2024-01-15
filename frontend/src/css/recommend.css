@@ -69,6 +69,7 @@ html {
   width: auto;
   height: 80%;
   aspect-ratio: 1;
+  outline: 2px solid green;
 }
 
 .recommend-code-img {
@@ -93,6 +94,13 @@ html {
   width: auto;
   height: 80%;
   aspect-ratio: 1;
+  outline: 2px solid red;
+}
+.recommend-download-icon {
+  width: auto;
+  height: 100%;
+  aspect-ratio: 1;
+  outline: 2px solid blue;
 }
 
 .recommend-heart-btn {
@@ -103,6 +111,7 @@ html {
   width: auto;
   height: 100%;
   aspect-ratio: 1;
+  outline: 2px solid blue;
 }
 
 .heart {
@@ -181,43 +190,41 @@ html {
 }
 
 .loading-icon {
-    max-height: 100vh; /* 画面の高さに合わせて最大値を設定 */
-    width: 100%; /* 要素の幅に合わせて100% */
-    object-fit: cover; /* 余白がなくなるように調整 */
-    /* オプショナルで中央に配置するなら、以下も追加 */
-    object-position: center;
+  max-height: 100vh; /* 画面の高さに合わせて最大値を設定 */
+  width: 100%; /* 要素の幅に合わせて100% */
+  object-fit: cover; /* 余白がなくなるように調整 */
+  /* オプショナルで中央に配置するなら、以下も追加 */
+  object-position: center;
 }
 
 /* loading-animationクラスを持つdivをrelativeに設定 */
 .loading-animation {
-    position: relative;
-    text-align: center; /* 中央揃えにする場合 */
+  position: relative;
+  text-align: center; /* 中央揃えにする場合 */
 }
-  
+
 /* ローディングテキストを持つdivにabsoluteを適用し、画像の中央に配置 */
 .load-text {
-    position: absolute;
-    top: 660px;
-    left: 50%; /* 左から50%の位置に設定 */
-    width: 100%;
-    transform: translate(-50%, -50%); /* 中央に完全に配置するために、翻訳を使用 */
-    color: var(--color-twine); /* テキストの色 - 白色に設定 */
-    font-size: 50px; /* テキストのサイズを設定 */
-    font-family: var(--font-libre-bodoni);
-    font-weight: lighter;
-    z-index: 10; /* 必要に応じてz-indexを設定して、テキストを前面に保持 */
-    text-shadow: none;
-    animation: blink 2.5s ease-in-out infinite; /* 1.5秒の間隔で点滅 */
+  position: absolute;
+  top: 660px;
+  left: 50%; /* 左から50%の位置に設定 */
+  width: 100%;
+  transform: translate(-50%, -50%); /* 中央に完全に配置するために、翻訳を使用 */
+  color: var(--color-twine); /* テキストの色 - 白色に設定 */
+  font-size: 50px; /* テキストのサイズを設定 */
+  font-family: var(--font-libre-bodoni);
+  font-weight: lighter;
+  z-index: 10; /* 必要に応じてz-indexを設定して、テキストを前面に保持 */
+  text-shadow: none;
+  animation: blink 2.5s ease-in-out infinite; /* 1.5秒の間隔で点滅 */
 }
-  
-
-
 
 @keyframes blink {
-    0%, 100% {
-      opacity: 1; /* 完全に表示 */
-    }
-    50% {
-      opacity: 0; /* 完全に不透明 */
-    }
+  0%,
+  100% {
+    opacity: 1; /* 完全に表示 */
+  }
+  50% {
+    opacity: 0; /* 完全に不透明 */
+  }
 }
