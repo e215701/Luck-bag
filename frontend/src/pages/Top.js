@@ -14,6 +14,13 @@ const Toppage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const textItemsRef = useRef([]);
 
+  const clickLoginIcon = () => {
+    if (!isAuthenticated) {
+      navigate("/Login");
+      console.log("loginしていません");
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
@@ -142,9 +149,10 @@ const Toppage = () => {
                 src={
                   isAuthenticated
                     ? "./images/login-icon.png"
-                    : "./images/login-icon-dash.png"
+                    : "./images/login-icon-solid.png"
                 }
                 alt="login icon"
+                onClick={() => clickLoginIcon()}
               />
             </header>
 
