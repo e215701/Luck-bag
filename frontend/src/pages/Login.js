@@ -120,6 +120,7 @@ const Login = ({ onLoginSuccess }) => {
                   />
                 </span>
               </div>
+              {error && <div className="error-message">{error}</div>}
               <div className="login-button" onClick={handleLogin}>
                 <div className="log-in">Log in</div>
               </div>
@@ -129,7 +130,6 @@ const Login = ({ onLoginSuccess }) => {
               >
                 <div className="sign-in">新規登録はこちらから</div>
               </div>
-              {error && <div className="error-message">{error}</div>}
             </div>
           </div>
         </div>

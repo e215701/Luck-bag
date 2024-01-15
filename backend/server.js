@@ -306,6 +306,14 @@ app.post("/api/register", async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    // ユーザー名とパスワードがnullまたは空文字列の場合
+    if (!username || !password) {
+      console.error("Error registering user: Username or password is missing");
+      return res
+        .status(400)
+        .json({ error: "ユーザー名またはパスワードが入力されていません" });
+    }
+
     // ユーザーが既に存在するか確認
     const userExists = await pool.query(
       "SELECT * FROM accounts WHERE username = $1",
@@ -397,5 +405,42 @@ app.post("/api/addToDatabase", authenticateToken, async (req, res) => {
     res
       .status(500)
       .json({ error: "データベースへの追加中にエラーが発生しました。" });
+  }
+});
+
+app.post("/api/changeFavorite", async (req, res) => {
+  const imageID = req.body.imageID;
+
+  try {
+    // 画像データをデータベースに追加する処理
+    const result = await pool.query(
+      "UPDATE images SET is_favorite=TRUE WHERE image_id=$1",
+      [imageID]
+    );
+
+    console.log("追加完了");
+    res.json({ message: "changed favorite status successfully" });
+  } catch (error) {
+    console.error("Error adding to database:", error);
+    res
+      .status(500)
+      .json({ error: "データベースへの変更中にエラーが発生しました。" });
+  }
+});
+app.post("/api/getHistory", authenticateToken, async (req, res) => {
+  const account_id = req.user.account_id; // デコードされたトークンから取得
+
+  try {
+    // 画像データをデータベースに追加する処理
+    const queryResult = await pool.query(
+      "SELECT image_id, before_image, after_image, description, uploaded_at, is_favorite FROM images WHERE account_id=$1",
+      [account_id]
+    );
+
+    // 取得したデータをJSON形式でクライアントに送信
+    res.json({ history_data: queryResult.rows });
+  } catch (error) {
+    console.error("Error fetching images:", error);
+    res.status(500).json({ error: "サーバー側でエラーが発生しました。" });
   }
 });

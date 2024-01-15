@@ -82,7 +82,7 @@ input.transparent-input::placeholder {
 }
 .login-button {
     position: absolute;
-    top: 616px;
+    top: 636px;
     border: 4px solid #d9d9d9;
     background-color: none;
     width: 201px;
@@ -109,7 +109,7 @@ input.transparent-input::placeholder {
 }
 .sign-in-button {
     position: absolute;
-    top: calc(616px + 59px + 30px); /* login-buttonのtop + height + 希望の余白 */
+    top: calc(616px + 59px + 40px); /* login-buttonのtop + height + 希望の余白 */
     background-color: transparent; /* 背景透明 */
     width: 211px; /* login-buttonと同じ幅 */
     height: 59px; /* login-buttonと同じ高さ */
@@ -125,6 +125,18 @@ input.transparent-input::placeholder {
     color: var(--color-white); /* テキストの色をwhiteに */
     border-bottom: 1px solid var(--color-white);
 }
+
+.error-message {
+    position: absolute; /* 絶対位置指定 */
+    top: 600px; /* 例: Log in ボタンの高さとエラー表示の間の間隔 */
+    left: 50%; /* 中央揃え */
+    width: 422px;
+    transform: translateX(-50%); /* 中央揃えのために横方向に移動 */
+    font-size: var(--font-size-base);
+    color: var(--color-white);
+    /* 必要ならborderの指定は削除する */
+  }
+  
 
 .loading-overlay {
     position: fixed;
