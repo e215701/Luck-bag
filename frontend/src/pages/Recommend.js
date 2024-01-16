@@ -146,48 +146,31 @@ const Recommend = () => {
   };
 
   const fetchData = async (imageFile, gender) => {
-    console.log("感想生成中");
+    console.log("fetchData開始");
 
     const base64 = imageFile.split(",")[1];
 
     try {
-      const imageResponse = await fetch("/api/convertJPEG", {
+      // 画像データをサーバーに送信し、サーバーでデータベースに追加
+      const responseProcess = await fetch("/api/processImage", {
         method: "POST",
         mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageData: base64 }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageData: base64,
+          gender: gender,
+        }),
       });
 
-      const base64img = await imageResponse.json();
-      const base64Str = base64img.imageJpeg; //生成前の画像データ
-      setSelectedImage(base64Str);
-      console.log(base64img);
-
-      const response = await fetch(`/api/generateVision`, {
-        method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: base64Str }),
-      });
-
-      const data = await response.json();
-      const description = data.choices[0].message.content; //生成されたコーデの文章
-      setResponse(description);
-
-      console.log("画像生成中");
-
-      const responseImage = await fetch(`/api/generate`, {
-        method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: description, fashion: gender }),
-      });
-
-      const dataImage = await responseImage.json();
-      console.log(dataImage);
-      const generatedImageUrl = dataImage.image;
-      setGeneratedImage(generatedImageUrl); //生成されたコーデの画像
-
+      const processData = await responseProcess.json()
+      console.log(processData)
+      setSelectedImage(processData.before_image)
+      setResponse(processData.description)
+      setGeneratedImage(processData.after_image)
+      
+      console.log("生成終了")
       // 画像データをサーバーに送信し、サーバーでデータベースに追加
       const token = localStorage.getItem("token");
 
@@ -200,16 +183,17 @@ const Recommend = () => {
           Authorization: token,
         },
         body: JSON.stringify({
-          before_image: base64Str,
-          after_image: generatedImageUrl,
+          before_image: processData.before_image,
+          after_image: processData.after_image,
           is_favorite: "f",
-          description: description,
+          description: processData.description,
         }),
       });
 
       const dataDatabase = await responseDatabase.json();
-      console.log(dataDatabase);
+      console.log(dataDatabase.id);
       setGeneratedImageID(dataDatabase.id);
+      console.log("Database登録 ID:")
     } catch (error) {
       console.error("Error fetching response:", error);
     }
