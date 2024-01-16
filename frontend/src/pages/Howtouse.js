@@ -95,25 +95,33 @@ const Howtouse = () => {
               src="./images/howtouse-img1.png"
             ></img>
             <div className="howtouse-item-text">
-              ②UPLOADページで「写真をアップロードする」ボタンをタップ
+              ②UPLOADページでどのスタイルのコーデが見たいか選択します。
             </div>
             <img
               className="howtouse-item-image"
               src="./images/howtouse-img2.png"
             ></img>
             <div className="howtouse-item-text">
-              ③洋服が写っている写真をアップロード
-            </div>
-            <div className="howtouse-item-text">
-              ④お勧めコーディネートの画像が表示されます。
+              ③カメラアイコンをタップして洋服が写っている写真をアップロードした後、送信ボタンを押します。
             </div>
             <img
               className="howtouse-item-image"
               src="./images/howtouse-img3.png"
             ></img>
             <div className="howtouse-item-text">
-              「他のコーデを見る」をタップすると新しいコーディネートを見ることができます。
+              ④お勧めコーディネートの画像が表示されます。
             </div>
+            <div className="howtouse-item-text">
+              「他のコーデを見る」をタップすると新しいコーディネートを見ることができます。
+              <br></br>
+              ♡ボタンを押すとコーデをお気に入り登録することが出来ます。<br></br>
+              画像をダウンロードすることもできます。
+            </div>
+
+            <img
+              className="howtouse-item-image"
+              src="./images/howtouse-img4.png"
+            ></img>
           </div>
           <div className="howtouse-item-container">
             <div className="howtouse-item-headline">コーデの履歴</div>
@@ -124,7 +132,7 @@ const Howtouse = () => {
             </div>
             <img
               className="howtouse-item-image"
-              src="./images/howtouse-img4.png"
+              src="./images/howtouse-img5.png"
             ></img>
           </div>
         </div>

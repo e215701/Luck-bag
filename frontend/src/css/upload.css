@@ -81,8 +81,7 @@ uploadページ
 .select-button-text {
   position: relative;
   width: 100%;
-  height: auto;
-  aspect-ratio: 1;
+  height: 100%;
   text-align: center;
   align-items: center; /* 横方向の中央揃え */
   display: flex; /* flexコンテナとして設定 */

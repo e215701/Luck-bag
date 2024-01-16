@@ -68,51 +68,53 @@ const Signup = () => {
       {showPage && (
         <div id="wrapper">
           <div id="content" className="fade-In">
-            {/* <div
-            //   className={`tooltip-container ${showTooltip ? "visible" : ""}`}
+            <img
+              className="sign-up-image"
+              src="./images/clothes.jpg"
+              alt="logo"
+              style={{ height: `${screenHeight}`, width: `${screenWidth}px` }}
+            />
+
+            <div
+              className="sign-up-back"
+              style={{ height: `${screenHeight}`, width: `${screenWidth}px` }}
             >
-            </div> */}
-            <div className="sign-up-back" style={{ width: `${screenWidth}px` }}>
-              <img
-                className="sign-up-image"
-                src="./images/clothes.jpg"
-                alt="logo"
-                style={{ height: `${screenHeight}px`, width: "100%" }}
-              />
-              <div className="sign-up-container" />
-              <div className="luck-bag">Luck bag</div>
-              <div className="name-pass-container">
-                <span className="input-items">
-                  <label htmlFor="your_name" className="text-sm block">
-                    Name :&thinsp;
+              <div className="sign-up-luck-bag">Luck bag</div>
+
+              <div className="sign-up-container">
+                <div className="sign-up-input-container">
+                  <label htmlFor="your_name" className="sign-up-text">
+                    Name&thinsp;:
                   </label>
                   <input
                     id="your_name"
                     type="text"
-                    className="transparent-input"
+                    className="sign-up-transparent-input"
                     placeholder="○○ △△"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
-                  <p>&nbsp;</p>
-                  <label htmlFor="password" className="text-sm block">
-                    Password :&thinsp;
+                </div>
+                <div className="sign-up-input-container">
+                  <label htmlFor="password" className="sign-up-text">
+                    Password&thinsp;:
                   </label>
                   <input
                     id="password"
                     type="password" // パスワード入力用のフィールドに変更
-                    className="transparent-input"
+                    className="sign-up-transparent-input"
                     placeholder="password1234"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                </span>
+                </div>
               </div>
-              {error && <div className="error-message">{error}</div>}
+
+              <div className="sign-up-error-message">{error ? error : ""}</div>
               <div className="sign-up-button" onClick={handleSignup}>
                 <div className="sign-up">Sign up</div>
-                <div />
               </div>
+              <div className="sign-up-spacer"></div>
             </div>
           </div>
         </div>
