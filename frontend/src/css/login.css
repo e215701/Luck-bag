@@ -39,12 +39,21 @@ loginページ
 .login-input-container {
   position: relative;
   display: flex;
-  position: relative;
-  width: auto;
+  width: 80%;
+  max-width: 450px;
   height: auto;
   text-align: center;
   align-items: center;
   margin: 20px 0px;
+  box-sizing: border-box;
+}
+
+.login-text {
+  position: relative;
+  width: 130px;
+  height: auto;
+  flex: 0;
+  display: inline-block;
 }
 
 .login-container {
@@ -66,7 +75,12 @@ loginページ
   font-family: var(--font-libre-bodoni);
   font-size: 50px; /* 変更したいテキストの大きさを指定してください */
 }
-input.transparent-input {
+.login-transparent-input {
+  box-sizing: border-box;
+  flex: 1;
+  width: 100%;
+  height: auto;
+  position: relative;
   background-color: transparent; /* 入力欄の背景を透明にする */
   border: none; /* 枠線を非表示にする */
   border-bottom: 1px solid #ffffff;
@@ -74,7 +88,7 @@ input.transparent-input {
   font-size: var(--font-size-xl);
   font-family: var(--font-kaisei-opti);
 }
-input.transparent-input::placeholder {
+.login-transparent-input::placeholder {
   color: var(--font-libre-bodoni); /* CSS変数を使った色指定 */
   opacity: 50%;
 }
@@ -121,7 +135,7 @@ input.transparent-input::placeholder {
   position: relative;
   background-color: transparent; /* 背景透明 */
   width: 211px; /* login-buttonと同じ幅 */
-  height: 59px; /* login-buttonと同じ高さ */
+  height: 60px; /* login-buttonと同じ高さ */
   cursor: pointer;
   display: flex;
   justify-content: center; /* ボタン内のテキストを中央揃えに */

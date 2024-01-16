@@ -15,7 +15,7 @@
 }
 
 .howtouse-item-container {
-  margin: 20px 0px 20px 0px;
+  margin: 10px 0px 30px 0px;
   align-items: flex-start; /* 縦方向 */
   height: auto;
   width: 90%;
@@ -29,8 +29,8 @@
 }
 
 .howtouse-item-headline {
-  font-size: var(--font-size-xxl);
-  font-family: var(--font-libre-bodoni);
+  font-size: var(--font-size-xl);
+  font-family: var(--font-kaisei-opti);
   color: var(--color-fawn);
   font-weight: 500;
   align-items: center;
@@ -41,7 +41,8 @@
   left: 0px;
   height: auto;
   flex: 0;
-  margin: 30px 0px 30px 0px;
+  margin: 20px 0px 20px 0px;
+  border-bottom: 2px dashed var(--color-fawn);
 }
 
 .howtouse-item-text-title {

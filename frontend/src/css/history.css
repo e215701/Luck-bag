@@ -119,8 +119,10 @@ input[type="checkbox"]:checked:before {
 }
 
 .history-popup {
+  max-height: 750px;
+  max-width: 400px;
   width: 90%;
-  height: 80%;
+  height: 90%;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -131,7 +133,7 @@ input[type="checkbox"]:checked:before {
   text-align: center;
   align-items: center;
   justify-content: center;
-  max-width: 400px;
+
   z-index: 5000;
   display: flex;
   flex-direction: column;
