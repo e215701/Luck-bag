@@ -75,6 +75,45 @@ const History = () => {
     setSelectedImage(null);
   };
 
+  const fetchImageData = async (token) => {
+    try {
+      const histroyResponse = await fetch("/api/getHistory", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+      const data = await histroyResponse.json();
+      setImageData(data.history_data); // ここでステートを更新
+      if (filterChecked) {
+        const filteredData = imageData.filter(
+          (item) => item.is_favorite === true
+        );
+
+        setFilteredData(filteredData);
+      }
+    } catch (error) {
+      console.error("Error fetching image data:", error);
+    }
+  };
+
+  const token = localStorage.getItem("token");
+
+  const handleReload = () => {
+    setImageData([]);
+    setFilteredData([]);
+    setOriginalOrder([...imageData]);
+
+    fetchImageData(token);
+
+    const menuCheckbox = document.getElementById("menu-btn");
+    if (menuCheckbox) {
+      menuCheckbox.checked = false;
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
@@ -85,26 +124,7 @@ const History = () => {
 
     handleSortCheckboxChange(); // 初回のレンダリング時に実行
 
-    const token = localStorage.getItem("token");
-
-    const fetchImageData = async () => {
-      try {
-        const histroyResponse = await fetch("/api/getHistory", {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        });
-        const data = await histroyResponse.json();
-        setImageData(data.history_data); // ここでステートを更新
-      } catch (error) {
-        console.error("Error fetching image data:", error);
-      }
-    };
-
-    fetchImageData();
+    fetchImageData(token);
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -128,7 +148,7 @@ const History = () => {
               <button onClick={() => navigate("/Upload")}>UPLOAD</button>
             </li>
             <li>
-              <button onClick={() => navigate("/History")}>HISTORY</button>
+              <button onClick={() => handleReload()}>HISTORY</button>
             </li>
             <li>
               <button onClick={() => navigate("/Howtouse")}>HOW TO USE</button>
