@@ -110,7 +110,7 @@ const Recommend = () => {
     setGeneratedImage(null);
     setPushedHurtButton(false);
     setImgSrc("./images/heart-icon.png");
-    createCoordinate(selectedImage);
+    createCoordinate(selectedImage, selectedGender);
   };
 
   const handleCheckboxChange = async () => {
