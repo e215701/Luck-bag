@@ -185,21 +185,21 @@ html {
 /* loading-animationクラスを持つdivをrelativeに設定 */
 .loading-animation {
   position: relative;
+  height: 100vh;
   text-align: center; /* 中央揃えにする場合 */
 }
 
 /* ローディングテキストを持つdivにabsoluteを適用し、画像の中央に配置 */
 .load-text {
   position: absolute;
-  top: 660px;
+  bottom: 6%;
   left: 50%; /* 左から50%の位置に設定 */
   width: 100%;
-  transform: translate(-50%, -50%); /* 中央に完全に配置するために、翻訳を使用 */
+  transform: translate(-50%, -50%);
   color: var(--color-twine); /* テキストの色 - 白色に設定 */
   font-size: 50px; /* テキストのサイズを設定 */
   font-family: var(--font-libre-bodoni);
   font-weight: lighter;
-  z-index: 10; /* 必要に応じてz-indexを設定して、テキストを前面に保持 */
   text-shadow: none;
   animation: blink 1.75s ease-in-out infinite;
 }

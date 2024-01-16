@@ -84,8 +84,8 @@ const convertPngToJpeg = async (inputBase64) => {
     const inputImageData = inputBase64;
 
     // 400KB以下にするための品質設定
-    const targetFileSizeInBytes = 600 * 1024; // 400KB
-    let quality = 80; // 初期の品質
+    const targetFileSizeInBytes = 1000 * 1024; // 400KB
+    let quality = 100; // 初期の品質
 
     // 画像データをBufferに変換
     const inputImageBuffer = Buffer.from(inputImageData, "base64");
@@ -99,7 +99,7 @@ const convertPngToJpeg = async (inputBase64) => {
             Buffer.byteLength(image.bitmap.data) > targetFileSizeInBytes &&
             quality > 10
           ) {
-            quality -= 5;
+            quality -= 1;
             image.quality(quality);
           }
 
