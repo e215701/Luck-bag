@@ -230,7 +230,9 @@ const Upload = () => {
             </div>
             <div className="upload-item-container">
               <div className="upload-item-text-left">
-                ※写真に複数の服が写っていると、うまくいかない場合があります。
+                ※アップロードする写真には服が1点のみ映るようご配慮ください。
+                衣類以外の他のアイテムが含まれている写真をアップロードされますと、
+                想定外の動作をする恐れがありますのでご注意ください。
               </div>
             </div>
             <div className="upload-spacer" style={{ height: "40px" }}></div>
