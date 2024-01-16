@@ -5,7 +5,6 @@ import "../css/recommend.css";
 import animation1 from "../gif/Luck-bag_Animation_v3_1.gif";
 import animation2 from "../gif/Luck-bag_Animation_v3_2.gif";
 
-
 const Recommend = () => {
   const baseURL = process.env.REACT_APP_API_BASE_URL;
 
@@ -15,6 +14,8 @@ const Recommend = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [response, setResponse] = useState("");
   const [generatedImage, setGeneratedImage] = useState(null);
+  const [pushedHurtButton, setPushedHurtButton] = useState(false);
+  const [generatedImageID, setGeneratedImageID] = useState(-1);
 
   // 初期値に画像を設定
   // const [generatedImage, setGeneratedImage] = useState("./images/clothes.jpg");
@@ -27,9 +28,9 @@ const Recommend = () => {
   // GIFのパスを配列として定義
   const gifs = [
     animation1,
-    animation2 // 仮の2つ目のGIFパスを設定
-    ];
-    
+    animation2, // 仮の2つ目のGIFパスを設定
+  ];
+
   // useStateを追加して選択されたGIFを管理
   const [selectedGif, setSelectedGif] = useState(gifs[0]);
 
@@ -98,7 +99,7 @@ const Recommend = () => {
 
     const newSelectedGif = gifs[Math.floor(Math.random() * gifs.length)];
     setSelectedGif(newSelectedGif);
-    console.log(Math.floor(Math.random() * gifs.length), newSelectedGif)
+    console.log(Math.floor(Math.random() * gifs.length), newSelectedGif);
 
     return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
   }, [location.state]);
@@ -107,17 +108,36 @@ const Recommend = () => {
     console.log("ボタンがクリックされました！");
     setResponse(null);
     setGeneratedImage(null);
-    createCoordinate(selectedImage);
+    setPushedHurtButton(false);
+    setImgSrc("./images/heart-icon.png");
+    createCoordinate(selectedImage, selectedGender);
   };
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    if (!isChecked) {
-      console.log("checked");
-      setImgSrc("./images/pushed-heart-icon.png");
-    } else {
-      console.log("not checked");
-      setImgSrc("./images/heart-icon.png");
+  const handleCheckboxChange = async () => {
+    if (!pushedHurtButton) {
+      setIsChecked(!isChecked);
+      if (!isChecked) {
+        console.log("checked");
+        setImgSrc("./images/pushed-heart-icon.png");
+        setPushedHurtButton(true);
+        try {
+          const favoriteResponse = await fetch("/api/changeFavorite", {
+            method: "POST",
+            mode: "cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ imageID: generatedImageID }),
+          });
+
+          if (favoriteResponse.ok) {
+            console.log(favoriteResponse.message);
+          }
+        } catch (error) {
+          console.error("Error fetching response:", error);
+        }
+      } else {
+        console.log("not checked");
+        setImgSrc("./images/heart-icon.png");
+      }
     }
   };
 
@@ -189,6 +209,7 @@ const Recommend = () => {
 
       const dataDatabase = await responseDatabase.json();
       console.log(dataDatabase);
+      setGeneratedImageID(dataDatabase.id);
     } catch (error) {
       console.error("Error fetching response:", error);
     }

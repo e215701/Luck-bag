@@ -18,39 +18,53 @@ const History = () => {
   const [sortAscending, setSortAscending] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [sortChecked, setSortChecked] = useState(true);
+  const [sortFileter, setSortFilter] = useState(false);
 
   const handleSortCheckboxChange = () => {
     const newSortChecked = !sortChecked;
     setSortChecked(newSortChecked); // ステートを更新
-  
+
     const sortData = (data) => {
       return [...data].sort((a, b) => {
         // image_id を数値として比較
-        return !newSortChecked ? a.image_id - b.image_id : b.image_id - a.image_id;
+        return !newSortChecked
+          ? a.image_id - b.image_id
+          : b.image_id - a.image_id;
       });
     };
-  
+
     if (filterChecked) {
       const sortedData = sortData(filteredData);
       setFilteredData(sortedData);
+      setSortFilter(newSortChecked);
     } else {
       const sortedData = sortData(imageData);
       setImageData(sortedData);
       setOriginalOrder(sortedData);
     }
   };
-  
-  
 
   const handleFilterCheckboxChange = () => {
-    if (!filterChecked) {
-      const filteredData = imageData.filter((item) => item.is_favorite == "t");
+    // filterChecked の反転後の値を取得
+    const newFilterChecked = !filterChecked;
+
+    // setFilterChecked を実行
+    setFilterChecked(newFilterChecked);
+
+    // console.log を filterChecked の反転後の値を使用して実行
+    console.log(newFilterChecked ? "絞り込み ON" : "絞り込み OFF");
+
+    // filterChecked の値に基づいてデータを絞り込む
+    if (newFilterChecked) {
+      const filteredData = imageData.filter(
+        (item) => item.is_favorite === true
+      );
+
       setFilteredData(filteredData);
+      setSortChecked(sortChecked);
     } else {
       setFilteredData([]);
     }
-    setFilterChecked(!filterChecked);
-    console.log("絞り込み");
   };
 
   const handleImageClick = (image) => {
@@ -74,19 +88,19 @@ const History = () => {
     const token = localStorage.getItem("token");
 
     const fetchImageData = async () => {
-      try {        
+      try {
         const histroyResponse = await fetch("/api/getHistory", {
           method: "POST",
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
             Authorization: token,
-          }
+          },
         });
         const data = await histroyResponse.json();
         setImageData(data.history_data); // ここでステートを更新
       } catch (error) {
-        console.error('Error fetching image data:', error);
+        console.error("Error fetching image data:", error);
       }
     };
 
