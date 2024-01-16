@@ -154,7 +154,7 @@ const History = () => {
               checked={sortChecked}
             />
             <label htmlFor="sortCheckbox">
-              {sortChecked ? "↑昇順" : "↓降順"}
+              {sortChecked ? "日付順(↑昇順)" : "日付順(↓降順)"}
             </label>
           </div>
           <div className="history-header-filter">
