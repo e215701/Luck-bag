@@ -1,0 +1,19 @@
+.splide__pagination__page {
+    background:#BD8E62;
+    border:0;
+    border-radius:50%;
+    display:inline-block;
+    height:8px;
+    margin:3px;
+    opacity:1;
+    padding:0;
+    position:relative;
+    transition:transform .2s linear;
+    width:8px
+}
+
+.splide__pagination__page.is-active {
+    background:#A46843;
+    transform:scale(1.4);
+    z-index:1;
+}

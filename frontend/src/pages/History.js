@@ -5,6 +5,7 @@ import "@splidejs/react-splide/css";
 import "../css/global.css";
 import "../css/top.css";
 import "../css/history.css";
+import "../css/custom-style.css";
 
 const History = () => {
   const navigate = useNavigate();

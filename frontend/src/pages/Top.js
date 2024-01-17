@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "@splidejs/react-splide/css";
 import "../css/global.css";
 import "../css/top.css";
+import "../css/custom-style.css";
 
 const Toppage = () => {
   const navigate = useNavigate();
