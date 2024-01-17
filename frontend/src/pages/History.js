@@ -11,7 +11,7 @@ const History = () => {
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
   const [imageData, setImageData] = useState([]);
-
+  const [loading, setLoading] = useState(true); // ローディングステートを追加
   const [filteredData, setFilteredData] = useState([]);
   const [filterChecked, setFilterChecked] = useState(false);
   const [originalOrder, setOriginalOrder] = useState([...imageData]);
@@ -75,6 +75,59 @@ const History = () => {
     setSelectedImage(null);
   };
 
+  const fetchImageData = async (token) => {
+    try {
+      setLoading(true);
+
+      // データ取得を2秒遅延
+      const historyResponse = await new Promise((resolve) => {
+        setTimeout(async () => {
+          const response = await fetch("/api/getHistory", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          });
+          resolve(response);
+        }, 2000);
+      });
+
+      const data = await historyResponse.json();
+
+      setImageData(data.history_data);
+
+      // setImageDataの後にfilteredDataを作成
+      if (filterChecked) {
+        const filteredData = data.history_data.filter(
+          (item) => item.is_favorite === true
+        );
+        setFilteredData([...filteredData]); // 新しいデータを使用してセットする
+      }
+    } catch (error) {
+      console.error("Error fetching image data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const token = localStorage.getItem("token");
+
+  const handleReload = () => {
+    setImageData([]);
+    setFilteredData([]);
+    setOriginalOrder([...imageData]);
+    setLoading(true);
+
+    fetchImageData(token);
+
+    const menuCheckbox = document.getElementById("menu-btn");
+    if (menuCheckbox) {
+      menuCheckbox.checked = false;
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setScreenHeight(window.innerHeight);
@@ -85,26 +138,7 @@ const History = () => {
 
     handleSortCheckboxChange(); // 初回のレンダリング時に実行
 
-    const token = localStorage.getItem("token");
-
-    const fetchImageData = async () => {
-      try {
-        const histroyResponse = await fetch("/api/getHistory", {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        });
-        const data = await histroyResponse.json();
-        setImageData(data.history_data); // ここでステートを更新
-      } catch (error) {
-        console.error("Error fetching image data:", error);
-      }
-    };
-
-    fetchImageData();
+    fetchImageData(token);
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -128,7 +162,7 @@ const History = () => {
               <button onClick={() => navigate("/Upload")}>UPLOAD</button>
             </li>
             <li>
-              <button onClick={() => navigate("/History")}>HISTORY</button>
+              <button onClick={() => handleReload()}>HISTORY</button>
             </li>
             <li>
               <button onClick={() => navigate("/Howtouse")}>HOW TO USE</button>
@@ -168,75 +202,84 @@ const History = () => {
           </div>
         </div>
       </header>
-      <div className="history-container">
-        {filteredData.length > 0
-          ? filteredData.map((image) => (
-              <img
-                key={image.image_id}
-                src={image.after_image}
-                className="history-image"
-                onClick={() => handleImageClick(image)}
-              />
-            ))
-          : imageData.map((image) => (
-              <img
-                key={image.image_id}
-                src={image.after_image}
-                className="history-image"
-                onClick={() => handleImageClick(image)}
-              />
-            ))}
-      </div>
-      {selectedImage && (
+      {loading ? (
+        <div className="loading-spinner">Loading...</div>
+      ) : (
         <>
-          <div
-            className="history-popup-bg"
-            onClick={closePopup}
-            style={{ width: `${screenWidth}px`, height: `${screenHeight}px` }}
-          />
-          <div className="history-popup">
-            <div className="history-popup-close" onClick={closePopup}>
-              &times;
-            </div>
-            <div className="history-popup-text">コーデについて</div>
-            <Splide
-              className="history-popup-container"
-              hasTrack={false}
-              id="image-carousel"
-              options={{ arrows: false }}
-            >
-              <div className="history-popup-image">
-                <SplideTrack>
-                  <SplideSlide>
-                    <img
-                      className="history-popup-img-item"
-                      src={selectedImage.after_image}
-                    />
-                  </SplideSlide>
-                  <SplideSlide>
-                    <img
-                      className="history-popup-img-item"
-                      src={selectedImage.before_image}
-                    />
-                  </SplideSlide>
-                </SplideTrack>
-              </div>
+          <div className="history-container">
+            {filteredData.length > 0
+              ? filteredData.map((image) => (
+                  <img
+                    key={image.image_id}
+                    src={image.after_image}
+                    className="history-image"
+                    onClick={() => handleImageClick(image)}
+                  />
+                ))
+              : imageData.map((image) => (
+                  <img
+                    key={image.image_id}
+                    src={image.after_image}
+                    className="history-image"
+                    onClick={() => handleImageClick(image)}
+                  />
+                ))}
+          </div>
+          {selectedImage && (
+            <>
               <div
-                className="splide__pagination"
+                className="history-popup-bg"
+                onClick={closePopup}
                 style={{
-                  color: "pink",
-                  position: "relative",
-                  bottom: "0px",
-                  margin: "5px 0 0 0",
+                  width: `${screenWidth}px`,
+                  height: `${screenHeight}px`,
                 }}
               />
-            </Splide>
+              <div className="history-popup">
+                <div className="history-popup-close" onClick={closePopup}>
+                  &times;
+                </div>
+                <div className="history-popup-text">コーデについて</div>
+                <Splide
+                  className="history-popup-container"
+                  hasTrack={false}
+                  id="image-carousel"
+                  options={{ arrows: false }}
+                >
+                  <div className="history-popup-image">
+                    <SplideTrack>
+                      <SplideSlide>
+                        <img
+                          className="history-popup-img-item"
+                          src={selectedImage.after_image}
+                        />
+                      </SplideSlide>
+                      <SplideSlide>
+                        <img
+                          className="history-popup-img-item"
+                          src={selectedImage.before_image}
+                        />
+                      </SplideSlide>
+                    </SplideTrack>
+                  </div>
+                  <div
+                    className="splide__pagination"
+                    style={{
+                      color: "pink",
+                      position: "relative",
+                      bottom: "0px",
+                      margin: "5px 0 0 0",
+                    }}
+                  />
+                </Splide>
 
-            {/* </div> */}
-            <p className="history-popup-content-text">
-              {selectedImage.description}
-            </p>
-          </div>
+                {/* </div> */}
+                <p className="history-popup-content-text">
+                  {selectedImage.description}
+                </p>
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
