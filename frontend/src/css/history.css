@@ -224,3 +224,53 @@ input[type="checkbox"]:checked:before {
 
   flex: 1;
 }
+
+
+.recommend-loading-animation {
+    position: relative;
+    height: 100vh;
+    text-align: center; /* 中央揃えにする場合 */
+}
+
+.loading-spinner {
+    position: absolute;
+    bottom: 20%;
+    left: 50%; /* 左から50%の位置に設定 */
+    width: 100%;
+    transform: translate(-50%, -50%);
+    color: var(--color-twine); /* テキストの色 - 白色に設定 */
+    font-size: 50px; /* テキストのサイズを設定 */
+    font-family: var(--font-libre-bodoni);
+    font-weight: lighter;
+    text-shadow: none;
+  }
+
+.loading-gif {
+    max-height: calc(100vh); /* 画面の高さに合わせて最大値を設定 */
+    width: 100%; /* 要素の幅に合わせて100% */
+    object-fit: cover; /* 余白がなくなるように調整 */
+    /* オプショナルで中央に配置するなら、以下も追加 */
+    object-position: center;
+    margin: 80px 0px 0px 0px;
+}
+
+@keyframes dots {
+    0%, 20% {
+      content: "";
+    }
+    40% {
+      content: ".";
+    }
+    60% {
+      content: "..";
+    }
+    80%, 100% {
+      content: "...";
+    }
+}
+  
+.loading-dots:after {
+    content: "";
+    animation: dots 2s infinite;
+}
+  

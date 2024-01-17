@@ -5,6 +5,7 @@ import "@splidejs/react-splide/css";
 import "../css/global.css";
 import "../css/top.css";
 import "../css/history.css";
+import animation from "../gif/Luck-bag_Recommend_Animation.gif";
 
 const History = () => {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ const History = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [sortChecked, setSortChecked] = useState(true);
   const [sortFileter, setSortFilter] = useState(false);
+
+  const gif = animation;
 
   const handleSortCheckboxChange = () => {
     const newSortChecked = !sortChecked;
@@ -91,7 +94,7 @@ const History = () => {
             },
           });
           resolve(response);
-        }, 2000);
+        }, 1800);
       });
 
       const data = await historyResponse.json();
@@ -203,7 +206,18 @@ const History = () => {
         </div>
       </header>
       {loading ? (
-        <div className="loading-spinner">Loading...</div>
+        <div className="recommend-loading-animation">
+         <img
+         className="loading-gif"
+         src={gif} // srcをselectedGifに設定してランダムなGIFを表示
+         alt="loading animation"
+         style={{
+           height: `${screenHeight}px`,
+           width: `${screenWidth}px`,
+         }}
+       />
+        <div className="loading-spinner loading-dots">Loading</div>
+        </div>
       ) : (
         <>
           <div className="history-container">
