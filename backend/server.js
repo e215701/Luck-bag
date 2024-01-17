@@ -133,61 +133,11 @@ const convertPngToJpeg = async (inputBase64) => {
   }
 };
 
-//400KB以下のJPEGファイルデータ(base64)に変換するコード(frontend用)
-app.post("/api/convertJPEG", async (req, res) => {
-  try {
-    const inputImageData = req.body.imageData;
-
-    // 400KB以下にするための品質設定
-    const targetFileSizeInBytes = 400 * 1024; // 400KB
-    let quality = 80; // 初期の品質
-
-    // 画像データをBufferに変換
-    const inputImageBuffer = Buffer.from(inputImageData, "base64");
-
-    // JPEGファイルに変換して出力
-    Jimp.read(inputImageBuffer)
-      .then((image) => {
-        // 出力画像の品質を調整
-        while (
-          Buffer.byteLength(image.bitmap.data) > targetFileSizeInBytes &&
-          quality > 10
-        ) {
-          quality -= 5;
-          image.quality(quality);
-        }
-
-        // 最終的なJPEGデータをBufferとして取得
-        return image.getBufferAsync(Jimp.MIME_JPEG);
-      })
-      .then((outputBuffer) => {
-        // 最終的なJPEGデータをBase64エンコードして出力
-        const outputBase64 = `data:image/jpeg;base64,${outputBuffer.toString(
-          "base64"
-        )}`;
-
-        res.status(200).json({ imageJpeg: outputBase64 });
-      })
-      .catch((err) => {
-        console.error("Error processing image data:", err);
-      });
-  } catch {
-    console.error("convertJPEGエラー:", error);
-    res.status(500).send({
-      error: "ファイルの変換で失敗しました。",
-      details: error.message,
-    });
-  }
-});
 
 // 認証情報を提供するエンドポイント
 app.get("/api/authenticate", authenticateToken, (req, res) => {
   res.json({ isAuthenticated: true });
 });
-
-//通信の重複確認用の変数
-const processedRequestsOfVision = new Set();
-const processedRequestsOfGenerate = new Set();
 
 //デフォルトメッセージを出力するコード
 app.get("/api/hello", (req, res) => {
@@ -197,108 +147,6 @@ app.get("/api/hello", (req, res) => {
 //起動しているかを出力するコード
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
-
-//洋服の画像からコーデの説明を生成するコード
-app.post("/api/generateVision", async (req, res) => {
-  console.log("generateVision確認");
-  // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
-  const requestBodyHashOfVision = crypto
-    .createHash("sha256")
-    .update(JSON.stringify(req.body))
-    .digest("hex");
-
-  // ユニークなIDが既に処理されたリクエストのセットに含まれているか確認
-  if (processedRequestsOfVision.has(requestBodyHashOfVision)) {
-    return;
-  }
-
-  // 新しいリクエストIDをセットに追加
-  processedRequestsOfVision.add(requestBodyHashOfVision);
-
-  try {
-    console.log("コーディネート作成中");
-    const url = req.body.url;
-    //生成部分
-    const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "#Instruction\nYou are a stylist tasked with creating a basic fashion look. Please output the best basic fashion coordinates considering the following constraints:\n#Constraints\n- Take into account the given clothing\n- Keep the text within approximately 200 characters\n- Keep the language concise\n- Output in Japanese\n#Output",
-            },
-            {
-              type: "image_url",
-              image_url: { url: `${url}` },
-            },
-          ],
-        },
-      ],
-      max_tokens: 500,
-    });
-    processedRequestsOfVision.delete(requestBodyHashOfVision);
-    res.send(response);
-  } catch (error) {
-    console.error("generateVisionエラー:", error);
-    res.status(500).send({
-      error: "説明文の生成に失敗しました。",
-      details: error.message,
-    });
-  }
-});
-
-//説明からコーデの画像を生成するコード
-app.post("/api/generate", async (req, res) => {
-  console.log("generate確認");
-  // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
-  const requestBodyHashOfGenerate = crypto
-    .createHash("sha256")
-    .update(JSON.stringify(req.body))
-    .digest("hex");
-
-  // ユニークなIDが既に処理されたリクエストのセットに含まれているか確認
-  if (processedRequestsOfGenerate.has(requestBodyHashOfGenerate)) {
-    return;
-  }
-
-  // 新しいリクエストIDをセットに追加
-  processedRequestsOfGenerate.add(requestBodyHashOfGenerate);
-
-  try {
-    console.log("画像作成中");
-    const prompt = req.body.prompt;
-    const gender = req.body.fashion;
-    //生成された説明に基づいて新しい画像を生成
-    const imageResponse = await openai.images.generate({
-      model: "dall-e-3",
-      prompt: `#Instruction\nYou are a stylist tasked with envisioning basic fashion. Please generate the best basic fashion coordination based on the following constraints:\n#Constraints\n- Consider the input text\n- Output a full-body image including the person's face\n- The clothing is ${gender}\n- Keep expressions of gender moderate\n#Input Text\n${prompt}\n#Output Image`,
-      n: 1,
-      size: "1024x1024",
-      quality: "standard",
-      response_format: "b64_json",
-    });
-
-    const imageUrl = imageResponse.data[0].b64_json;
-    const imageData = imageUrl;
-    const imageJpeg = await convertPngToJpeg(imageData); //JPEGに変換
-
-    if (!imageJpeg) {
-      return res.status(500).send({ error: "画像の生成に失敗しました。" });
-    }
-
-    processedRequestsOfGenerate.delete(requestBodyHashOfGenerate);
-
-    // 成功した場合、画像URLを含むオブジェクトを返す
-    res.status(200).json({ image: imageJpeg });
-  } catch (error) {
-    res.status(500).send({
-      error: "画像の生成に失敗しました。",
-      details: error.message,
-    });
-  }
 });
 
 // ユーザー登録のエンドポイント
@@ -384,6 +232,88 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+const processedRequests = new Set();
+
+// 新しいエンドポイント /api/processImage
+app.post("/api/processImage", async (req, res) => {
+  console.log("generateVision確認");
+  // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
+  const requestBodyHash = crypto
+    .createHash("sha256")
+    .update(JSON.stringify(req.body))
+    .digest("hex");
+
+  // ユニークなIDが既に処理されたリクエストのセットに含まれているか確認
+  if (processedRequests.has(requestBodyHash)) {
+    console.log("disconnection");
+    return;
+  }
+
+  // 新しいリクエストIDをセットに追加
+  processedRequests.add(requestBodyHash);
+
+  try {
+    const inputImageData = req.body.imageData;
+
+    // 画像をJPEGに変換
+    const convertedImage = await convertPngToJpeg(inputImageData);
+
+    // JPEG画像から説明文を生成
+    const visionResponse = await openai.chat.completions.create({
+      model: "gpt-4-vision-preview",
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "#Instruction\nYou are a stylist tasked with creating a basic fashion look. Please output the best basic fashion coordinates considering the following constraints:\n#Constraints\n- Take into account the given clothing\n- Keep the text within approximately 200 characters\n- Keep the language concise\n- Output in Japanese\n#Output",
+            },
+            {
+              type: "image_url",
+              image_url: { url: `${convertedImage}` },
+            },
+          ],
+        },
+      ],
+      max_tokens: 500,
+    });
+
+    const data=await visionResponse
+
+    // 説明文から画像を生成
+    console.log("画像作成中");
+    const prompt = data.choices[0].message.content;
+    const gender = req.body.gender;
+    //生成された説明に基づいて新しい画像を生成
+    const imageResponse = await openai.images.generate({
+      model: "dall-e-3",
+      prompt: `#Instruction\nYou are a stylist tasked with envisioning basic fashion. Please generate the best basic fashion coordination based on the following constraints:\n#Constraints\n- Consider the input text\n- Output a full-body image including the person's face\n- The clothing is ${gender}\n- Keep expressions of gender moderate\n#Input Text\n${prompt}\n#Output Image`,
+      n: 1,
+      size: "1024x1024",
+      quality: "standard",
+      response_format: "b64_json",
+    });
+
+    const imageUrl = imageResponse.data[0].b64_json;
+    const imageData = imageUrl;
+    const imageJpeg = await convertPngToJpeg(imageData); //JPEGに変換
+
+    if (!imageJpeg) {
+      return res.status(500).send({ error: "画像の生成に失敗しました。" });
+    }
+
+    processedRequests.delete(requestBodyHash);
+    // 結果をクライアントに返す
+    res.status(200).json({before_image: convertedImage, description: prompt, after_image: imageJpeg });
+  } catch (error) {
+    res.status(500).send({
+      error: "画像の生成に失敗しました。",
+      details: error.message,
+    });
+  }
+});
+
 //データベースに画像データを追加するコード
 app.post("/api/addToDatabase", authenticateToken, async (req, res) => {
   const { before_image, after_image, is_favorite, description } = req.body;
@@ -444,3 +374,5 @@ app.post("/api/getHistory", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "サーバー側でエラーが発生しました。" });
   }
 });
+
+
