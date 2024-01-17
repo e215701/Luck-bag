@@ -6,6 +6,7 @@ import "../css/global.css";
 import "../css/top.css";
 import "../css/history.css";
 import animation from "../gif/Luck-bag_Recommend_Animation_v2.gif";
+import "../css/custom-style.css";
 
 const History = () => {
   const navigate = useNavigate();
