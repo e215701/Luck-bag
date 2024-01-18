@@ -33,10 +33,14 @@ const App = () => {
         console.log(data);
         setIsAuthenticated(data.isAuthenticated);
         setLoading(false); // ロード完了を示す
+      } else {
+        setLoading(false);
+        setIsAuthenticated(false);
       }
     } catch (error) {
       console.error("Error fetching authentication status:", error);
       setLoading(false); // エラー時もロード完了を示す
+      setIsAuthenticated(false);
     }
   };
 
