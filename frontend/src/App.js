@@ -13,6 +13,7 @@ import Signup from "./pages/Signup";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // 追加: ロード中かどうかを示すstate
 
   // 初回レンダリング時に認証情報を取得
   useEffect(() => {
@@ -31,9 +32,11 @@ const App = () => {
         const data = await response.json();
         console.log(data);
         setIsAuthenticated(data.isAuthenticated);
+        setLoading(false); // ロード完了を示す
       }
     } catch (error) {
       console.error("Error fetching authentication status:", error);
+      setLoading(false); // エラー時もロード完了を示す
     }
   };
 
@@ -49,6 +52,9 @@ const App = () => {
   };
 
   const PrivateRoute = ({ path, element }) => {
+    if (loading) {
+      return null; // ロード中は何も描画しない
+    }
     return isAuthenticated ? element : <Navigate to="/Login" />;
   };
 
