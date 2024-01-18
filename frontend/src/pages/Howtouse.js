@@ -27,7 +27,6 @@ const Howtouse = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setIsAuthenticated(data.isAuthenticated);
       }
     } catch (error) {

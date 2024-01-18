@@ -51,7 +51,6 @@ const Upload = () => {
 
   const goToRecommend = () => {
     if (imageData) {
-      console.log(gender);
       navigate("/Recommend", { state: { image: imageData, gender: gender } });
     } else {
       setError("画像を選択してください。");

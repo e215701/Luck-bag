@@ -75,7 +75,6 @@ const Toppage = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setIsAuthenticated(data.isAuthenticated);
           setShowTooltip(false);
         }
