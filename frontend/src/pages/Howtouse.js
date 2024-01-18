@@ -76,7 +76,7 @@ const Howtouse = () => {
           src={
             isAuthenticated
               ? "./images/login-icon.png"
-              : "./images/login-icon-dash.png"
+              : "./images/login-icon-solid.png"
           }
           alt="login icon"
           onClick={() => clickLoginIcon()}
