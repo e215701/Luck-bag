@@ -6,13 +6,13 @@ import Top from "./pages/Top";
 import Upload from "./pages/Upload";
 import Recommend from "./pages/Recommend";
 import History from "./pages/History";
-import Test from "./pages/test";
 import Howtouse from "./pages/Howtouse";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // 追加: ロード中かどうかを示すstate
 
   // 初回レンダリング時に認証情報を取得
   useEffect(() => {
@@ -31,9 +31,15 @@ const App = () => {
         const data = await response.json();
         console.log(data);
         setIsAuthenticated(data.isAuthenticated);
+        setLoading(false); // ロード完了を示す
+      } else {
+        setLoading(false);
+        setIsAuthenticated(false);
       }
     } catch (error) {
       console.error("Error fetching authentication status:", error);
+      setLoading(false); // エラー時もロード完了を示す
+      setIsAuthenticated(false);
     }
   };
 
@@ -49,6 +55,9 @@ const App = () => {
   };
 
   const PrivateRoute = ({ path, element }) => {
+    if (loading) {
+      return null; // ロード中は何も描画しない
+    }
     return isAuthenticated ? element : <Navigate to="/Login" />;
   };
 
@@ -70,7 +79,6 @@ const App = () => {
         />
         {/* 認証が不要なページ */}
         <Route path="/" element={<Top onLogout={handleLogout} />} />
-        <Route path="/Test" element={<Test />} />
         <Route path="/Howtouse" element={<Howtouse />} />
         {/* ログイン・サインアップページ */}
         <Route

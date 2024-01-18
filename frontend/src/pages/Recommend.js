@@ -99,13 +99,12 @@ const Recommend = () => {
 
     const newSelectedGif = gifs[Math.floor(Math.random() * gifs.length)];
     setSelectedGif(newSelectedGif);
-    console.log(Math.floor(Math.random() * gifs.length), newSelectedGif);
 
     return () => cleanupFunctions; // コンポーネントがアンマウントされたらクリア
   }, [location.state]);
 
   const handleClick = () => {
-    console.log("ボタンがクリックされました！");
+    console.log("再作成開始");
     setResponse(null);
     setGeneratedImage(null);
     setPushedHurtButton(false);
@@ -164,13 +163,12 @@ const Recommend = () => {
         }),
       });
 
-      const processData = await responseProcess.json()
-      console.log(processData)
-      setSelectedImage(processData.before_image)
-      setResponse(processData.description)
-      setGeneratedImage(processData.after_image)
-      
-      console.log("生成終了")
+      const processData = await responseProcess.json();
+      setSelectedImage(processData.before_image);
+      setResponse(processData.description);
+      setGeneratedImage(processData.after_image);
+
+      console.log("生成終了");
       // 画像データをサーバーに送信し、サーバーでデータベースに追加
       const token = localStorage.getItem("token");
 
@@ -191,9 +189,7 @@ const Recommend = () => {
       });
 
       const dataDatabase = await responseDatabase.json();
-      console.log(dataDatabase.id);
       setGeneratedImageID(dataDatabase.id);
-      console.log("Database登録 ID:")
     } catch (error) {
       console.error("Error fetching response:", error);
     }

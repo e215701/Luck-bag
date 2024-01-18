@@ -28,7 +28,7 @@ const allowedOrigins = [
   `http://backend:8080`,
   `http://${process.env.REACT_BASE_URL}:8080`,
 ];
-//console.log(allowedOrigins);
+
 const corsOptions = {
   origin: function (origin, callback) {
     // originが許可されたリストに含まれているか確認
@@ -60,7 +60,6 @@ const pool = new Pool({
 const authenticateToken = (req, res, next) => {
   console.log("確認中");
   const token = req.header("Authorization");
-  console.log(token);
   if (!token) {
     console.log("ログインしていないです。");
     return res.status(401).json({ message: "Unauthorized" });
@@ -132,7 +131,6 @@ const convertPngToJpeg = async (inputBase64) => {
     });
   }
 };
-
 
 // 認証情報を提供するエンドポイント
 app.get("/api/authenticate", authenticateToken, (req, res) => {
@@ -236,7 +234,7 @@ const processedRequests = new Set();
 
 // 新しいエンドポイント /api/processImage
 app.post("/api/processImage", async (req, res) => {
-  console.log("generateVision確認");
+  console.log("通信重複確認");
   // リクエストボディからユニークな識別子を生成（ここでは簡単なハッシュを使用）
   const requestBodyHash = crypto
     .createHash("sha256")
@@ -279,7 +277,7 @@ app.post("/api/processImage", async (req, res) => {
       max_tokens: 500,
     });
 
-    const data=await visionResponse
+    const data = await visionResponse;
 
     // 説明文から画像を生成
     console.log("画像作成中");
@@ -305,7 +303,13 @@ app.post("/api/processImage", async (req, res) => {
 
     processedRequests.delete(requestBodyHash);
     // 結果をクライアントに返す
-    res.status(200).json({before_image: convertedImage, description: prompt, after_image: imageJpeg });
+    res
+      .status(200)
+      .json({
+        before_image: convertedImage,
+        description: prompt,
+        after_image: imageJpeg,
+      });
   } catch (error) {
     res.status(500).send({
       error: "画像の生成に失敗しました。",
@@ -374,5 +378,3 @@ app.post("/api/getHistory", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "サーバー側でエラーが発生しました。" });
   }
 });
-
-
