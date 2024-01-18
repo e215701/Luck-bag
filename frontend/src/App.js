@@ -6,7 +6,6 @@ import Top from "./pages/Top";
 import Upload from "./pages/Upload";
 import Recommend from "./pages/Recommend";
 import History from "./pages/History";
-import Test from "./pages/test";
 import Howtouse from "./pages/Howtouse";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -80,7 +79,6 @@ const App = () => {
         />
         {/* 認証が不要なページ */}
         <Route path="/" element={<Top onLogout={handleLogout} />} />
-        <Route path="/Test" element={<Test />} />
         <Route path="/Howtouse" element={<Howtouse />} />
         {/* ログイン・サインアップページ */}
         <Route
