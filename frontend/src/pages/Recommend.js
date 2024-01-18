@@ -234,7 +234,6 @@ const Recommend = () => {
                 <img
                   className="recommend-code-icon"
                   src="./images/recreate-button.png"
-                  onClick={handleClick}
                 ></img>
                 <div className="recommend-code-recreate-text">
                   他のコーデを見る
