@@ -88,6 +88,20 @@ const Toppage = () => {
     return cleanupFunctions;
   }, []);
 
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("ログアウトしますか？");
+
+    if (confirmLogout) {
+      setIsAuthenticated(false);
+      localStorage.removeItem("token");
+      window.alert("ログアウト完了しました。");
+
+      // Topページを再読み込み
+      window.location.reload();
+    }
+    // キャンセルの場合は何もしない
+  };
+
   return (
     <div id="toppage">
       <div
@@ -136,6 +150,17 @@ const Toppage = () => {
                   <li>
                     <button onClick={() => navigate("/Howtouse")}>
                       HOW TO USE
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={
+                        isAuthenticated
+                          ? handleLogout
+                          : () => navigate("/Login")
+                      }
+                    >
+                      {isAuthenticated ? "LOGOUT" : "LOGIN"}
                     </button>
                   </li>
                 </ul>
