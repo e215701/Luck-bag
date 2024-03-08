@@ -5,7 +5,7 @@ import "../css/global.css";
 import "../css/top.css";
 import "../css/howtouse.css";
 
-const Howtouse = () => {
+const Howtouse = ({ onLogout }) => {
   const navigate = useNavigate();
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
@@ -63,6 +63,13 @@ const Howtouse = () => {
             </li>
             <li>
               <button onClick={() => navigate("/Howtouse")}>HOW TO USE</button>
+            </li>
+            <li>
+              <button
+                onClick={isAuthenticated ? onLogout : () => navigate("/Login")}
+              >
+                {isAuthenticated ? "LOGOUT" : "LOGIN"}
+              </button>
             </li>
           </ul>
         </div>

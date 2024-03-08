@@ -6,7 +6,7 @@ import "../css/global.css";
 import "../css/top.css";
 import "../css/custom-style.css";
 
-const Toppage = () => {
+const Toppage = ({ onLogout }) => {
   const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
@@ -88,20 +88,6 @@ const Toppage = () => {
     return cleanupFunctions;
   }, []);
 
-  const handleLogout = () => {
-    const confirmLogout = window.confirm("ログアウトしますか？");
-
-    if (confirmLogout) {
-      setIsAuthenticated(false);
-      localStorage.removeItem("token");
-      window.alert("ログアウト完了しました。");
-
-      // Topページを再読み込み
-      window.location.reload();
-    }
-    // キャンセルの場合は何もしない
-  };
-
   return (
     <div id="toppage">
       <div
@@ -155,9 +141,7 @@ const Toppage = () => {
                   <li>
                     <button
                       onClick={
-                        isAuthenticated
-                          ? handleLogout
-                          : () => navigate("/Login")
+                        isAuthenticated ? onLogout : () => navigate("/Login")
                       }
                     >
                       {isAuthenticated ? "LOGOUT" : "LOGIN"}
