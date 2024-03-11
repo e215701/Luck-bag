@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/global.css";
 import "../css/upload.css";
 
-const Upload = () => {
+const Upload = ({ onLogout }) => {
   const navigate = useNavigate();
   const [imageData, setImageData] = useState(null);
   const [screenHeight, setScreenHeight] = useState(0);
@@ -96,6 +96,9 @@ const Upload = () => {
                   <button onClick={() => navigate("/Howtouse")}>
                     HOW TO USE
                   </button>
+                </li>
+                <li>
+                  <button onClick={onLogout}>LOGOUT</button>
                 </li>
               </ul>
             </div>

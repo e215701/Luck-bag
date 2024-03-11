@@ -8,7 +8,7 @@ import "../css/history.css";
 import animation from "../gif/Luck-bag_Recommend_Animation_v2.gif";
 import "../css/custom-style.css";
 
-const History = () => {
+const History = ({ onLogout }) => {
   const navigate = useNavigate();
   const [screenHeight, setScreenHeight] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
@@ -171,6 +171,9 @@ const History = () => {
             <li>
               <button onClick={() => navigate("/Howtouse")}>HOW TO USE</button>
             </li>
+            <li>
+              <button onClick={onLogout}>LOGOUT</button>
+            </li>
           </ul>
         </div>
         <div className="navtext-container">
@@ -208,16 +211,16 @@ const History = () => {
       </header>
       {loading ? (
         <div className="recommend-loading-animation">
-         <img
-         className="loading-gif"
-         src={gif} // srcをselectedGifに設定してランダムなGIFを表示
-         alt="loading animation"
-         style={{
-           height: `${screenHeight}px`,
-           width: `${screenWidth}px`,
-         }}
-       />
-        <div className="loading-spinner loading-dots">Loading</div>
+          <img
+            className="loading-gif"
+            src={gif} // srcをselectedGifに設定してランダムなGIFを表示
+            alt="loading animation"
+            style={{
+              height: `${screenHeight}px`,
+              width: `${screenWidth}px`,
+            }}
+          />
+          <div className="loading-spinner loading-dots">Loading</div>
         </div>
       ) : (
         <>

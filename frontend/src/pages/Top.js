@@ -6,7 +6,7 @@ import "../css/global.css";
 import "../css/top.css";
 import "../css/custom-style.css";
 
-const Toppage = () => {
+const Toppage = ({ onLogout }) => {
   const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);
   const [screenHeight, setScreenHeight] = useState(0);
@@ -136,6 +136,15 @@ const Toppage = () => {
                   <li>
                     <button onClick={() => navigate("/Howtouse")}>
                       HOW TO USE
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={
+                        isAuthenticated ? onLogout : () => navigate("/Login")
+                      }
+                    >
+                      {isAuthenticated ? "LOGOUT" : "LOGIN"}
                     </button>
                   </li>
                 </ul>

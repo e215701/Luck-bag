@@ -45,8 +45,17 @@ const App = () => {
 
   // ログアウト処理（トークンの削除）
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
+    const confirmLogout = window.confirm("ログアウトしますか？");
+
+    if (confirmLogout) {
+      setIsAuthenticated(false);
+      localStorage.removeItem("token");
+      window.alert("ログアウト完了しました。");
+
+      // Topページを再読み込み
+      window.location.href = "/";
+    }
+    // キャンセルの場合は何もしない
   };
 
   // ログイン成功時に認証情報を更新
@@ -67,7 +76,12 @@ const App = () => {
         {/* 認証が必要なページ */}
         <Route
           path="/Upload"
-          element={<PrivateRoute path="/Upload" element={<Upload />} />}
+          element={
+            <PrivateRoute
+              path="/Upload"
+              element={<Upload onLogout={handleLogout} />}
+            />
+          }
         />
         <Route
           path="/Recommend"
@@ -75,11 +89,19 @@ const App = () => {
         />
         <Route
           path="/History"
-          element={<PrivateRoute path="/History" element={<History />} />}
+          element={
+            <PrivateRoute
+              path="/History"
+              element={<History onLogout={handleLogout} />}
+            />
+          }
         />
         {/* 認証が不要なページ */}
         <Route path="/" element={<Top onLogout={handleLogout} />} />
-        <Route path="/Howtouse" element={<Howtouse />} />
+        <Route
+          path="/Howtouse"
+          element={<Howtouse onLogout={handleLogout} />}
+        />
         {/* ログイン・サインアップページ */}
         <Route
           path="/Login"
