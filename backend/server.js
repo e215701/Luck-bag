@@ -257,31 +257,30 @@ app.post("/api/processImage", async (req, res) => {
     const convertedImage = await convertPngToJpeg(inputImageData);
 
     // JPEG画像から説明文を生成
-    const visionResponse = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
-      messages: [
+    const visionResponse = await openai.responses.create({
+      model: "gpt-4.1-mini",
+      input: [
         {
           role: "user",
           content: [
             {
-              type: "text",
+              type: "input_text",
               text: "#Instruction\nYou are a stylist tasked with creating a basic fashion look. Please output the best basic fashion coordinates considering the following constraints:\n#Constraints\n- Take into account the given clothing\n- Keep the text within approximately 200 characters\n- Keep the language concise\n- Output in Japanese\n#Output",
             },
             {
-              type: "image_url",
-              image_url: { url: `${convertedImage}` },
+              type: "input_image",
+              image_url: `${convertedImage}`,
             },
           ],
         },
       ],
-      max_tokens: 500,
     });
 
     const data = await visionResponse;
 
     // 説明文から画像を生成
     console.log("画像作成中");
-    const prompt = data.choices[0].message.content;
+    const prompt = data.output_text;
     const gender = req.body.gender;
     //生成された説明に基づいて新しい画像を生成
     const imageResponse = await openai.images.generate({
@@ -303,13 +302,11 @@ app.post("/api/processImage", async (req, res) => {
 
     processedRequests.delete(requestBodyHash);
     // 結果をクライアントに返す
-    res
-      .status(200)
-      .json({
-        before_image: convertedImage,
-        description: prompt,
-        after_image: imageJpeg,
-      });
+    res.status(200).json({
+      before_image: convertedImage,
+      description: prompt,
+      after_image: imageJpeg,
+    });
   } catch (error) {
     res.status(500).send({
       error: "画像の生成に失敗しました。",
